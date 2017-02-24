@@ -27,83 +27,92 @@
 
 using namespace std;
 
-
-int generateRndPosition(int min, int max)
-{
-  return ( rand() % max + min );
+/**
+* \brief generate a random number in an interval
+*
+* \param[in] min the lower bound
+* \param[in] max the upper bound
+*
+* \return a random int between max and min
+*/
+int generateRndPosition(int min, int max) {
+    return ( rand() % max + min );
 }
 
+/**
+* \brief Fill the solution with numbers between 1 and nbJobs, shuffled
+*
+* \param[in] nbJobs the number of jobs of this instance
+* \param[out] sol the generated solution
+*/
+void randomPermutation(int nbJobs, vector< int > & sol) {
+    vector<bool> alreadyTaken(nbJobs+1, false); // nbJobs elements with value false
+    vector<int > choosenNumber(nbJobs+1, 0);
 
-/* Fill the solution with numbers between 1 and nbJobs, shuffled */
-void randomPermutation(int nbJobs, vector< int > & sol)
-{
-  vector<bool> alreadyTaken(nbJobs+1, false); // nbJobs elements with value false
-  vector<int > choosenNumber(nbJobs+1, 0);
+    int nbj;
+    int rnd, i, j, nbFalse;
 
-  int nbj;
-  int rnd, i, j, nbFalse;
+    nbj = 0;
+    for (i = nbJobs; i >= 1; --i) {
+        rnd = generateRndPosition(1, i);
+        nbFalse = 0;
 
-  nbj = 0;
-  for (i = nbJobs; i >= 1; --i)
-  {
-    rnd = generateRndPosition(1, i);
-    nbFalse = 0;
+        // find the rndth cell with value = false
+        for (j = 1; nbFalse < rnd; ++j) {
+            if ( ! alreadyTaken[j] ) {
+                ++nbFalse;
+            }
+        }
+        --j;
 
-    /* find the rndth cell with value = false : */
-    for (j = 1; nbFalse < rnd; ++j)
-      if ( ! alreadyTaken[j] )
-        ++nbFalse;
-    --j;
+        sol[j] = i;
 
-    sol[j] = i;
+        ++nbj;
+        choosenNumber[nbj] = j;
 
-    ++nbj;
-    choosenNumber[nbj] = j;
-
-    alreadyTaken[j] = true;
-  }
+        alreadyTaken[j] = true;
+    }
 }
 
 /***********************************************************************/
 
-int main(int argc, char *argv[])
-{
-  int i;
-  long int totalWeightedTardiness;
+int main(int argc, char *argv[]) {
+    int i;
+    long int totalWeightedTardiness;
 
 
-  if (argc == 1)
-  {
-    cout << "Usage: ./flowshopWCT <instance_file>" << endl;
-    return 0;
-  }
+    if (argc == 1) {
+        cout << "Usage: ./flowshopWCT <instance_file>" << endl;
+        return 0;
+    }
 
-  /* initialize random seed: */
-  srand ( time(NULL) );
+    // initialize random seed
+    srand ( time(NULL) );
 
-  /* Create instance object */
-  PfspInstance instance;
+    // Create instance object
+    PfspInstance instance;
 
-  /* Read data from file */
-  if (! instance.readDataFromFile(argv[1]) )
-    return 1;
+    // Read data from file
+    if (! instance.readDataFromFile(argv[1]) ) {
+        return 1;
+    }
 
-  /* Create a vector of int to represent the solution
-    WARNING: By convention, we store the jobs starting from index 1,
-             thus the size nbJob + 1. */
-  vector< int > solution ( instance.getNbJob()+ 1 );
+    // Create a vector of int to represent the solution
+    // WARNING: By convention, we store the jobs starting from index 1, thus the size nbJob + 1.
+    vector< int > solution ( instance.getNbJob()+ 1 );
 
-  /* Fill the vector with a random permutation */
-  randomPermutation(instance.getNbJob(), solution);
+    // Fill the vector with a random permutation
+    randomPermutation(instance.getNbJob(), solution);
 
-  cout << "Random solution: " ;
-  for (i = 1; i <= instance.getNbJob(); ++i)
-    cout << solution[i] << " " ;
-  cout << endl;
+    cout << "Random solution: " ;
+    for (i = 1; i <= instance.getNbJob(); ++i) {
+        cout << solution[i] << " " ;
+    }
+    cout << endl;
 
-  /* Compute the TWT of this solution */
-  totalWeightedTardiness = instance.computeWCT(solution);
-  cout << "Total weighted completion time: " << totalWeightedTardiness << endl;
+    // Compute the TWT of this solution
+    totalWeightedTardiness = instance.computeWCT(solution);
+    cout << "Total weighted completion time: " << totalWeightedTardiness << endl;
 
   return 0;
 }

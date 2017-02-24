@@ -28,58 +28,47 @@
 
 using namespace std;
 
-PfspInstance::PfspInstance()
-{
+PfspInstance::PfspInstance(){}
+
+PfspInstance::~PfspInstance(){}
+
+int PfspInstance::getNbJob() {
+ 	return nbJob;
 }
 
-
-PfspInstance::~PfspInstance()
-{
-}
-
-int PfspInstance::getNbJob()
-{
-  return nbJob;
-}
-
-int PfspInstance::getNbMac()
-{
-  return nbMac;
+int PfspInstance::getNbMac() {
+	return nbMac;
 }
 
 
 
 /* Allow the memory for the processing times matrix : */
-void PfspInstance::allowMatrixMemory(int nbJ, int nbM)
-{
-  processingTimesMatrix.resize(nbJ+1);          // 1st dimension
+void PfspInstance::allowMatrixMemory(int nbJ, int nbM) {
+	processingTimesMatrix.resize(nbJ+1);          // 1st dimension
 
-  for (int cpt = 0; cpt < nbJ+1; ++cpt)
-    processingTimesMatrix[cpt].resize(nbM+1); // 2nd dimension
-
+	for (int cpt = 0; cpt < nbJ+1; ++cpt) {
+    	processingTimesMatrix[cpt].resize(nbM+1); // 2nd dimension
+	}
+	
 	dueDates.resize(nbJ+1);
 	priority.resize(nbJ+1);
 }
 
 
-long int PfspInstance::getTime(int job, int machine)
-{
-  if (job == 0)
-    return 0;
-  else
-  {
-    if ((job < 1) || (job > nbJob) || (machine < 1) || (machine > nbMac))
-      cout    << "ERROR. file:pfspInstance.cpp, method:getTime. Out of bound. job=" << job
-          << ", machine=" << machine << std::endl;
-
-    return processingTimesMatrix[job][machine];
-  }
+long int PfspInstance::getTime(int job, int machine) {
+	if (job == 0) {
+		return 0;
+	} else {
+		if ((job < 1) || (job > nbJob) || (machine < 1) || (machine > nbMac)) {
+			cout<< "ERROR. file:pfspInstance.cpp, method:getTime. Out of bound. job=" << job << ", machine=" << machine << std::endl;
+		}
+    	return processingTimesMatrix[job][machine];
+	}
 }
 
 
 /* Read the instance from file : */
-bool PfspInstance::readDataFromFile(char * fileName)
-{
+bool PfspInstance::readDataFromFile(char * fileName) {
 	bool everythingOK = true;
 	int j, m; // iterators
 	long int readValue;
@@ -114,10 +103,8 @@ bool PfspInstance::readDataFromFile(char * fileName)
         cout << "Memory allowed." << std::endl;
         cout << "Start to read matrix..." << std::endl;
 
-		for (j = 1; j <= nbJob; ++j)
-		{
-			for (m = 1; m <= nbMac; ++m)
-			{
+		for (j = 1; j <= nbJob; ++j) {
+			for (m = 1; m <= nbMac; ++m) {
 				fileIn >> readValue; // The number of each machine, not important !
 				fileIn >> readValue; // Process Time
 
@@ -126,8 +113,7 @@ bool PfspInstance::readDataFromFile(char * fileName)
 		}
         fileIn >> str; // this is not read
 
-		for (j = 1; j <= nbJob; ++j)
-		{
+		for (j = 1; j <= nbJob; ++j) {
 			fileIn >> readValue; // -1
 			fileIn >> readValue;
 			dueDates[j] = readValue;
@@ -138,9 +124,7 @@ bool PfspInstance::readDataFromFile(char * fileName)
 
         cout << "All is read from file." << std::endl;
 		fileIn.close();
-	}
-	else
-	{
+	} else {
 		cout    << "ERROR. file:pfspInstance.cpp, method:readDataFromFile, "
 				<< "error while opening file " << fileName << std::endl;
 
@@ -152,44 +136,36 @@ bool PfspInstance::readDataFromFile(char * fileName)
 
 
 /* Compute the weighted tardiness of a given solution */
-long int PfspInstance::computeWCT(vector< int > & sol)
-{
+long int PfspInstance::computeWCT (vector< int > & sol) {
 	int j, m;
 	int jobNumber;
 	long int wct;
 
-	/* We need end times on previous machine : */
+	// We need end times on previous machine :
 	vector< long int > previousMachineEndTime ( nbJob + 1 );
-	/* And the end time of the previous job, on the same machine : */
+	// And the end time of the previous job, on the same machine :
 	long int previousJobEndTime;
 
-	/* 1st machine : */
+	// 1st machine :
 	previousMachineEndTime[0] = 0;
-	for ( j = 1; j <= nbJob; ++j )
-	{
+	for ( j = 1; j <= nbJob; ++j ) {
 		jobNumber = sol[j];
 		previousMachineEndTime[j] = previousMachineEndTime[j-1] + processingTimesMatrix[jobNumber][1];
 	}
 
-	/* others machines : */
-	for ( m = 2; m <= nbMac; ++m )
-	{
-		previousMachineEndTime[1] +=
-				processingTimesMatrix[sol[1]][m];
+	// others machines : 
+	for ( m = 2; m <= nbMac; ++m ) {
+		previousMachineEndTime[1] += processingTimesMatrix[sol[1]][m];
 		previousJobEndTime = previousMachineEndTime[1];
 
 
-		for ( j = 2; j <= nbJob; ++j )
-		{
+		for ( j = 2; j <= nbJob; ++j ) {
 			jobNumber = sol[j];
 
-			if ( previousMachineEndTime[j] > previousJobEndTime )
-			{
+			if ( previousMachineEndTime[j] > previousJobEndTime ) {
 				previousMachineEndTime[j] = previousMachineEndTime[j] + processingTimesMatrix[jobNumber][m];
 				previousJobEndTime = previousMachineEndTime[j];
-			}
-			else
-			{
+			} else {
 				previousJobEndTime += processingTimesMatrix[jobNumber][m];
 				previousMachineEndTime[j] = previousJobEndTime;
 			}
@@ -197,8 +173,9 @@ long int PfspInstance::computeWCT(vector< int > & sol)
 	}
 
 	wct = 0;
-	for ( j = 1; j<= nbJob; ++j )
+	for ( j = 1; j<= nbJob; ++j ) {
 	    wct += previousMachineEndTime[j] * priority[sol[j]];
+	}
 
 	return wct;
 }
