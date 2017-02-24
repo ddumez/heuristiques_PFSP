@@ -1,9 +1,13 @@
-program : src/pfspinstance.h src/flowshop.cpp src/pfspinstance.cpp
+CXX = g++
+SOURCES = ./pfspinstance.cpp
+CPPFLAGS = -Wall -O3
+CXXFLAGS := -std=c++11
+.PHONY = clean
 
-	g++ -O3 -c ./src/flowshop.cpp -o src/flowshop.o
-	g++ -O3 -c ./src/pfspinstance.cpp -o src/pfspinstance.o
+all: main
 
-	g++ -O3 src/flowshop.o src/pfspinstance.o -o flowshopWCT
+main: $(SOURCES:.cpp=.o)
 
-clean:
-	rm src/*.o flowshopCWT
+clean: 
+	rm ./*.o
+
