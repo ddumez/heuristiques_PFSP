@@ -23,8 +23,9 @@
 #include <fstream>
 #include <cmath>
 #include <cstring>
-#include "pfspinstance.hpp"
 
+#include "pfspinstance.hpp"
+#include "solution.hpp"
 
 using namespace std;
 
@@ -40,17 +41,15 @@ int PfspInstance::getNbMac() {
 	return nbMac;
 }
 
-
-
-/* Allow the memory for the processing times matrix : */
 void PfspInstance::allowMatrixMemory(int nbJ, int nbM) {
+	nbJob = nbJ; nbMac = nbM;
+
 	processingTimesMatrix.resize(nbJ+1);          // 1st dimension
 
 	for (int cpt = 0; cpt < nbJ+1; ++cpt) {
     	processingTimesMatrix[cpt].resize(nbM+1); // 2nd dimension
 	}
 	
-	dueDates.resize(nbJ+1);
 	priority.resize(nbJ+1);
 }
 
@@ -66,8 +65,10 @@ long int PfspInstance::getTime(int job, int machine) {
 	}
 }
 
+long int PfspInstance::getPriority(int job) {
+	return priority[job];
+}
 
-/* Read the instance from file : */
 bool PfspInstance::readDataFromFile(char * fileName) {
 	bool everythingOK = true;
 	int j, m; // iterators
@@ -116,7 +117,7 @@ bool PfspInstance::readDataFromFile(char * fileName) {
 		for (j = 1; j <= nbJob; ++j) {
 			fileIn >> readValue; // -1
 			fileIn >> readValue;
-			dueDates[j] = readValue;
+			// dueDates[j] = readValue;
 			fileIn >> readValue; // -1
 			fileIn >> readValue;
             priority[j] = readValue;
@@ -134,9 +135,7 @@ bool PfspInstance::readDataFromFile(char * fileName) {
 	return everythingOK;
 }
 
-
-/* Compute the weighted tardiness of a given solution */
-long int PfspInstance::computeWCT (vector< int > & sol) {
+long int PfspInstance::computeWCT (Solution & sol) {
 	int j, m;
 	int jobNumber;
 	long int wct;
@@ -149,18 +148,18 @@ long int PfspInstance::computeWCT (vector< int > & sol) {
 	// 1st machine :
 	previousMachineEndTime[0] = 0;
 	for ( j = 1; j <= nbJob; ++j ) {
-		jobNumber = sol[j];
+		jobNumber = sol.getJ(j-1);
 		previousMachineEndTime[j] = previousMachineEndTime[j-1] + processingTimesMatrix[jobNumber][1];
 	}
 
 	// others machines : 
 	for ( m = 2; m <= nbMac; ++m ) {
-		previousMachineEndTime[1] += processingTimesMatrix[sol[1]][m];
+		previousMachineEndTime[1] += processingTimesMatrix[sol.getJ(0)][m];
 		previousJobEndTime = previousMachineEndTime[1];
 
 
 		for ( j = 2; j <= nbJob; ++j ) {
-			jobNumber = sol[j];
+			jobNumber = sol.getJ(j-1);
 
 			if ( previousMachineEndTime[j] > previousJobEndTime ) {
 				previousMachineEndTime[j] = previousMachineEndTime[j] + processingTimesMatrix[jobNumber][m];
@@ -174,7 +173,51 @@ long int PfspInstance::computeWCT (vector< int > & sol) {
 
 	wct = 0;
 	for ( j = 1; j<= nbJob; ++j ) {
-	    wct += previousMachineEndTime[j] * priority[sol[j]];
+	    wct += previousMachineEndTime[j] * priority[sol.getJ(j-1)];
+	}
+
+	return wct;
+}
+
+long int PfspInstance::computeWCTpartial (Solution & sol, int end) {
+	int j, m;
+	int jobNumber;
+	long int wct;
+
+	// We need end times on previous machine :
+	vector< long int > previousMachineEndTime ( end + 1 );
+	// And the end time of the previous job, on the same machine :
+	long int previousJobEndTime;
+
+	// 1st machine :
+	previousMachineEndTime[0] = 0;
+	for ( j = 1; j <= end; ++j ) {
+		jobNumber = sol.getJ(j-1);
+		previousMachineEndTime[j] = previousMachineEndTime[j-1] + processingTimesMatrix[jobNumber][1];
+	}
+
+	// others machines : 
+	for ( m = 2; m <= nbMac; ++m ) {
+		previousMachineEndTime[1] += processingTimesMatrix[sol.getJ(0)][m];
+		previousJobEndTime = previousMachineEndTime[1];
+
+
+		for ( j = 2; j <= end; ++j ) {
+			jobNumber = sol.getJ(j-1);
+
+			if ( previousMachineEndTime[j] > previousJobEndTime ) {
+				previousMachineEndTime[j] = previousMachineEndTime[j] + processingTimesMatrix[jobNumber][m];
+				previousJobEndTime = previousMachineEndTime[j];
+			} else {
+				previousJobEndTime += processingTimesMatrix[jobNumber][m];
+				previousMachineEndTime[j] = previousJobEndTime;
+			}
+		}
+	}
+
+	wct = 0;
+	for ( j = 1; j<= end; ++j ) {
+	    wct += previousMachineEndTime[j] * priority[sol.getJ(j-1)];
 	}
 
 	return wct;

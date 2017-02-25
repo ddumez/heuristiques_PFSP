@@ -23,13 +23,15 @@
  * \brief define object wich containt instance's informations
  */
 
-#ifndef _PFSPINSTANCEWT_H_
-#define _PFSPINSTANCEWT_H_
+#ifndef PFSPINSTANCE
+#define PFSPINSTANCE
 
 #include <string>
 #include <vector>
 
-using namespace std;
+#include "solution.hpp"
+
+class Solution;
 
 /**
 * \class PfspInstance : containt all instance's informations
@@ -38,7 +40,6 @@ class PfspInstance{
   private:
     int nbJob; /*!<number of jobs to do */
     int nbMac; /*!<number of machines to use */
-    std::vector< long int > dueDates; /*!< not used */
     std::vector< long int > priority; /*!< the weight of the job in the objective function*/
 
     std::vector< std::vector <long int> > processingTimesMatrix; /*!< time for a job to be processed by a machine*/
@@ -78,10 +79,6 @@ class PfspInstance{
     */
     long int getTime(int job, int machine);
 
-    /* ????????? */
-    long int getDueDate(int job);
-    void setDueDate(int job, int value);
-
     /**
     * \brief to get the value of the weight of this job
     *
@@ -91,21 +88,40 @@ class PfspInstance{
     */
     long int getPriority(int job);
     
-    /* Read Data from a file : */
+    /**
+    * \brief Read Data from a file
+    *
+    * \param[in] fileName path to the file
+    *
+    * \return true iff everything is OK
+    */
     bool readDataFromFile(char * fileName);
 
     /**
     * \brief compute the weighted sum of completion time
     *
-    * \param[in] the solution to consider
+    * \param[in] sol the solution to consider
     *
     * \return the value of the objective function on this permutation
     */
-    long int computeWCT (vector< int > & sol);
+    long int computeWCT (Solution & sol);
+
+    /**
+    * \brief compute the weighted sum of completion time of a partialy constructed solution
+    *
+    * \param[in] sol the partial solution to consider
+    * \param[in] end number of job placed in the partial solution
+    *
+    * \return the value of the objective function on this permutation
+    */
+    long int computeWCTpartial (Solution & sol, int end);
 
   private:
     /**
     * \brief Allow the memory for the processing times matrix
+    *
+    * \param[in] nbJ number of job of the instance
+    * \param[in] nbM number of machine of the instance
     */
     void allowMatrixMemory(int nbJ, int nbM);
 
