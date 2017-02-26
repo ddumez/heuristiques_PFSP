@@ -20,6 +20,7 @@
 
 /**
  * \file pfspinstance.hpp
+ * \author Jérémie Dubois-Lacoste & dorian dumez
  * \brief define object wich containt instance's informations
  */
 

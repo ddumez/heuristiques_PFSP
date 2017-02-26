@@ -26,14 +26,27 @@
 
 #include "solution.hpp"
 #include "pfspinstance.hpp"
+#include "localsearch.hpp"
 
 using namespace std;
+
+/**
+* \brief improve the solution with the vnd indea with the 3 local search
+*
+* \param[in, out] sol the solution to improve
+* \param[in] instance the context of hte solution
+* \param[in] first the first local search to use
+* \param[in] second the second neighborhoud to use
+* \param[in] third the last neighborhourd to use
+*/
+void vnd(Solution & sol, PfspInstance & instance, LocalSearch & first, LocalSearch & second, LocalSearch & third);
 
 int main(int argc, char *argv[]) {
   //variable
     int i;
     long int totalWeightedTardiness;
     PfspInstance instance; // Create instance object
+    LocalSearch test (3, false);
 
   //start
     // initialize random seed
@@ -78,6 +91,27 @@ int main(int argc, char *argv[]) {
     // Compute the TWT of this solution
     totalWeightedTardiness = instance.computeWCT(solution);
     cout << "Total weighted completion time: " << totalWeightedTardiness << endl;
+
+    //improve by descent
+    test.descent(instance, solution);
+
+    cout << "RZ solution improved: " ;
+
+    for (i = 0; i < instance.getNbJob(); ++i) {
+        cout << solution.getJ(i) << " " ;
+    }
+    cout << endl;
+
+    // Compute the TWT of this solution
+    totalWeightedTardiness = instance.computeWCT(solution);
+    cout << "Total weighted completion time: " << totalWeightedTardiness << endl;
+
   //end
   return 0;
+}
+
+void vnd(Solution & sol, PfspInstance & instance, LocalSearch & first, LocalSearch & second, LocalSearch & third) {
+    first.descent(instance, sol);
+    second.descent(instance, sol);
+    third.descent(instance, sol);
 }

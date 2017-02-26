@@ -1,5 +1,6 @@
 /**
  * \file solution.hpp
+ * \author dorian dumez
  * \brief define object wich containt solution's information and function
  */
 
@@ -21,7 +22,6 @@ class Solution{
   	int nbJobs; /*!< number of jobs to do */
 
   public:
-
   	/**
   	* \brief create an empty solution for an instance with nbJObs jobs
   	*
@@ -42,6 +42,14 @@ class Solution{
   	* \return the index of the jth job to do
   	*/
   	int getJ(int j);
+
+    /**
+    * \brief place the job j in the index i
+    *
+    * \param[in] i the index where to place the job
+    * \param[in] j the index of the job to place
+    */
+    void setJ(int i, int j);
 
   	/**
 	* \brief Fill the solution with numbers between 1 and nbJobs, shuffled

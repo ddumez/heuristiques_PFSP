@@ -18,6 +18,10 @@ int Solution::getJ(int j) {
     return solution[j];
 }
 
+void Solution::setJ(int i, int j) {
+    solution[i] = j;
+}
+
 void Solution::randomPermutation() {
     vector<bool> alreadyTaken(nbJobs, false); // nbJobs elements with value false
 
@@ -46,7 +50,8 @@ void Solution::constructRZ(PfspInstance & instance) {
   //variable
     vector<double> T (nbJobs); //to calculate the weighted sum of processing time
     vector<int> jobtoplace (nbJobs); //to order jobs
-    int i,j, tmp, valpos, best;
+    int i,j, best;
+    long int tmp, valpos; //thes two sometime store the score
     vector<int> timeprec (instance.getNbMac()); //end date on this machine of the previous job
 
   //start
