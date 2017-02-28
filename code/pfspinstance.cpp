@@ -136,89 +136,82 @@ bool PfspInstance::readDataFromFile(char * fileName) {
 }
 
 long int PfspInstance::computeWCT (Solution & sol) {
+  //variable
 	int j, m;
-	int jobNumber;
-	long int wct;
+	long int wct = 0;
 
-	// We need end times on previous machine :
-	vector< long int > previousMachineEndTime ( nbJob + 1 );
-	// And the end time of the previous job, on the same machine :
-	long int previousJobEndTime;
-
-	// 1st machine :
-	previousMachineEndTime[0] = 0;
-	for ( j = 1; j <= nbJob; ++j ) {
-		jobNumber = sol.getJ(j-1);
-		previousMachineEndTime[j] = previousMachineEndTime[j-1] + processingTimesMatrix[jobNumber][1];
-	}
-
+  //start
 	// others machines : 
-	for ( m = 2; m <= nbMac; ++m ) {
-		previousMachineEndTime[1] += processingTimesMatrix[sol.getJ(0)][m];
-		previousJobEndTime = previousMachineEndTime[1];
-
-
-		for ( j = 2; j <= nbJob; ++j ) {
-			jobNumber = sol.getJ(j-1);
-
-			if ( previousMachineEndTime[j] > previousJobEndTime ) {
-				previousMachineEndTime[j] = previousMachineEndTime[j] + processingTimesMatrix[jobNumber][m];
-				previousJobEndTime = previousMachineEndTime[j];
+	for ( m = 1; m <= nbMac; ++m ) {
+		for ( j = 1; j <= nbJob; ++j ) {
+			if (sol.enddate[j][m-1] > sol.enddate[j-1][m]) {
+				//the previous job is already finished
+				sol.enddate[j][m] = sol.enddate[j][m-1] + processingTimesMatrix[sol.getJ(j-1)][m];
 			} else {
-				previousJobEndTime += processingTimesMatrix[jobNumber][m];
-				previousMachineEndTime[j] = previousJobEndTime;
+				//we need to wait until the previous job is finished
+				sol.enddate[j][m] = sol.enddate[j-1][m] + processingTimesMatrix[sol.getJ(j-1)][m];
 			}
 		}
 	}
 
-	wct = 0;
 	for ( j = 1; j<= nbJob; ++j ) {
-	    wct += previousMachineEndTime[j] * priority[sol.getJ(j-1)];
+	    wct += sol.enddate[j][nbMac] * priority[sol.getJ(j-1)];
 	}
 
-	return wct;
+  //end
+return wct;
 }
 
 long int PfspInstance::computeWCTpartial (Solution & sol, int end) {
+  //variable
 	int j, m;
-	int jobNumber;
-	long int wct;
+	long int wct = 0;
 
-	// We need end times on previous machine :
-	vector< long int > previousMachineEndTime ( end + 1 );
-	// And the end time of the previous job, on the same machine :
-	long int previousJobEndTime;
-
-	// 1st machine :
-	previousMachineEndTime[0] = 0;
-	for ( j = 1; j <= end; ++j ) {
-		jobNumber = sol.getJ(j-1);
-		previousMachineEndTime[j] = previousMachineEndTime[j-1] + processingTimesMatrix[jobNumber][1];
-	}
-
+  //start
 	// others machines : 
-	for ( m = 2; m <= nbMac; ++m ) {
-		previousMachineEndTime[1] += processingTimesMatrix[sol.getJ(0)][m];
-		previousJobEndTime = previousMachineEndTime[1];
-
-
-		for ( j = 2; j <= end; ++j ) {
-			jobNumber = sol.getJ(j-1);
-
-			if ( previousMachineEndTime[j] > previousJobEndTime ) {
-				previousMachineEndTime[j] = previousMachineEndTime[j] + processingTimesMatrix[jobNumber][m];
-				previousJobEndTime = previousMachineEndTime[j];
+	for ( m = 1; m <= nbMac; ++m ) {
+		for ( j = 1; j <= end; ++j ) {
+			if (sol.enddate[j][m-1] > sol.enddate[j-1][m]) {
+				//the previous job is already finished
+				sol.enddate[j][m] = sol.enddate[j][m-1] + processingTimesMatrix[sol.getJ(j-1)][m];
 			} else {
-				previousJobEndTime += processingTimesMatrix[jobNumber][m];
-				previousMachineEndTime[j] = previousJobEndTime;
+				//we need to wait until the previous job is finished
+				sol.enddate[j][m] = sol.enddate[j-1][m] + processingTimesMatrix[sol.getJ(j-1)][m];
 			}
 		}
 	}
 
-	wct = 0;
 	for ( j = 1; j<= end; ++j ) {
-	    wct += previousMachineEndTime[j] * priority[sol.getJ(j-1)];
+	    wct += sol.enddate[j][nbMac] * priority[sol.getJ(j-1)];
 	}
 
-	return wct;
+  //end
+return wct;
+}
+
+long int PfspInstance::recomputeWCT (Solution & sol, int start) {
+  //variable
+	int j, m;
+	long int wct = 0;
+
+  //start
+	// others machines : 
+	for ( m = 1; m <= nbMac; ++m ) {
+		for ( j = start; j <= nbJob; ++j ) {
+			if (sol.enddate[j][m-1] > sol.enddate[j-1][m]) {
+				//the previous job is already finished
+				sol.enddate[j][m] = sol.enddate[j][m-1] + processingTimesMatrix[sol.getJ(j-1)][m];
+			} else {
+				//we need to wait until the previous job is finished
+				sol.enddate[j][m] = sol.enddate[j-1][m] + processingTimesMatrix[sol.getJ(j-1)][m];
+			}
+		}
+	}
+
+	for ( j = 1; j<= nbJob; ++j ) {
+	    wct += sol.enddate[j][nbMac] * priority[sol.getJ(j-1)];
+	}
+
+  //end
+return wct;
 }

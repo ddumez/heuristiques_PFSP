@@ -7,9 +7,18 @@
 
 using namespace std;
 
-Solution::Solution(int nbJobs) {
-    this->nbJobs = nbJobs;
+Solution::Solution(PfspInstance & instance) {
+    nbJobs = instance.getNbJob();
     solution.resize(nbJobs);
+
+    enddate.resize(nbJobs+1); // 1st dimension
+    for (int cpt = 0; cpt <= nbJobs; ++cpt) {
+        enddate[cpt].resize(instance.getNbMac()+1); // 2nd dimension
+        enddate[cpt][0] = 0; //all jobs are available from the start
+    }
+    for (int cpt = 0; cpt <= instance.getNbMac(); ++cpt) {
+        enddate[0][cpt] = 0; //all machines are available from the start
+    }
 }
 
 Solution::~Solution() {}

@@ -117,6 +117,17 @@ class PfspInstance{
     */
     long int computeWCTpartial (Solution & sol, int end);
 
+    /**
+    * \brief compute the weighted sum of completion time of a modified solution
+    * the computeWCT function must be called before
+    *
+    * \param[in] sol the partial solution to consider
+    * \param[in] start the index of the first modification of the permutation
+    *
+    * \return the value of the objective function on this permutation
+    */
+    long int recomputeWCT (Solution & sol, int start);
+
   private:
     /**
     * \brief Allow the memory for the processing times matrix

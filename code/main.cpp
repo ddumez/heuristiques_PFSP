@@ -62,7 +62,7 @@ int main(int argc, char *argv[]) {
         return 1;
     }
 
-    Solution solution ( instance.getNbJob() ); // Create a Solution to represent the solution
+    Solution solution (instance); // Create a Solution to represent the permutation
 
     // Fill the vector with a random permutation
     solution.randomPermutation();
@@ -110,8 +110,8 @@ int main(int argc, char *argv[]) {
   return 0;
 }
 
-void vnd(Solution & sol, PfspInstance & instance, LocalSearch & first, LocalSearch & second, LocalSearch & third) {
-    first.descent(instance, sol);
-    second.descent(instance, sol);
-    third.descent(instance, sol);
+void vnd(Solution & sol, PfspInstance & instance, LocalSearch neighborhoud [], int nbneighborhoud) {
+    for(int i = 0; i<nbneighborhoud; ++i) {
+        neighborhoud[i].descent(instance, sol);
+    }
 }

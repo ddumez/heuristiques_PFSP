@@ -22,12 +22,15 @@ class Solution{
   	int nbJobs; /*!< number of jobs to do */
 
   public:
+    std::vector< std::vector <long int> > enddate; /*!<date of the end of the task of the machine on job, to re-calculate faster the wct */
+
+  public:
   	/**
-  	* \brief create an empty solution for an instance with nbJObs jobs
+  	* \brief create an empty solution
   	*
-  	* \param[in] nbJobs number of jobs to do in the related instance
+  	* \param[in] instance the context of this solution
   	*/
-  	Solution(int nbJobs);
+  	Solution(PfspInstance & instance);
 
   	/**
   	* \brief free the memmory allocated to this solution
