@@ -111,7 +111,12 @@ int main(int argc, char *argv[]) {
 }
 
 void vnd(Solution & sol, PfspInstance & instance, LocalSearch neighborhoud [], int nbneighborhoud) {
-    for(int i = 0; i<nbneighborhoud; ++i) {
-        neighborhoud[i].descent(instance, sol);
+    int i = 0;
+    while (i < nbneighborhoud) {
+        if (neighborhoud[i].search(instance,sol)) {
+            i = 0;
+        }  else {
+            ++i;
+        }
     }
 }
