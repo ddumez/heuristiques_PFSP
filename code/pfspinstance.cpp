@@ -87,22 +87,22 @@ bool PfspInstance::readDataFromFile(char * fileName) {
 
 	strcat(fileNameOK, aux2);
 
-	cout << "name : " << fileNameOK << endl;
-	cout << "file : " << fileName << endl;
+//	cout << "name : " << fileNameOK << endl;
+//	cout << "file : " << fileName << endl;
 
 	fileIn.open(fileName);
 
 	if ( fileIn.is_open() ) {
-        cout << "File " << fileName << " is now open, start to read..." << std::endl;
+//        cout << "File " << fileName << " is now open, start to read..." << std::endl;
 
 		fileIn >> nbJob;
-        cout << "Number of jobs : " << nbJob << std::endl;
+//        cout << "Number of jobs : " << nbJob << std::endl;
 		fileIn >> nbMac;
-        cout << "Number of machines : " << nbMac << std::endl;
-        cout << "Allow memory for the matrix..." << std::endl;
+//        cout << "Number of machines : " << nbMac << std::endl;
+//        cout << "Allow memory for the matrix..." << std::endl;
 		allowMatrixMemory(nbJob, nbMac);
-        cout << "Memory allowed." << std::endl;
-        cout << "Start to read matrix..." << std::endl;
+//        cout << "Memory allowed." << std::endl;
+//        cout << "Start to read matrix..." << std::endl;
 
 		for (j = 1; j <= nbJob; ++j) {
 			for (m = 1; m <= nbMac; ++m) {
@@ -123,7 +123,7 @@ bool PfspInstance::readDataFromFile(char * fileName) {
             priority[j] = readValue;
 		}
 
-        cout << "All is read from file." << std::endl;
+//        cout << "All is read from file." << std::endl;
 		fileIn.close();
 	} else {
 		cout    << "ERROR. file:pfspInstance.cpp, method:readDataFromFile, "

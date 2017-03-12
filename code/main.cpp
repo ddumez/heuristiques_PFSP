@@ -19,6 +19,7 @@
  ***************************************************************************/
 
 #include <iostream>
+#include <stdlib.h>
 #include <cstdlib>
 #include <cstdio>
 #include <cstdlib>
@@ -29,6 +30,8 @@
 #include "localsearch.hpp"
 
 using namespace std;
+
+#define NBEXEC 20
 
 /**
 * \brief improve the solution with the vnd indea with the 3 local search
@@ -44,10 +47,11 @@ void vnd(Solution & sol, PfspInstance & instance, LocalSearch & first, LocalSear
 int main(int argc, char *argv[]) {
   //variable
     int i;
-    long int totalWeightedTardiness;
     PfspInstance instance; // Create instance object
-    LocalSearch test (3, false);
-
+    LocalSearch search (1 , false);
+    long int tot;
+    long bestval = strtol(argv[2], NULL, 10);
+    
   //start
     // initialize random seed
     srand ( time(NULL) );
@@ -62,49 +66,106 @@ int main(int argc, char *argv[]) {
         return 1;
     }
 
-    Solution solution (instance); // Create a Solution to represent the permutation
+    Solution sol (instance); // Create a Solution to represent the permutation
 
-    // Fill the vector with a random permutation
-    solution.randomPermutation();
+    //random, transpose
+        tot = 0;
+        for(i = 0; i<NBEXEC; ++i) {
+            sol.randomPermutation();
+            search.descent(instance, sol);
+            tot += instance.computeWCT(sol);
+        }
 
-    cout << "Random solution: " ;
+        cout<<(double)(bestval - tot/i)/(double)(bestval)<<":";
+    //random, transpose PPD
+        tot = 0;
+        search.changePPD(true);        
+        for(i = 0; i<NBEXEC; ++i) {
+            sol.randomPermutation();
+            search.descent(instance, sol);
+            tot += instance.computeWCT(sol);
+        }
+        cout<<(double)(bestval - tot/i)/(double)(bestval)<<":";
 
-    for (i = 0; i < instance.getNbJob(); ++i) {
-        cout << solution.getJ(i) << " " ;
-    }
-    cout << endl;
+    //random, exchange
+        tot = 0;
+        search.changechoix(2);
+        search.changePPD(false);
+        for(i = 0; i<NBEXEC; ++i) {
+            sol.randomPermutation();
+            search.descent(instance, sol);
+            tot += instance.computeWCT(sol);
+        }
+        cout<<(double)(bestval - tot/i)/(double)(bestval)<<":";
 
-    // Compute the TWT of this solution
-    totalWeightedTardiness = instance.computeWCT(solution);
-    cout << "Total weighted completion time: " << totalWeightedTardiness << endl;
-  
-    // compute a solution with the RZ heuristic
-    solution.constructRZ(instance);
+    //random, exchange PPD
+        tot = 0;
+        search.changePPD(true);
+        for(i = 0; i<NBEXEC; ++i) {
+            sol.randomPermutation();
+            search.descent(instance, sol);
+            tot += instance.computeWCT(sol);
+        }
+        cout<<(double)(bestval - tot/i)/(double)(bestval)<<":";
 
-    cout << "RZ solution: " ;
+    //random, insert
+        tot = 0;
+        search.changechoix(3);
+        search.changePPD(false);
+        for(i = 0; i<NBEXEC; ++i) {
+            sol.randomPermutation();
+            search.descent(instance, sol);
+            tot += instance.computeWCT(sol);
+        }
+        cout<<(double)(bestval - tot/i)/(double)(bestval)<<":";
 
-    for (i = 0; i < instance.getNbJob(); ++i) {
-        cout << solution.getJ(i) << " " ;
-    }
-    cout << endl;
+    //random, insert PPD
+        tot = 0;
+        search.changePPD(true);
+        for(i = 0; i<NBEXEC; ++i) {
+            sol.randomPermutation();
+            search.descent(instance, sol);
+            tot += instance.computeWCT(sol);
+        }
+        cout<<(double)(bestval - tot/i)/(double)(bestval)<<":";
 
-    // Compute the TWT of this solution
-    totalWeightedTardiness = instance.computeWCT(solution);
-    cout << "Total weighted completion time: " << totalWeightedTardiness << endl;
+    //next are deterministic, so one run is enought
+    //rz, transpose
+        sol.constructRZ(instance);
+        search.descent(instance, sol);
+        cout<<(double)(bestval - instance.computeWCT(sol))/(double)bestval<<":";
 
-    //improve by descent
-    test.descent(instance, solution);
+    //rz, transpose PPD
+        sol.constructRZ(instance);
+        search.changePPD(true);
+        search.descent(instance, sol);
+        cout<<(double)(bestval - instance.computeWCT(sol))/(double)bestval<<":";
 
-    cout << "RZ solution improved: " ;
+    //rz, exchange
+        sol.constructRZ(instance);
+        search.changechoix(2);
+        search.changePPD(false);
+        search.descent(instance, sol);
+        cout<<(double)(bestval - instance.computeWCT(sol))/(double)bestval<<":";
 
-    for (i = 0; i < instance.getNbJob(); ++i) {
-        cout << solution.getJ(i) << " " ;
-    }
-    cout << endl;
+    //rz, exchange PPD
+        sol.constructRZ(instance);
+        search.changePPD(true);
+        search.descent(instance, sol);
+        cout<<(double)(bestval - instance.computeWCT(sol))/(double)bestval<<":";
 
-    // Compute the TWT of this solution
-    totalWeightedTardiness = instance.computeWCT(solution);
-    cout << "Total weighted completion time: " << totalWeightedTardiness << endl;
+    //rz, insert
+        sol.constructRZ(instance);
+        search.changechoix(3);
+        search.changePPD(false);
+        search.descent(instance, sol);
+        cout<<(double)(bestval - instance.computeWCT(sol))/(double)bestval<<":";
+
+    //rz, insert PPD
+        sol.constructRZ(instance);
+        search.changePPD(true);
+        search.descent(instance, sol);
+        cout<<(double)(bestval - instance.computeWCT(sol))/(double)bestval<<":"<<endl;
 
   //end
   return 0;

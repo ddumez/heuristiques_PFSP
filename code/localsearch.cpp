@@ -254,3 +254,11 @@ bool LocalSearch::insertPPD(PfspInstance & instance, Solution & sol){
 	}
   //end
 }
+
+void LocalSearch::changechoix(int choix) {
+	this->choix = choix;
+}
+
+void LocalSearch::changePPD(bool PPD) {
+	this->PPD = PPD;
+}

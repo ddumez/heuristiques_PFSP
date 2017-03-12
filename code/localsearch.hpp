@@ -53,6 +53,20 @@ class LocalSearch{
     */
     void descent(PfspInstance & instance, Solution & sol);
 
+    /**
+    * \brief to change to used neigborhoud relation
+    *
+    * \param[in] choix the index of the new relation to use
+    */
+    void changechoix(int choix);
+
+    /**
+    * \brief to change the way of the neighborhoud relation is used
+    *
+    * \param[in] PPD the new value of this atribute
+    */
+    void changePPD(bool PPD);
+
   private:
     /**
     * \brief improve the solution with the transpose neighborhoud
