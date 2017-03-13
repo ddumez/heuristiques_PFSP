@@ -31,7 +31,7 @@
 
 using namespace std;
 
-#define NBEXEC 20
+#define NBEXEC 1
 
 /**
 * \brief improve the solution with the vnd indea with the 3 local search
@@ -76,7 +76,7 @@ int main(int argc, char *argv[]) {
             tot += instance.computeWCT(sol);
         }
 
-        cout<<(double)(bestval - tot/i)/(double)(bestval)<<":";
+        cout<<(double)(tot/i - bestval)/(double)(bestval)<<":";
     //random, transpose PPD
         tot = 0;
         search.changePPD(true);        
@@ -85,7 +85,7 @@ int main(int argc, char *argv[]) {
             search.descent(instance, sol);
             tot += instance.computeWCT(sol);
         }
-        cout<<(double)(bestval - tot/i)/(double)(bestval)<<":";
+        cout<<(double)(tot/i - bestval)/(double)(bestval)<<":";
 
     //random, exchange
         tot = 0;
@@ -96,7 +96,7 @@ int main(int argc, char *argv[]) {
             search.descent(instance, sol);
             tot += instance.computeWCT(sol);
         }
-        cout<<(double)(bestval - tot/i)/(double)(bestval)<<":";
+        cout<<(double)(tot/i - bestval)/(double)(bestval)<<":";
 
     //random, exchange PPD
         tot = 0;
@@ -106,7 +106,7 @@ int main(int argc, char *argv[]) {
             search.descent(instance, sol);
             tot += instance.computeWCT(sol);
         }
-        cout<<(double)(bestval - tot/i)/(double)(bestval)<<":";
+        cout<<(double)(tot/i - bestval)/(double)(bestval)<<":";
 
     //random, insert
         tot = 0;
@@ -117,7 +117,7 @@ int main(int argc, char *argv[]) {
             search.descent(instance, sol);
             tot += instance.computeWCT(sol);
         }
-        cout<<(double)(bestval - tot/i)/(double)(bestval)<<":";
+        cout<<(double)(tot/i - bestval)/(double)(bestval)<<":";
 
     //random, insert PPD
         tot = 0;
@@ -127,45 +127,45 @@ int main(int argc, char *argv[]) {
             search.descent(instance, sol);
             tot += instance.computeWCT(sol);
         }
-        cout<<(double)(bestval - tot/i)/(double)(bestval)<<":";
+        cout<<(double)(tot/i - bestval)/(double)(bestval)<<":";
 
     //next are deterministic, so one run is enought
     //rz, transpose
         sol.constructRZ(instance);
         search.descent(instance, sol);
-        cout<<(double)(bestval - instance.computeWCT(sol))/(double)bestval<<":";
+        cout<<(double)(instance.computeWCT(sol) - bestval)/(double)bestval<<":";
 
     //rz, transpose PPD
         sol.constructRZ(instance);
         search.changePPD(true);
         search.descent(instance, sol);
-        cout<<(double)(bestval - instance.computeWCT(sol))/(double)bestval<<":";
+        cout<<(double)(instance.computeWCT(sol) - bestval)/(double)bestval<<":";
 
     //rz, exchange
         sol.constructRZ(instance);
         search.changechoix(2);
         search.changePPD(false);
         search.descent(instance, sol);
-        cout<<(double)(bestval - instance.computeWCT(sol))/(double)bestval<<":";
+        cout<<(double)(instance.computeWCT(sol) - bestval)/(double)bestval<<":";
 
     //rz, exchange PPD
         sol.constructRZ(instance);
         search.changePPD(true);
         search.descent(instance, sol);
-        cout<<(double)(bestval - instance.computeWCT(sol))/(double)bestval<<":";
+        cout<<(double)(instance.computeWCT(sol) - bestval)/(double)bestval<<":";
 
     //rz, insert
         sol.constructRZ(instance);
         search.changechoix(3);
         search.changePPD(false);
         search.descent(instance, sol);
-        cout<<(double)(bestval - instance.computeWCT(sol))/(double)bestval<<":";
+        cout<<(double)(instance.computeWCT(sol) - bestval)/(double)bestval<<":";
 
     //rz, insert PPD
         sol.constructRZ(instance);
         search.changePPD(true);
         search.descent(instance, sol);
-        cout<<(double)(bestval - instance.computeWCT(sol))/(double)bestval<<":"<<endl;
+        cout<<(double)(instance.computeWCT(sol) - bestval)/(double)bestval<<":"<<endl;
 
   //end
   return 0;
