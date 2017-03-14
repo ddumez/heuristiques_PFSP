@@ -6,10 +6,16 @@
 
 using namespace std;
 
+LocalSearch::LocalSearch() {
+	this->choix = 1;
+	this->PPD = false;
+	this->dofor = true;
+}
 
-LocalSearch::LocalSearch(int choix, bool PPD){
+LocalSearch::LocalSearch(int choix, bool PPD, bool dofor){
 	this->choix = choix;
 	this->PPD = PPD;
+	this->dofor = dofor;
 }
 
 LocalSearch::~LocalSearch(){}
@@ -45,28 +51,70 @@ bool LocalSearch::search(PfspInstance & instance, Solution & sol){
 }
 
 void LocalSearch::descent(PfspInstance & instance, Solution & sol) {
-	while ( search(instance, sol) ) { }
+	if(dofor && (!PPD) ) {
+		switch(choix) {
+		case 1:
+			while ( transposedofor(instance, sol) ) { }
+		  break;
+		case 2:
+			while ( exchangedofor(instance, sol) ) { }
+		  break;
+		case 3:
+			while ( insertdofor(instance, sol) ) { }
+		  break;
+		default:
+			cout<<"bad neighborhoud code"<<endl;
+		  break;
+	}
+	} else {
+		while ( search(instance, sol) ) { }
+	}
 }
 
 bool LocalSearch::transpose(PfspInstance & instance, Solution & sol){
   //variable
 	bool res = false;
-	int i = 0;
+	int i = instance.getNbJob() -1;
 	int tmp;
 	long int base = instance.computeWCT(sol);
   //start
-	while ((!res) && (i<instance.getNbJob() -1)) {
+	while ((!res) && (i>=0)) { //reverse order to use recomputeWCT
 		//transpose the ith job and the (i+1)th one
 		tmp = sol.getJ(i);
 		sol.setJ(i, sol.getJ(i+1));
 		sol.setJ(i+1, tmp);
-		res = (instance.computeWCT(sol) < base); //compute if it's better
+		res = (instance.recomputeWCT(sol, i) < base); //compute if it's better
 		if (!res) { //if it's not cancel it
 			tmp = sol.getJ(i);
 			sol.setJ(i, sol.getJ(i+1));
 			sol.setJ(i+1, tmp);
 		}
-		++i; //next job
+		--i; //next job (previous one in fact)
+	}
+  //end
+return res;
+}
+
+bool LocalSearch::transposedofor(PfspInstance & instance, Solution & sol){
+  //variable
+	bool res = false;
+	int tmp;
+	long int base = instance.computeWCT(sol);
+	long int tmpscore;
+  //start
+	for(int i = instance.getNbJob() -1; i>=0; --i) {
+		//transpose the ith job and the (i+1)th one
+		tmp = sol.getJ(i);
+		sol.setJ(i, sol.getJ(i+1));
+		sol.setJ(i+1, tmp);
+		if ( (tmpscore = instance.recomputeWCT(sol, i)) < base) { //compute if it's better
+			res = true;
+			base = tmpscore;
+		} else { //if it's not cancel it
+			tmp = sol.getJ(i);
+			sol.setJ(i, sol.getJ(i+1));
+			sol.setJ(i+1, tmp);
+		}
 	}
   //end
 return res;
@@ -79,14 +127,14 @@ bool LocalSearch::transposePPD(PfspInstance & instance, Solution & sol){
 	long int tmpval;
 	int besti = -1;
   //start
-	for(int i = 0; i<instance.getNbJob()-1; ++i) {
+	for(int i = instance.getNbJob()-1; i>=0; --i) {
 		//transpose the ith job and the (i+1)th one
 		tmp = sol.getJ(i);
 		sol.setJ(i, sol.getJ(i+1));
 		sol.setJ(i+1, tmp);
 
 		//compute if it's the new best
-		if ( (tmpval = instance.computeWCT(sol)) < best ) {
+		if ( (tmpval = instance.recomputeWCT(sol, i)) < best ) {
 			best = tmpval;
 			besti = i;
 		}
@@ -132,6 +180,34 @@ bool LocalSearch::exchange(PfspInstance & instance, Solution & sol){
 			++j; //next
 		}
 		++i; //next job
+	}
+  //end
+return res;
+}
+
+bool LocalSearch::exchangedofor(PfspInstance & instance, Solution & sol){
+  //variable
+	bool res = false;
+	int j;
+	int tmp;
+	long int base = instance.computeWCT(sol);
+	long int tmpscore;
+  //start
+	for(int i = 0; i<instance.getNbJob() -1; ++i) {
+		for(j = i+1; j<instance.getNbJob(); ++j) {
+			//transpose the ith job and the jth one
+			tmp = sol.getJ(i);
+			sol.setJ(i, sol.getJ(j));
+			sol.setJ(j, tmp);
+			if ( (tmpscore = instance.computeWCT(sol)) < base) { //compute if it's better
+				res = true;
+				base = tmpscore;
+			} else { //if it's not cancel it
+				tmp = sol.getJ(i);
+				sol.setJ(i, sol.getJ(j));
+				sol.setJ(j, tmp);
+			}
+		}
 	}
   //end
 return res;
@@ -210,6 +286,41 @@ bool LocalSearch::insert(PfspInstance & instance, Solution & sol){
 return res;
 }
 
+bool LocalSearch::insertdofor(PfspInstance & instance, Solution & sol){
+  //variable
+	int j;
+	bool res = false; bool improving;
+	int tmp;
+	long int base = instance.computeWCT(sol);
+	long int tmpscore;
+  //start
+	for(int i = 0; i < instance.getNbJob(); ++i) {
+		j = 0; improving = false;
+		while ((!improving) && (j < instance.getNbJob()-1)) {
+			//bring forward the job
+			tmp = sol.getJ( (i+j)%instance.getNbJob()  );
+			sol.setJ((i+j)%instance.getNbJob(), sol.getJ( (i+j+1)%instance.getNbJob()));
+			sol.setJ((i+j+1)%instance.getNbJob(), tmp);
+
+			improving = ( (tmpscore = instance.computeWCT(sol)) < base); //compute if it's better
+			
+			++j; //next place
+		}
+		if (!improving) { //move this job it isn't good so we return to the initial solution
+			for (j = instance.getNbJob()-2; j>=0; --j) {
+				tmp = sol.getJ( (i+j)%instance.getNbJob()  );
+				sol.setJ((i+j)%instance.getNbJob(), sol.getJ( (i+j+1)%instance.getNbJob()));
+				sol.setJ((i+j+1)%instance.getNbJob(), tmp);				
+			}
+			res = true;
+			base = tmpscore;
+			--i; //the i-th job is now the (i+1)th one
+		}
+	}
+  //end
+return res;
+}
+
 bool LocalSearch::insertPPD(PfspInstance & instance, Solution & sol){
   //variable
 	int tmp;
@@ -261,4 +372,8 @@ void LocalSearch::changechoix(int choix) {
 
 void LocalSearch::changePPD(bool PPD) {
 	this->PPD = PPD;
+}
+
+void LocalSearch::changedofor(bool dofor) {
+	this->dofor = dofor;
 }

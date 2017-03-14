@@ -1,6 +1,6 @@
 rm -rf res.txt
 
-echo "instance:rndtr:rndtrPPD:rndex:rndexPPD:rndin:rndinPPD:rztr:rztrPPD:rzex:rzexPPD:rzin:rzinPPD" >> res.txt
+echo "rndtr:rndtrPPD:rndex:rndexPPD:rndin:rndinPPD:rztr:rztrPPD:rzex:rzexPPD:rzin:rzinPPD" >> res.txt
 
 while read ligne  
 do 

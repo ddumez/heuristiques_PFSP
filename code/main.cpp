@@ -31,7 +31,7 @@
 
 using namespace std;
 
-#define NBEXEC 1
+#define NBEXEC 10
 
 /**
 * \brief improve the solution with the vnd indea with the 3 local search
@@ -48,7 +48,7 @@ int main(int argc, char *argv[]) {
   //variable
     int i;
     PfspInstance instance; // Create instance object
-    LocalSearch search (1 , false);
+    LocalSearch search (1 , false, true);
     long int tot;
     long bestval = strtol(argv[2], NULL, 10);
     
