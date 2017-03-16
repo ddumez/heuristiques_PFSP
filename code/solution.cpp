@@ -143,3 +143,10 @@ void Solution::constructRZ(PfspInstance & instance) {
 int Solution::generateRndPosition(int min, int max) {
     return ( rand() % max + min );
 }
+
+void Solution::print() {
+    for(int i = 0; i<nbJobs; ++i) {
+        cout<<solution.at(i)<<" ";
+    }
+    cout<<endl;
+}

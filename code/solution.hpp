@@ -55,14 +55,19 @@ class Solution{
     void setJ(int i, int j);
 
   	/**
-	* \brief Fill the solution with numbers between 1 and nbJobs, shuffled
-	*/
-	void randomPermutation();
+  	* \brief Fill the solution with numbers between 1 and nbJobs, shuffled
+  	*/
+  	void randomPermutation();
 
-	/**
-	* \brief construct a solution with the RZ heuristic
-	*/
-	void constructRZ(PfspInstance & instance);
+  	/**
+  	* \brief construct a solution with the RZ heuristic
+  	*/
+  	void constructRZ(PfspInstance & instance);
+
+    /**
+    * \brief print this solution
+    */
+    void print();
 
   private:
   	/**

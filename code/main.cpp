@@ -132,6 +132,8 @@ int main(int argc, char *argv[]) {
     //next are deterministic, so one run is enought
     //rz, transpose
         sol.constructRZ(instance);
+        search.changechoix(1);
+        search.changePPD(false);
         search.descent(instance, sol);
         cout<<(double)(instance.computeWCT(sol) - bestval)/(double)bestval<<":";
 
@@ -174,7 +176,9 @@ int main(int argc, char *argv[]) {
 void vnd(Solution & sol, PfspInstance & instance, LocalSearch neighborhoud [], int nbneighborhoud) {
     int i = 0;
     while (i < nbneighborhoud) {
-        if (neighborhoud[i].search(instance,sol)) {
+        if (0 == i) {
+            neighborhoud[i].descent(instance,sol); //enable the dofor if he is activated on the neighborhoud
+        }else if (neighborhoud[i].search(instance,sol)) {
             i = 0;
         }  else {
             ++i;

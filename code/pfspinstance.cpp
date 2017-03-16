@@ -190,28 +190,32 @@ return wct;
 }
 
 long int PfspInstance::recomputeWCT (Solution & sol, int start) {
-  //variable
-	int j, m;
-	long int wct = 0;
+	if (0 == start) { //special case
+		return computeWCT(sol);
+	} else {
+		  //variable
+			int j, m;
+			long int wct = 0;
 
-  //start
-	// others machines : 
-	for ( m = 1; m <= nbMac; ++m ) {
-		for ( j = start; j <= nbJob; ++j ) {
-			if (sol.enddate[j][m-1] > sol.enddate[j-1][m]) {
-				//the previous job is already finished
-				sol.enddate[j][m] = sol.enddate[j][m-1] + processingTimesMatrix[sol.getJ(j-1)][m];
-			} else {
-				//we need to wait until the previous job is finished
-				sol.enddate[j][m] = sol.enddate[j-1][m] + processingTimesMatrix[sol.getJ(j-1)][m];
+		  //start
+			// others machines : 
+			for ( m = 1; m <= nbMac; ++m ) {
+				for ( j = start; j <= nbJob; ++j ) {
+					if (sol.enddate[j][m-1] > sol.enddate[j-1][m]) {
+						//the previous job is already finished
+						sol.enddate[j][m] = sol.enddate[j][m-1] + processingTimesMatrix[sol.getJ(j-1)][m];
+					} else {
+						//we need to wait until the previous job is finished
+						sol.enddate[j][m] = sol.enddate[j-1][m] + processingTimesMatrix[sol.getJ(j-1)][m];
+					}
+				}
 			}
-		}
-	}
 
-	for ( j = 1; j<= nbJob; ++j ) {
-	    wct += sol.enddate[j][nbMac] * priority[sol.getJ(j-1)];
-	}
+			for ( j = 1; j<= nbJob; ++j ) {
+			    wct += sol.enddate[j][nbMac] * priority[sol.getJ(j-1)];
+			}
 
-  //end
-return wct;
+		  //end
+		return wct;
+	}
 }
