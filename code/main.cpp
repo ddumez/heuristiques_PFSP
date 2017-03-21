@@ -42,7 +42,7 @@ using namespace std;
 * \param[in] second the second neighborhoud to use
 * \param[in] third the last neighborhourd to use
 */
-void vnd(Solution & sol, PfspInstance & instance, LocalSearch & first, LocalSearch & second, LocalSearch & third);
+void vnd(Solution & sol, PfspInstance & instance, LocalSearch neighborhoud [], int nbneighborhoud);
 
 int main(int argc, char *argv[]) {
   //variable
@@ -51,10 +51,11 @@ int main(int argc, char *argv[]) {
     LocalSearch search (1 , false, true);
     long int tot;
     long bestval = strtol(argv[2], NULL, 10);
+    LocalSearch neighborhoud [3];
     
   //start
-    // initialize random seed
-    srand ( time(NULL) );
+    //initialize random seed as constant
+    srand (0);
 
     if (argc == 1) {
         cout << "Usage: ./flowshopWCT <instance_file>" << endl;
@@ -76,7 +77,7 @@ int main(int argc, char *argv[]) {
             tot += instance.computeWCT(sol);
         }
 
-        cout<<(double)(tot/i - bestval)/(double)(bestval)<<":";
+        cout<<(double)(tot/i - bestval)/(double)(bestval)<<":"<<flush;
     //random, transpose PPD
         tot = 0;
         search.changePPD(true);        
@@ -85,7 +86,7 @@ int main(int argc, char *argv[]) {
             search.descent(instance, sol);
             tot += instance.computeWCT(sol);
         }
-        cout<<(double)(tot/i - bestval)/(double)(bestval)<<":";
+        cout<<(double)(tot/i - bestval)/(double)(bestval)<<":"<<flush;
 
     //random, exchange
         tot = 0;
@@ -96,7 +97,7 @@ int main(int argc, char *argv[]) {
             search.descent(instance, sol);
             tot += instance.computeWCT(sol);
         }
-        cout<<(double)(tot/i - bestval)/(double)(bestval)<<":";
+        cout<<(double)(tot/i - bestval)/(double)(bestval)<<":"<<flush;
 
     //random, exchange PPD
         tot = 0;
@@ -106,7 +107,7 @@ int main(int argc, char *argv[]) {
             search.descent(instance, sol);
             tot += instance.computeWCT(sol);
         }
-        cout<<(double)(tot/i - bestval)/(double)(bestval)<<":";
+        cout<<(double)(tot/i - bestval)/(double)(bestval)<<":"<<flush;
 
     //random, insert
         tot = 0;
@@ -117,7 +118,7 @@ int main(int argc, char *argv[]) {
             search.descent(instance, sol);
             tot += instance.computeWCT(sol);
         }
-        cout<<(double)(tot/i - bestval)/(double)(bestval)<<":";
+        cout<<(double)(tot/i - bestval)/(double)(bestval)<<":"<<flush;
 
     //random, insert PPD
         tot = 0;
@@ -127,7 +128,7 @@ int main(int argc, char *argv[]) {
             search.descent(instance, sol);
             tot += instance.computeWCT(sol);
         }
-        cout<<(double)(tot/i - bestval)/(double)(bestval)<<":";
+        cout<<(double)(tot/i - bestval)/(double)(bestval)<<":"<<flush;
 
     //next are deterministic, so one run is enought
     //rz, transpose
@@ -135,38 +136,100 @@ int main(int argc, char *argv[]) {
         search.changechoix(1);
         search.changePPD(false);
         search.descent(instance, sol);
-        cout<<(double)(instance.computeWCT(sol) - bestval)/(double)bestval<<":";
+        cout<<(double)(instance.computeWCT(sol) - bestval)/(double)bestval<<":"<<flush;
 
     //rz, transpose PPD
         sol.constructRZ(instance);
         search.changePPD(true);
         search.descent(instance, sol);
-        cout<<(double)(instance.computeWCT(sol) - bestval)/(double)bestval<<":";
+        cout<<(double)(instance.computeWCT(sol) - bestval)/(double)bestval<<":"<<flush;
 
     //rz, exchange
         sol.constructRZ(instance);
         search.changechoix(2);
         search.changePPD(false);
         search.descent(instance, sol);
-        cout<<(double)(instance.computeWCT(sol) - bestval)/(double)bestval<<":";
+        cout<<(double)(instance.computeWCT(sol) - bestval)/(double)bestval<<":"<<flush;
 
     //rz, exchange PPD
         sol.constructRZ(instance);
         search.changePPD(true);
         search.descent(instance, sol);
-        cout<<(double)(instance.computeWCT(sol) - bestval)/(double)bestval<<":";
+        cout<<(double)(instance.computeWCT(sol) - bestval)/(double)bestval<<":"<<flush;
 
     //rz, insert
         sol.constructRZ(instance);
         search.changechoix(3);
         search.changePPD(false);
         search.descent(instance, sol);
-        cout<<(double)(instance.computeWCT(sol) - bestval)/(double)bestval<<":";
+        cout<<(double)(instance.computeWCT(sol) - bestval)/(double)bestval<<":"<<flush;
 
     //rz, insert PPD
         sol.constructRZ(instance);
         search.changePPD(true);
         search.descent(instance, sol);
+        cout<<(double)(instance.computeWCT(sol) - bestval)/(double)bestval<<":"<<flush;
+
+    //tests of VND
+    //transpose->exchange->insert random
+        neighborhoud[0].changechoix(1); neighborhoud[0].changePPD(false); neighborhoud[0].changedofor(true);
+        neighborhoud[1].changechoix(2); neighborhoud[1].changePPD(false); neighborhoud[1].changedofor(true);
+        neighborhoud[2].changechoix(3); neighborhoud[2].changePPD(false); neighborhoud[2].changedofor(true);
+        tot = 0;
+        for(i = 0; i<NBEXEC; ++i) {
+            sol.randomPermutation();
+            vnd(sol, instance, neighborhoud, 3);
+            tot += instance.computeWCT(sol);
+        }
+        cout<<(double)(tot/i - bestval)/(double)(bestval)<<":"<<flush;
+    //transpose->exchange->insert PPD random
+        neighborhoud[0].changePPD(true); neighborhoud[1].changePPD(true); neighborhoud[2].changePPD(true);
+        tot = 0;
+        for(i = 0; i<NBEXEC; ++i) {
+            sol.randomPermutation();
+            vnd(sol, instance, neighborhoud, 3);
+            tot += instance.computeWCT(sol);
+        }
+        cout<<(double)(tot/i - bestval)/(double)(bestval)<<":"<<flush;
+    //transpose->exchange->insert rz
+        neighborhoud[0].changePPD(false); neighborhoud[1].changePPD(false); neighborhoud[2].changePPD(false);
+        sol.constructRZ(instance);
+        vnd(sol, instance, neighborhoud, 3);
+        cout<<(double)(instance.computeWCT(sol) - bestval)/(double)bestval<<":"<<flush;
+    //transpose->exchange->insert PPD rz
+        neighborhoud[0].changePPD(true); neighborhoud[1].changePPD(true); neighborhoud[2].changePPD(true);
+        sol.constructRZ(instance);
+        vnd(sol, instance, neighborhoud, 3);
+        cout<<(double)(instance.computeWCT(sol) - bestval)/(double)bestval<<":"<<flush;
+    //transpose->insert->exhange random
+        neighborhoud[0].changePPD(false);
+        neighborhoud[1].changechoix(3); neighborhoud[1].changePPD(false);
+        neighborhoud[2].changechoix(2); neighborhoud[2].changePPD(false);
+        tot = 0;
+        for(i = 0; i<NBEXEC; ++i) {
+            sol.randomPermutation();
+            vnd(sol, instance, neighborhoud, 3);
+            tot += instance.computeWCT(sol);
+        }
+        cout<<(double)(tot/i - bestval)/(double)(bestval)<<":"<<flush;
+    //transpose->insert->exhange PPD random
+        neighborhoud[0].changePPD(true); neighborhoud[1].changePPD(true); neighborhoud[2].changePPD(true);
+        tot = 0;
+        for(i = 0; i<NBEXEC; ++i) {
+            sol.randomPermutation();
+            vnd(sol, instance, neighborhoud, 3);
+            tot += instance.computeWCT(sol);
+        }
+        cout<<(double)(tot/i - bestval)/(double)(bestval)<<":"<<flush;
+    //transpose->insert->exhange rz
+        neighborhoud[0].changePPD(false); neighborhoud[1].changePPD(false); neighborhoud[2].changePPD(false);
+        sol.constructRZ(instance);
+        vnd(sol, instance, neighborhoud, 3);
+        cout<<(double)(instance.computeWCT(sol) - bestval)/(double)bestval<<":"<<flush;
+    //transpose->insert->exhange PPD rz
+        neighborhoud[0].changePPD(true); neighborhoud[1].changePPD(true); neighborhoud[2].changePPD(true);
+        sol.constructRZ(instance);
+        vnd(sol, instance, neighborhoud, 3);
         cout<<(double)(instance.computeWCT(sol) - bestval)/(double)bestval<<":"<<endl;
 
   //end
@@ -178,6 +241,7 @@ void vnd(Solution & sol, PfspInstance & instance, LocalSearch neighborhoud [], i
     while (i < nbneighborhoud) {
         if (0 == i) {
             neighborhoud[i].descent(instance,sol); //enable the dofor if he is activated on the neighborhoud
+            ++i; //now we are in a local minima of the first neighborhoud
         }else if (neighborhoud[i].search(instance,sol)) {
             i = 0;
         }  else {

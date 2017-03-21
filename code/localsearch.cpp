@@ -310,11 +310,12 @@ bool LocalSearch::insertdofor(PfspInstance & instance, Solution & sol){
 			++j; //next place
 		}
 		if (!improving) { //move this job it isn't good so we return to the initial solution
-			for (j = instance.getNbJob()-2; j>=0; --j) {
+			for (j = instance.getNbJob()-2; j>=0; --j) {	
 				tmp = sol.getJ( (i+j)%instance.getNbJob()  );
 				sol.setJ((i+j)%instance.getNbJob(), sol.getJ( (i+j+1)%instance.getNbJob()));
 				sol.setJ((i+j+1)%instance.getNbJob(), tmp);				
 			}
+		} else { //it's an improving move
 			res = true;
 			base = tmpscore;
 			--i; //the i-th job is now the (i+1)th one

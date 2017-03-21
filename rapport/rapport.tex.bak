@@ -1,0 +1,19 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage[overload]{empheq}
+\usepackage{color}
+\usepackage[dvipsnames]{xcolor}
+\usepackage{fullpage}
+
+\title{PFSP heuristics project}
+
+\author{Dorian Dumez}
+
+\begin{document}
+\maketitle
+
+\end{document}
