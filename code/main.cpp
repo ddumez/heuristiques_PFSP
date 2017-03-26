@@ -24,6 +24,7 @@
 #include <cstdio>
 #include <cstdlib>
 #include <ctime>
+#include <time.h>
 
 #include "solution.hpp"
 #include "pfspinstance.hpp"
@@ -32,6 +33,10 @@
 using namespace std;
 
 #define NBEXEC 10
+
+//#define RELATIVE_DEVIATION
+#define SCORE
+//#define EXECUTION_TIME
 
 /**
 * \brief improve the solution with the vnd indea with the 3 local search
@@ -49,8 +54,16 @@ int main(int argc, char *argv[]) {
     int i;
     PfspInstance instance; // Create instance object
     LocalSearch search (1 , false, true);
-    long int tot;
-    long bestval = strtol(argv[2], NULL, 10);
+    #ifdef RELATIVE_DEVIATION
+        long int tot;
+        long bestval = strtol(argv[2], NULL, 10);
+    #endif
+    #ifdef SCORE
+        long int tot;
+    #endif
+    #ifdef EXECUTION_TIME
+        clock_t t, tot;
+    #endif
     LocalSearch neighborhoud [3];
     
   //start
@@ -70,105 +83,291 @@ int main(int argc, char *argv[]) {
     Solution sol (instance); // Create a Solution to represent the permutation
 
     //random, transpose
-        tot = 0;
+        tot = 0;    
         for(i = 0; i<NBEXEC; ++i) {
+            #ifdef EXECUTION_TIME
+                t = clock();
+            #endif
             sol.randomPermutation();
             search.descent(instance, sol);
-            tot += instance.computeWCT(sol);
+            #ifdef RELATIVE_DEVIATION
+                tot += instance.computeWCT(sol);
+            #endif
+            #ifdef SCORE
+                tot += instance.computeWCT(sol);
+            #endif
+            #ifdef EXECUTION_TIME
+                tot += clock() - t;
+            #endif
         }
+        #ifdef RELATIVE_DEVIATION
+            cout<<(double)(tot/NBEXEC - bestval)/(double)(bestval)<<":"<<flush;
+        #endif
+        #ifdef SCORE
+            cout<<tot/NBEXEC<<":"<<flush;
+        #endif
+        #ifdef EXECUTION_TIME
+            cout<<(double)((double)tot/(double)(CLOCKS_PER_SEC*NBEXEC))<<":"<<flush;
+        #endif
 
-        cout<<(double)(tot/i - bestval)/(double)(bestval)<<":"<<flush;
     //random, transpose PPD
         tot = 0;
         search.changePPD(true);        
         for(i = 0; i<NBEXEC; ++i) {
+            #ifdef EXECUTION_TIME
+                t = clock();
+            #endif
             sol.randomPermutation();
             search.descent(instance, sol);
-            tot += instance.computeWCT(sol);
+            #ifdef RELATIVE_DEVIATION
+                tot += instance.computeWCT(sol);
+            #endif
+            #ifdef SCORE
+                tot += instance.computeWCT(sol);
+            #endif
+            #ifdef EXECUTION_TIME
+                tot += clock() - t;
+            #endif
         }
-        cout<<(double)(tot/i - bestval)/(double)(bestval)<<":"<<flush;
+        #ifdef RELATIVE_DEVIATION
+            cout<<(double)(tot/NBEXEC - bestval)/(double)(bestval)<<":"<<flush;
+        #endif
+        #ifdef SCORE
+            cout<<tot/NBEXEC<<":"<<flush;
+        #endif
+        #ifdef EXECUTION_TIME
+            cout<<(double)((double)tot/(double)(CLOCKS_PER_SEC*NBEXEC))<<":"<<flush;
+        #endif
 
     //random, exchange
         tot = 0;
         search.changechoix(2);
         search.changePPD(false);
         for(i = 0; i<NBEXEC; ++i) {
+            #ifdef EXECUTION_TIME
+                t = clock();
+            #endif
             sol.randomPermutation();
             search.descent(instance, sol);
-            tot += instance.computeWCT(sol);
+            #ifdef RELATIVE_DEVIATION
+                tot += instance.computeWCT(sol);
+            #endif
+            #ifdef SCORE
+                tot += instance.computeWCT(sol);
+            #endif
+            #ifdef EXECUTION_TIME
+                tot += clock() - t;
+            #endif
         }
-        cout<<(double)(tot/i - bestval)/(double)(bestval)<<":"<<flush;
+        #ifdef RELATIVE_DEVIATION
+            cout<<(double)(tot/NBEXEC - bestval)/(double)(bestval)<<":"<<flush;
+        #endif
+        #ifdef SCORE
+            cout<<tot/NBEXEC<<":"<<flush;
+        #endif
+        #ifdef EXECUTION_TIME
+            cout<<(double)((double)tot/(double)(CLOCKS_PER_SEC*NBEXEC))<<":"<<flush;
+        #endif
 
     //random, exchange PPD
         tot = 0;
         search.changePPD(true);
         for(i = 0; i<NBEXEC; ++i) {
+            #ifdef EXECUTION_TIME
+                t = clock();
+            #endif
             sol.randomPermutation();
             search.descent(instance, sol);
-            tot += instance.computeWCT(sol);
+            #ifdef RELATIVE_DEVIATION
+                tot += instance.computeWCT(sol);
+            #endif
+            #ifdef SCORE
+                tot += instance.computeWCT(sol);
+            #endif
+            #ifdef EXECUTION_TIME
+                tot += clock() - t;
+            #endif
         }
-        cout<<(double)(tot/i - bestval)/(double)(bestval)<<":"<<flush;
+        #ifdef RELATIVE_DEVIATION
+            cout<<(double)(tot/NBEXEC - bestval)/(double)(bestval)<<":"<<flush;
+        #endif
+        #ifdef SCORE
+            cout<<tot/NBEXEC<<":"<<flush;
+        #endif
+        #ifdef EXECUTION_TIME
+            cout<<(double)((double)tot/(double)(CLOCKS_PER_SEC*NBEXEC))<<":"<<flush;
+        #endif
 
     //random, insert
         tot = 0;
         search.changechoix(3);
         search.changePPD(false);
         for(i = 0; i<NBEXEC; ++i) {
+            #ifdef EXECUTION_TIME
+                t = clock();
+            #endif
             sol.randomPermutation();
             search.descent(instance, sol);
-            tot += instance.computeWCT(sol);
+            #ifdef RELATIVE_DEVIATION
+                tot += instance.computeWCT(sol);
+            #endif
+            #ifdef SCORE
+                tot += instance.computeWCT(sol);
+            #endif
+            #ifdef EXECUTION_TIME
+                tot += clock() - t;
+            #endif
         }
-        cout<<(double)(tot/i - bestval)/(double)(bestval)<<":"<<flush;
+        #ifdef RELATIVE_DEVIATION
+            cout<<(double)(tot/NBEXEC - bestval)/(double)(bestval)<<":"<<flush;
+        #endif
+        #ifdef SCORE
+            cout<<tot/NBEXEC<<":"<<flush;
+        #endif
+        #ifdef EXECUTION_TIME
+            cout<<(double)((double)tot/(double)(CLOCKS_PER_SEC*NBEXEC))<<":"<<flush;
+        #endif
 
     //random, insert PPD
         tot = 0;
         search.changePPD(true);
         for(i = 0; i<NBEXEC; ++i) {
+            #ifdef EXECUTION_TIME
+                t = clock();
+            #endif
             sol.randomPermutation();
             search.descent(instance, sol);
-            tot += instance.computeWCT(sol);
+            #ifdef RELATIVE_DEVIATION
+                tot += instance.computeWCT(sol);
+            #endif
+            #ifdef SCORE
+                tot += instance.computeWCT(sol);
+            #endif
+            #ifdef EXECUTION_TIME
+                tot += clock() - t;
+            #endif
         }
-        cout<<(double)(tot/i - bestval)/(double)(bestval)<<":"<<flush;
+        #ifdef RELATIVE_DEVIATION
+            cout<<(double)(tot/NBEXEC - bestval)/(double)(bestval)<<":"<<flush;
+        #endif
+        #ifdef SCORE
+            cout<<tot/NBEXEC<<":"<<flush;
+        #endif
+        #ifdef EXECUTION_TIME
+            cout<<(double)((double)tot/(double)(CLOCKS_PER_SEC*NBEXEC))<<":"<<flush;
+        #endif
 
     //next are deterministic, so one run is enought
     //rz, transpose
-        sol.constructRZ(instance);
         search.changechoix(1);
         search.changePPD(false);
+        #ifdef EXECUTION_TIME
+            t = clock();
+        #endif
+        sol.constructRZ(instance);
         search.descent(instance, sol);
-        cout<<(double)(instance.computeWCT(sol) - bestval)/(double)bestval<<":"<<flush;
+        #ifdef RELATIVE_DEVIATION
+            cout<<(double)(instance.computeWCT(sol) - bestval)/(double)bestval<<":"<<flush;
+        #endif
+        #ifdef SCORE
+            cout<<instance.computeWCT(sol)<<":"<<flush;
+        #endif
+        #ifdef EXECUTION_TIME
+            t = clock() - t;
+            cout<<(double)((double)t/(double)(CLOCKS_PER_SEC))<<":"<<flush;
+        #endif
 
     //rz, transpose PPD
-        sol.constructRZ(instance);
         search.changePPD(true);
+        #ifdef EXECUTION_TIME
+            t = clock();
+        #endif
+        sol.constructRZ(instance);
         search.descent(instance, sol);
-        cout<<(double)(instance.computeWCT(sol) - bestval)/(double)bestval<<":"<<flush;
+        #ifdef RELATIVE_DEVIATION
+            cout<<(double)(instance.computeWCT(sol) - bestval)/(double)bestval<<":"<<flush;
+        #endif
+        #ifdef SCORE
+            cout<<instance.computeWCT(sol)<<":"<<flush;
+        #endif
+        #ifdef EXECUTION_TIME
+            t = clock() - t;
+            cout<<(double)((double)t/(double)(CLOCKS_PER_SEC))<<":"<<flush;
+        #endif
 
     //rz, exchange
-        sol.constructRZ(instance);
         search.changechoix(2);
         search.changePPD(false);
+        #ifdef EXECUTION_TIME
+            t = clock();
+        #endif
+        sol.constructRZ(instance);
         search.descent(instance, sol);
-        cout<<(double)(instance.computeWCT(sol) - bestval)/(double)bestval<<":"<<flush;
+        #ifdef RELATIVE_DEVIATION
+            cout<<(double)(instance.computeWCT(sol) - bestval)/(double)bestval<<":"<<flush;
+        #endif
+        #ifdef SCORE
+            cout<<instance.computeWCT(sol)<<":"<<flush;
+        #endif
+        #ifdef EXECUTION_TIME
+            t = clock() - t;
+            cout<<(double)((double)t/(double)(CLOCKS_PER_SEC))<<":"<<flush;
+        #endif
 
     //rz, exchange PPD
-        sol.constructRZ(instance);
         search.changePPD(true);
+        #ifdef EXECUTION_TIME
+            t = clock();
+        #endif
+        sol.constructRZ(instance);
         search.descent(instance, sol);
-        cout<<(double)(instance.computeWCT(sol) - bestval)/(double)bestval<<":"<<flush;
+        #ifdef RELATIVE_DEVIATION
+            cout<<(double)(instance.computeWCT(sol) - bestval)/(double)bestval<<":"<<flush;
+        #endif
+        #ifdef SCORE
+            cout<<instance.computeWCT(sol)<<":"<<flush;
+        #endif
+        #ifdef EXECUTION_TIME
+            t = clock() - t;
+            cout<<(double)((double)t/(double)(CLOCKS_PER_SEC))<<":"<<flush;
+        #endif
 
     //rz, insert
-        sol.constructRZ(instance);
         search.changechoix(3);
         search.changePPD(false);
+        #ifdef EXECUTION_TIME
+            t = clock();
+        #endif
+        sol.constructRZ(instance);
         search.descent(instance, sol);
-        cout<<(double)(instance.computeWCT(sol) - bestval)/(double)bestval<<":"<<flush;
+        #ifdef RELATIVE_DEVIATION
+            cout<<(double)(instance.computeWCT(sol) - bestval)/(double)bestval<<":"<<flush;
+        #endif
+        #ifdef SCORE
+            cout<<instance.computeWCT(sol)<<":"<<flush;
+        #endif
+        #ifdef EXECUTION_TIME
+            t = clock() - t;
+            cout<<(double)((double)t/(double)(CLOCKS_PER_SEC))<<":"<<flush;
+        #endif
 
     //rz, insert PPD
-        sol.constructRZ(instance);
         search.changePPD(true);
+        #ifdef EXECUTION_TIME
+            t = clock();
+        #endif
+        sol.constructRZ(instance);
         search.descent(instance, sol);
-        cout<<(double)(instance.computeWCT(sol) - bestval)/(double)bestval<<":"<<flush;
+        #ifdef RELATIVE_DEVIATION
+            cout<<(double)(instance.computeWCT(sol) - bestval)/(double)bestval<<":"<<flush;
+        #endif
+        #ifdef SCORE
+            cout<<instance.computeWCT(sol)<<":"<<flush;
+        #endif
+        #ifdef EXECUTION_TIME
+            t = clock() - t;
+            cout<<(double)((double)t/(double)(CLOCKS_PER_SEC))<<":"<<flush;
+        #endif
 
     //tests of VND
     //transpose->exchange->insert random
@@ -177,60 +376,191 @@ int main(int argc, char *argv[]) {
         neighborhoud[2].changechoix(3); neighborhoud[2].changePPD(false); neighborhoud[2].changedofor(true);
         tot = 0;
         for(i = 0; i<NBEXEC; ++i) {
+            #ifdef EXECUTION_TIME
+                t = clock();
+            #endif
             sol.randomPermutation();
             vnd(sol, instance, neighborhoud, 3);
-            tot += instance.computeWCT(sol);
+            #ifdef RELATIVE_DEVIATION
+                tot += instance.computeWCT(sol);
+            #endif
+            #ifdef SCORE
+                tot += instance.computeWCT(sol);
+            #endif
+            #ifdef EXECUTION_TIME
+                tot += clock() - t;
+            #endif
         }
-        cout<<(double)(tot/i - bestval)/(double)(bestval)<<":"<<flush;
+        #ifdef RELATIVE_DEVIATION
+            cout<<(double)(tot/NBEXEC - bestval)/(double)(bestval)<<":"<<flush;
+        #endif
+        #ifdef SCORE
+            cout<<tot/NBEXEC<<":"<<flush;
+        #endif
+        #ifdef EXECUTION_TIME
+            cout<<(double)((double)tot/(double)(CLOCKS_PER_SEC*NBEXEC))<<":"<<flush;
+        #endif
+
     //transpose->exchange->insert PPD random
         neighborhoud[0].changePPD(true); neighborhoud[1].changePPD(true); neighborhoud[2].changePPD(true);
         tot = 0;
         for(i = 0; i<NBEXEC; ++i) {
+            #ifdef EXECUTION_TIME
+                t = clock();
+            #endif
             sol.randomPermutation();
             vnd(sol, instance, neighborhoud, 3);
-            tot += instance.computeWCT(sol);
+            #ifdef RELATIVE_DEVIATION
+                tot += instance.computeWCT(sol);
+            #endif
+            #ifdef SCORE
+                tot += instance.computeWCT(sol);
+            #endif
+            #ifdef EXECUTION_TIME
+                tot += clock() - t;
+            #endif
         }
-        cout<<(double)(tot/i - bestval)/(double)(bestval)<<":"<<flush;
+        #ifdef RELATIVE_DEVIATION
+            cout<<(double)(tot/NBEXEC - bestval)/(double)(bestval)<<":"<<flush;
+        #endif
+        #ifdef SCORE
+            cout<<tot/NBEXEC<<":"<<flush;
+        #endif
+        #ifdef EXECUTION_TIME
+            cout<<(double)((double)tot/(double)(CLOCKS_PER_SEC*NBEXEC))<<":"<<flush;
+        #endif
+
     //transpose->exchange->insert rz
         neighborhoud[0].changePPD(false); neighborhoud[1].changePPD(false); neighborhoud[2].changePPD(false);
+        #ifdef EXECUTION_TIME
+            t = clock();
+        #endif
         sol.constructRZ(instance);
         vnd(sol, instance, neighborhoud, 3);
-        cout<<(double)(instance.computeWCT(sol) - bestval)/(double)bestval<<":"<<flush;
+        #ifdef RELATIVE_DEVIATION
+            cout<<(double)(instance.computeWCT(sol) - bestval)/(double)bestval<<":"<<flush;
+        #endif
+        #ifdef SCORE
+            cout<<instance.computeWCT(sol)<<":"<<flush;
+        #endif
+        #ifdef EXECUTION_TIME
+            t = clock() - t;
+            cout<<(double)((double)t/(double)(CLOCKS_PER_SEC))<<":"<<flush;
+        #endif
+
     //transpose->exchange->insert PPD rz
         neighborhoud[0].changePPD(true); neighborhoud[1].changePPD(true); neighborhoud[2].changePPD(true);
+        #ifdef EXECUTION_TIME
+            t = clock();
+        #endif
         sol.constructRZ(instance);
         vnd(sol, instance, neighborhoud, 3);
-        cout<<(double)(instance.computeWCT(sol) - bestval)/(double)bestval<<":"<<flush;
+        #ifdef RELATIVE_DEVIATION
+            cout<<(double)(instance.computeWCT(sol) - bestval)/(double)bestval<<":"<<flush;
+        #endif
+        #ifdef SCORE
+            cout<<instance.computeWCT(sol)<<":"<<flush;
+        #endif
+        #ifdef EXECUTION_TIME
+            t = clock() - t;
+            cout<<(double)((double)t/(double)(CLOCKS_PER_SEC))<<":"<<flush;
+        #endif
+
     //transpose->insert->exhange random
         neighborhoud[0].changePPD(false);
         neighborhoud[1].changechoix(3); neighborhoud[1].changePPD(false);
         neighborhoud[2].changechoix(2); neighborhoud[2].changePPD(false);
         tot = 0;
         for(i = 0; i<NBEXEC; ++i) {
+            #ifdef EXECUTION_TIME
+                t = clock();
+            #endif
             sol.randomPermutation();
             vnd(sol, instance, neighborhoud, 3);
-            tot += instance.computeWCT(sol);
+            #ifdef RELATIVE_DEVIATION
+                tot += instance.computeWCT(sol);
+            #endif
+            #ifdef SCORE
+                tot += instance.computeWCT(sol);
+            #endif
+            #ifdef EXECUTION_TIME
+                tot += clock() - t;
+            #endif
         }
-        cout<<(double)(tot/i - bestval)/(double)(bestval)<<":"<<flush;
+        #ifdef RELATIVE_DEVIATION
+            cout<<(double)(tot/NBEXEC - bestval)/(double)(bestval)<<":"<<flush;
+        #endif
+        #ifdef SCORE
+            cout<<tot/NBEXEC<<":"<<flush;
+        #endif
+        #ifdef EXECUTION_TIME
+            cout<<(double)((double)tot/(double)(CLOCKS_PER_SEC*NBEXEC))<<":"<<flush;
+        #endif
+
     //transpose->insert->exhange PPD random
         neighborhoud[0].changePPD(true); neighborhoud[1].changePPD(true); neighborhoud[2].changePPD(true);
         tot = 0;
         for(i = 0; i<NBEXEC; ++i) {
+            #ifdef EXECUTION_TIME
+                t = clock();
+            #endif
             sol.randomPermutation();
             vnd(sol, instance, neighborhoud, 3);
-            tot += instance.computeWCT(sol);
+            #ifdef RELATIVE_DEVIATION
+                tot += instance.computeWCT(sol);
+            #endif
+            #ifdef SCORE
+                tot += instance.computeWCT(sol);
+            #endif
+            #ifdef EXECUTION_TIME
+                tot += clock() - t;
+            #endif
         }
-        cout<<(double)(tot/i - bestval)/(double)(bestval)<<":"<<flush;
+        #ifdef RELATIVE_DEVIATION
+            cout<<(double)(tot/NBEXEC - bestval)/(double)(bestval)<<":"<<flush;
+        #endif
+        #ifdef SCORE
+            cout<<tot/NBEXEC<<":"<<flush;
+        #endif
+        #ifdef EXECUTION_TIME
+            cout<<(double)((double)tot/(double)(CLOCKS_PER_SEC*NBEXEC))<<":"<<flush;
+        #endif
+
     //transpose->insert->exhange rz
         neighborhoud[0].changePPD(false); neighborhoud[1].changePPD(false); neighborhoud[2].changePPD(false);
+        #ifdef EXECUTION_TIME
+            t = clock();
+        #endif
         sol.constructRZ(instance);
         vnd(sol, instance, neighborhoud, 3);
-        cout<<(double)(instance.computeWCT(sol) - bestval)/(double)bestval<<":"<<flush;
+        #ifdef RELATIVE_DEVIATION
+            cout<<(double)(instance.computeWCT(sol) - bestval)/(double)bestval<<":"<<flush;
+        #endif
+        #ifdef SCORE
+            cout<<instance.computeWCT(sol)<<":"<<flush;
+        #endif
+        #ifdef EXECUTION_TIME
+            t = clock() - t;
+            cout<<(double)((double)t/(double)(CLOCKS_PER_SEC))<<":"<<flush;
+        #endif
+
     //transpose->insert->exhange PPD rz
         neighborhoud[0].changePPD(true); neighborhoud[1].changePPD(true); neighborhoud[2].changePPD(true);
+        #ifdef EXECUTION_TIME
+            t = clock();
+        #endif
         sol.constructRZ(instance);
         vnd(sol, instance, neighborhoud, 3);
-        cout<<(double)(instance.computeWCT(sol) - bestval)/(double)bestval<<":"<<endl;
+        #ifdef RELATIVE_DEVIATION
+            cout<<(double)(instance.computeWCT(sol) - bestval)/(double)bestval<<endl;
+        #endif
+        #ifdef SCORE
+            cout<<instance.computeWCT(sol)<<endl;
+        #endif
+        #ifdef EXECUTION_TIME
+            t = clock() - t;
+            cout<<(double)((double)t/(double)(CLOCKS_PER_SEC))<<endl;
+        #endif
 
   //end
   return 0;
