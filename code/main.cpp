@@ -35,8 +35,8 @@ using namespace std;
 #define NBEXEC 10
 
 //#define RELATIVE_DEVIATION
-#define SCORE
-//#define EXECUTION_TIME
+//#define SCORE
+#define EXECUTION_TIME
 
 /**
 * \brief improve the solution with the vnd indea with the 3 local search

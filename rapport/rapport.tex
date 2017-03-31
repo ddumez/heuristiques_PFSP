@@ -24,7 +24,17 @@ In the code directory the command "make" can be use to compile the whole project
 
 After compiling the project experiment can be done on a single instance with "./main path\_to\_the\_instance optimal\_value". Then all possibility are use on this instance, for stochastic setting an average is done over 10 run. Depending of the settings of the code execution time,value of solutions or proportional difference is output. This can be chose before compiling by the pre-compilator variable, comment or not, at the beginning of the "main.cpp" file. Values for each settings are separated by ":" in the text output.
 
-To have these result on all instances the multiple\_run.sh script can be use. This bash script will execute the main on each instance and store all results in the res.txt file.
+To have these result on all instances the multiple\_run.sh script can be use. This bash script will execute the main on each instance and store all results in the res.txt file.\\
+
+To compute few statistic R script have been created :
+\begin{itemize}
+\item
+"compute\_average.R" which compute mean value for each algorithm. Values are taken in the file "tmp.txt", so it can be use to compute both average deviation and computation time. Values are output in the "avg.txt" file.
+\item
+"compute\_standard\_deviation.R" which calculate standard deviation, it's have been design in the same way as "compute\_average.R" and both take their input in "tmp.txt". Values are output in the "sd.txt" file.
+\item
+"wilcoxon\_test.R" compute p-value of the wilconxon pairwise test on each pair of column. Beside it compute the Bonferroni correction on each of them. Output table are stoked into the "wilconxon.txt" file. Input file is "tmp.txt".
+\end{itemize}
 
 \subsection{Datastructure of a solution}
 
@@ -82,6 +92,7 @@ The implantation of VND is very classic. It have been implement in a generic way
   \hline
 \end{tabular}
 \caption{Relative deviation in \% with random construction}
+\label{Relative deviation with random construction}
 \end{table}
 
 \begin{table}[!h]
@@ -96,6 +107,7 @@ The implantation of VND is very classic. It have been implement in a generic way
   \hline
 \end{tabular}
 \caption{Relative deviation in \% with rz construction}
+\label{Relative deviation with rz construction}
 \end{table}
 
 \begin{table}[!h]
@@ -110,6 +122,7 @@ The implantation of VND is very classic. It have been implement in a generic way
   \hline
 \end{tabular}
 \caption{standard deviation of the relative deviation with random construction}
+\label{standard deviation of the relative deviation with random construction}
 \end{table}
 
 \begin{table}[!h]
@@ -124,12 +137,16 @@ The implantation of VND is very classic. It have been implement in a generic way
   \hline
 \end{tabular}
 \caption{standard deviation of the relative deviation with rz construction}
+\label{standard deviation of the relative deviation with rz construction}
 \end{table}
 
+~\\
 
 \subsection{Statistical test of neighbourhood}
 
 We perform the wilcoxon test on score, in a pairwise way, and after applied the Bonferroni correction to the obtained p-value. These result are compiled in the following table. A population isn't comparable to itself so NaN is used in these cases.
+
+"tr", "ex" and "in" are use in the same way as previously for transpose, exchange and insert. "rnd" is used when the start solution isn't construct, and "rz" when the rz heuristic have been used. "DD" is always here when the descent have been done in deepest descent.
 
 \begin{table}[!h]
 \leftskip -2.45cm
@@ -156,11 +173,38 @@ rzinDD & 9.32e-9 & 9.32e-9 & 2.75e-6 & 2.10e-6 & 3.45e-2 & 1.65e-5 & 9.32e-9 & 9
 \normalsize
 }
 \caption{Befferoni correction of the wilcoxon pairwise test}
+\label{Befferoni correction of the wilcoxon pairwise test}
 \end{table}
+
+~\\
+
+We compute the average of the relative deviation, for all instances and all neighbourhood relation (in deepest descent and first improvement), when we start with a random solution and the rz heuristic. After we compute a pairwise wilcoxon test, compared value are always output by the same algorithm (same neighbourhood, same browsing, different initialisation) on the same instance so what's when a comparison is done only the initialization differ. With a random start the relative deviation average is $16.1 \%$ and with the heuristic it's $14.0 \%$. Finally the Befferoni corrected p-value of the wilcoxon pairwise test is $5.66e^{-15}$. So we can conclude that an initialisation with the rz heuristic is better as a starting point for a local search.
+
+Then the same study have been done with the pivoting rule. With the first improvement the relative deviation average is $15.0 \%$ and with the deepest descent it's $15.2 \%$. But the Befferoni corrected p-value of the wilconxon pairwise test (same idea as before, the only things that differ between two compared value is the pivoting rule) is $0.0004$. Surprisingly the first improvement with a for loop give better result than a deepest descent.
+
+Finally we do this a third time with the neighbourhood relationship. With the transpose relation the relative deviation average (on every pivoting rules and starting point) is $33.9 \%$, with exchange it's $4.4 \%$ and with insert it's $6.9 \%$.
+As before a wilconxon pairwise test have been computed, Befferoni corrected p-value are in the table \ref{Befferoni coredcted wilconxon p-value of neighbourhood}. So with that we can said that exchange is better than insert whichi is better than transpose, and the relation is transitive.
+
+\begin{table}[!h]
+\centering
+\begin{tabular}{|*{4}{c|}}
+  \hline
+   & tr & ex & in\\
+  \hline
+	tr & NaN & 1.10e-39 & 1.10e-39 \\
+	ex & 1.10e-39 & NaN & 2.33e-35 \\
+	in & 1.10e-39 & 2.33e-35 & NaN \\
+  \hline
+\end{tabular}
+\caption{Befferoni corected wilconxon p-value of neighbourhood}
+\label{Befferoni corected wilconxon p-value of neighbourhood}
+\end{table}
+
+With all of that the best setting might be the exchange neighbourhood browse in first improvement with a for loop starting by the rz heuristic. According to the table \ref{Relative deviation with random construction}, \ref{Relative deviation with rz construction} and \ref{Befferoni correction of the wilcoxon pairwise test} it's true. Except that we can't said that population of result output by other usage of the exchange neighbourhood (with the random start or in deepest descent) are different than the one output by this version. So they might output solution as good as this version. But according to table \ref{standard deviation of the relative deviation with random construction} and \ref{standard deviation of the relative deviation with rz construction} we may prefer the random initialize in deepest descent because this version has the lower standard deviation, means that it's more solution quality is more stable.
 
 \subsection{Test's average of VND}
 
-VND1 design the VND algorithm which use transpose, then exchange and finish with insert. VND2 is for the one which use transpose, then insert, then exchange. DD mean we use neighbourhoods in deepest descent. Same as previously the transpose neighbourhood is use in "dofor" mode.
+VND1 indicate the VND algorithm which use transpose, then exchange and finish with insert. VND2 is for the one which use transpose, then insert, then exchange. DD mean we use neighbourhoods in deepest descent. Same as previously the transpose neighbourhood is use in "dofor" mode.
 
 \begin{table}[!h]
 \centering
@@ -174,6 +218,7 @@ VND1 design the VND algorithm which use transpose, then exchange and finish with
   \hline
 \end{tabular}
 \caption{relative deviation in \% with random construction}
+\label{relative deviation of VND with random construction}
 \end{table}
 
 \begin{table}[!h]
@@ -188,6 +233,7 @@ VND1 design the VND algorithm which use transpose, then exchange and finish with
   \hline
 \end{tabular}
 \caption{relative deviation in \% with rz construction}
+\label{relative deviation of VND with rz construction}
 \end{table}
 
 \begin{table}[!h]
@@ -202,6 +248,7 @@ VND1 design the VND algorithm which use transpose, then exchange and finish with
   \hline
 \end{tabular}
 \caption{standard deviation of the relative deviation with random construction}
+\label{standard deviation of the relative deviation with random construction VND}
 \end{table}
 
 \begin{table}[!h]
@@ -216,6 +263,7 @@ VND1 design the VND algorithm which use transpose, then exchange and finish with
   \hline
 \end{tabular}
 \caption{standard deviation of the relative deviation with rz construction}
+\label{standard deviation of the relative deviation with rz construction VND}
 \end{table}
 
 \subsection{Statistical test of VND}

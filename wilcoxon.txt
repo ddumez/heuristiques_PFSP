@@ -1,0 +1,14 @@
+
+Wilcoxon signed rank (paired):
+
+"tr" & "ex" & "in."
+"tr" & "     NaN" & "1.83e-40" & "1.83e-40"
+"ex" & "1.83e-40" & "     NaN" & "3.88e-36"
+"in." & "1.83e-40" & "3.88e-36" & "     NaN"
+
+ -> Bonferroni correction:
+
+"tr" & "ex" & "in."
+"tr" & "     NaN" & "1.10e-39" & "1.10e-39"
+"ex" & "1.10e-39" & "     NaN" & "2.33e-35"
+"in." & "1.10e-39" & "2.33e-35" & "     NaN"

@@ -1,6 +1,6 @@
 # Wilcoxon test from file
 
-file.name <- "score.txt"
+file.name <- "tmp.txt"
 
 # Read file
 all.data <- read.table(file=file.name, header=TRUE, sep=":") #Replace the separator for any of your preference
@@ -9,4 +9,4 @@ data      <- all.data[,-1, drop=FALSE] # Get the data
 
 #compute result and print them into "wilcoxon-algo.txt"
 source("wilcoxon.R")
-do.wilcoxon(data.matrix=data, output="wilcoxon-algo.txt")
+do.wilcoxon(data.matrix=data, output="wilcoxon.txt")
