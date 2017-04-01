@@ -91,7 +91,7 @@ The implantation of VND is very classic. It have been implement in a generic way
   all & 36.3 & 36.7 & 4.4 & 4.3 & 7.3 & 7.8 \\
   \hline
 \end{tabular}
-\caption{Relative deviation in \% with random construction}
+\caption{Relative deviation average in \% with random construction}
 \label{Relative deviation with random construction}
 \end{table}
 
@@ -106,7 +106,7 @@ The implantation of VND is very classic. It have been implement in a generic way
   all & 31.3 & 31.4 & 4.4 & 4.6 & 6.2 & 6.3 \\
   \hline
 \end{tabular}
-\caption{Relative deviation in \% with rz construction}
+\caption{Relative deviation average in \% with rz construction}
 \label{Relative deviation with rz construction}
 \end{table}
 
@@ -116,13 +116,13 @@ The implantation of VND is very classic. It have been implement in a generic way
   \hline
   taille & tr & trDD & ex & exDD & in & inDD \\
   \hline
-  50 & 2.9 & 2.7 & 0.4 & 0.4 & 0.7 & 0.7 \\ 
-  100 & 3.3 & 2.6 & 0.5 & 0.4 & 0.9 & 0.8 \\
-  all & 5.5 & 4.9 & 0.6 & 0.5 & 1.2 & 1.5 \\
+  50 & 0.22 & 0.74 & 5.19 & 25.01 & 14.82 & 78.41 \\ 
+  100 & 0.93 & 4.80 & 45.58 & 358.2 & 156.1 & 1236 \\
+  all & 0.57 & 2.73 & 25.04 & 188.8 & 84.27 & 647.70 \\
   \hline
 \end{tabular}
-\caption{standard deviation of the relative deviation with random construction}
-\label{standard deviation of the relative deviation with random construction}
+\caption{execution time average with random construction}
+\label{Execution time with random construction}
 \end{table}
 
 \begin{table}[!h]
@@ -131,20 +131,20 @@ The implantation of VND is very classic. It have been implement in a generic way
   \hline
   taille & tr & trDD & ex & exDD & in & inDD \\
   \hline
-  50 & 8.9 & 8.8 & 1.5 & 1.2 & 1.5 & 1.7 \\ 
-  100 & 5.7 & 6.2 & 0.9 & 0.9 & 1.6 & 1.2 \\
-  all & 8.4 & 8.5 & 1.3 & 1.1 & 1.9 & 1.8 \\
+  50 & 0.61 & 0.76 & 5.43 & 24.04 & 14.57 & 58.42 \\ 
+  100 & 3.91 & 5.12 & 47.37 & 335.6 & 141.3 & 952.6 \\
+  all & 2.23 & 2.90 & 26.04 & 177.20 & 76.88 & 497.9 \\
   \hline
 \end{tabular}
-\caption{standard deviation of the relative deviation with rz construction}
-\label{standard deviation of the relative deviation with rz construction}
+\caption{execution time average with rz construction}
+\label{Execution time with rz construction}
 \end{table}
 
 ~\\
 
 \subsection{Statistical test of neighbourhood}
 
-We perform the wilcoxon test on score, in a pairwise way, and after applied the Bonferroni correction to the obtained p-value. These result are compiled in the following table. A population isn't comparable to itself so NaN is used in these cases.
+We perform the wilcoxon test on score, in a pairwise way, and after applied the Bonferroni correction to the obtained p-value. These result are compiled in the table \ref{Befferoni correction of the wilcoxon pairwise test}. Beside we do the same calculation for the execution time, these results are in the table \ref{Befferoni correction of the wilcoxon pairwise test time}. A population isn't comparable to itself so NaN is used in these cases.
 
 "tr", "ex" and "in" are use in the same way as previously for transpose, exchange and insert. "rnd" is used when the start solution isn't construct, and "rz" when the rz heuristic have been used. "DD" is always here when the descent have been done in deepest descent.
 
@@ -172,8 +172,37 @@ rzinDD & 9.32e-9 & 9.32e-9 & 2.75e-6 & 2.10e-6 & 3.45e-2 & 1.65e-5 & 9.32e-9 & 9
 \end{tabular}
 \normalsize
 }
-\caption{Befferoni correction of the wilcoxon pairwise test}
+\caption{Befferoni correction of the wilcoxon pairwise test, solution quality}
 \label{Befferoni correction of the wilcoxon pairwise test}
+\end{table}
+
+\begin{table}[!h]
+\leftskip -2.45cm
+{
+\footnotesize
+\begin{tabular}{|*{13}{c|}}
+\hline
+	~ & rndtr & rndtrDD & rndex & rndexDD & rndin & rndinDD & rztr & rztrDD & rzex & rzexDD & rzin & rzinDD \\
+  \hline
+	rndtr & NaN & 9.32e-9 & 9.32e-9 & 9.32e-9 & 9.32e-9 & 9.32e-9 & 9.32e-9 & 9.32e-9 & 9.32e-9 & 9.32e-9 & 9.32e-9 & 9.32e-9 \\
+	rndtrDD & 9.32e-9 & NaN & 9.32e-9 & 9.32e-9 & 9.32e-9 & 9.32e-9 & 1.22e-5 & 1.00 & 9.32e-9 & 9.32e-9 & 9.32e-9 & 9.32e-9 \\
+	rndex & 9.32e-9 & 9.32e-9 & NaN & 9.32e-9 & 9.32e-9 & 9.32e-9 & 9.32e-9 & 9.32e-9 & 1.00 & 9.32e-9 & 9.32e-9 & 9.32e-9 \\
+	rndexDD & 9.32e-9 & 9.32e-9 & 9.32e-9 & NaN & 9.32e-9 & 9.32e-9 & 9.32e-9 & 9.32e-9 & 9.32e-9 & 1.00 & 9.32e-9 & 1.03e-8 \\
+	rndin & 9.32e-9 & 9.32e-9 & 9.32e-9 & 9.32e-9 & NaN & 9.32e-9 & 9.32e-9 & 9.32e-9 & 9.32e-9 & 1.72e-8 & 1.00 & 9.32e-9 \\
+	rndinDD & 9.32e-9 & 9.32e-9 & 9.32e-9 & 9.32e-9 & 9.32e-9 & NaN & 9.32e-9 & 9.32e-9 & 9.32e-9 & 9.32e-9 & 9.32e-9 & 2.11e-8 \\
+	rztr & 9.32e-9 & 1.22e-5 & 9.32e-9 & 9.32e-9 & 9.32e-9 & 9.32e-9 & NaN & 9.32e-9 & 9.32e-9 & 9.32e-9 & 9.32e-9 & 9.32e-9 \\
+	rztrDD & 9.32e-9 & 1.00 & 9.32e-9 & 9.32e-9 & 9.32e-9 & 9.32e-9 & 9.32e-9 & NaN & 9.32e-9 & 9.32e-9 & 9.32e-9 & 9.32e-9 \\
+	rzex & 9.32e-9 & 9.32e-9 & 1.00 & 9.32e-9 & 9.32e-9 & 9.32e-9 & 9.32e-9 & 9.32e-9 & NaN & 9.32e-9 & 9.32e-9 & 9.32e-9 \\
+	rzexDD & 9.32e-9 & 9.32e-9 & 9.32e-9 & 1.00 & 1.72e-8 & 9.32e-9 & 9.32e-9 & 9.32e-9 & 9.32e-9 & NaN & 1.14e-8 & 9.32e-9 \\
+	rzin & 9.32e-9 & 9.32e-9 & 9.32e-9 & 9.32e-9 & 1.00 & 9.32e-9 & 9.32e-9 & 9.32e-9 & 9.32e-9 & 1.14e-8 & NaN & 9.32e-9 \\
+	rzinDD & 9.32e-9 & 9.32e-9 & 9.32e-9 & 1.03e-8 & 9.32e-9 & 2.11e-8 & 9.32e-9 & 9.32e-9 & 9.32e-9 & 9.32e-9 & 9.32e-9 & NaN \\
+
+  \hline
+\end{tabular}
+\normalsize
+}
+\caption{Befferoni correction of the wilcoxon pairwise test, execution time}
+\label{Befferoni correction of the wilcoxon pairwise test time}
 \end{table}
 
 ~\\
@@ -183,7 +212,7 @@ We compute the average of the relative deviation, for all instances and all neig
 Then the same study have been done with the pivoting rule. With the first improvement the relative deviation average is $15.0 \%$ and with the deepest descent it's $15.2 \%$. But the Befferoni corrected p-value of the wilconxon pairwise test (same idea as before, the only things that differ between two compared value is the pivoting rule) is $0.0004$. Surprisingly the first improvement with a for loop give better result than a deepest descent.
 
 Finally we do this a third time with the neighbourhood relationship. With the transpose relation the relative deviation average (on every pivoting rules and starting point) is $33.9 \%$, with exchange it's $4.4 \%$ and with insert it's $6.9 \%$.
-As before a wilconxon pairwise test have been computed, Befferoni corrected p-value are in the table \ref{Befferoni coredcted wilconxon p-value of neighbourhood}. So with that we can said that exchange is better than insert whichi is better than transpose, and the relation is transitive.
+As before a wilconxon pairwise test have been computed, Befferoni corrected p-value are in the table \ref{Befferoni corected wilconxon p-value of neighbourhood}. So with that we can said that exchange is better than insert whichi is better than transpose, and the relation is transitive.
 
 \begin{table}[!h]
 \centering
@@ -196,12 +225,31 @@ As before a wilconxon pairwise test have been computed, Befferoni corrected p-va
 	in & 1.10e-39 & 2.33e-35 & NaN \\
   \hline
 \end{tabular}
-\caption{Befferoni corected wilconxon p-value of neighbourhood}
+\caption{Befferoni corected wilconxon p-value of neighbourhood, solution quality}
 \label{Befferoni corected wilconxon p-value of neighbourhood}
 \end{table}
 
-With all of that the best setting might be the exchange neighbourhood browse in first improvement with a for loop starting by the rz heuristic. According to the table \ref{Relative deviation with random construction}, \ref{Relative deviation with rz construction} and \ref{Befferoni correction of the wilcoxon pairwise test} it's true. Except that we can't said that population of result output by other usage of the exchange neighbourhood (with the random start or in deepest descent) are different than the one output by this version. So they might output solution as good as this version. But according to table \ref{standard deviation of the relative deviation with random construction} and \ref{standard deviation of the relative deviation with rz construction} we may prefer the random initialize in deepest descent because this version has the lower standard deviation, means that it's more solution quality is more stable.
+With all of that the best setting might be the exchange neighbourhood browse in first improvement with a for loop starting by the rz heuristic. According to the table \ref{Relative deviation with random construction}, \ref{Relative deviation with rz construction} and \ref{Befferoni correction of the wilcoxon pairwise test} it's true. Except that we can't said that population of result output by other usage of the exchange neighbourhood (with the random start or in deepest descent) are different than the one output by this version. So they might output solution as good as this version.\\
 
+Now go on the executions time point of view.
+
+The average computation time average overall in first improvement is $35.83$ seconds against $252.8$ seconds for the deepest descent. Beside we can notice that for every variant the first improvement version is always faster than the deepest version one, at least until the instance size level (so on average on same instance size first improvement is faster). So no need to a wilcoxon test to understand that the first improvement is clearly faster.
+
+The average computation (over all other settings) time with the transpose neighbourhood is $2.11$ seconds, $104.28$ seconds with exchange and $326.70$ with insert. And the p-value of the pairwise wilconxon test, table \ref{Befferoni corected wilconxon p-value of neighbourhood time}, show that it's absolutely not an average artefact. So the descent in the transpose neighbourhood
+\begin{table}[!h]
+\centering
+\begin{tabular}{|*{4}{c|}}
+  \hline
+   & tr & ex & in\\
+  \hline
+	tr & NaN & 1.1e-39 & 1.1e-39 \\
+	ex & 1.1e-39 & NaN & 1.1e-39 \\
+	in. & 1.1e-39 & 1.1e-39 & NaN \\
+  \hline
+\end{tabular}
+\caption{Befferoni corected wilconxon p-value of neighbourhood, execution time}
+\label{Befferoni corected wilconxon p-value of neighbourhood time}
+\end{table}
 \subsection{Test's average of VND}
 
 VND1 indicate the VND algorithm which use transpose, then exchange and finish with insert. VND2 is for the one which use transpose, then insert, then exchange. DD mean we use neighbourhoods in deepest descent. Same as previously the transpose neighbourhood is use in "dofor" mode.
@@ -217,7 +265,7 @@ VND1 indicate the VND algorithm which use transpose, then exchange and finish wi
   all & 4.0 & 4.0 & 4.9 & 4.9 \\
   \hline
 \end{tabular}
-\caption{relative deviation in \% with random construction}
+\caption{relative deviation average in \% with random construction}
 \label{relative deviation of VND with random construction}
 \end{table}
 
@@ -232,7 +280,7 @@ VND1 indicate the VND algorithm which use transpose, then exchange and finish wi
   all & 3.9 & 3.9 & 4.3 & 4.4 \\
   \hline
 \end{tabular}
-\caption{relative deviation in \% with rz construction}
+\caption{relative deviation average in \% with rz construction}
 \label{relative deviation of VND with rz construction}
 \end{table}
 
@@ -242,13 +290,13 @@ VND1 indicate the VND algorithm which use transpose, then exchange and finish wi
   \hline
   taille & VND1 & VND1DD & VND2 & VND2DD\\
   \hline
-  50 & 0.5 & 0.5 & 0.5 & 0.5 \\ 
-  100 & 0.5 & 0.6 & 0.6 & 0.5 \\
-  all & 0.7 & 0.8 & 0.8 & 0.8 \\
+  50 & 31.34 & 31.79 & 68.83 & 71.70 \\ 
+  100 & 454.0 & 412.5 & 1511 & 1229 \\
+  all & 239.1 & 218.9 & 778.0 & 640.8 \\
   \hline
 \end{tabular}
-\caption{standard deviation of the relative deviation with random construction}
-\label{standard deviation of the relative deviation with random construction VND}
+\caption{execution time average with random construction}
+\label{execution time of VND with random construction}
 \end{table}
 
 \begin{table}[!h]
@@ -257,17 +305,115 @@ VND1 indicate the VND algorithm which use transpose, then exchange and finish wi
   \hline
   taille & VND1 & VND1DD & VND2 & VND2DD\\
   \hline
-  50 & 1.2 & 0.9 & 1.0 & 1.2 \\ 
-  100 & 1.1 & 0.8 & 1.2 & 1.0 \\
-  all & 1.2 & 1.0 & 1.5 & 1.2 \\
+  50 & 29.15 & 30.99 & 63.65 & 57.08 \\ 
+  100 & 409.8 & 428.8 & 1407 & 1034 \\
+  all & 216.2 & 226.5 & 724.2 & 537.6 \\
   \hline
 \end{tabular}
-\caption{standard deviation of the relative deviation with rz construction}
-\label{standard deviation of the relative deviation with rz construction VND}
+\caption{execution time average with rz construction}
+\label{execution time of VND with rz construction}
 \end{table}
 
-\subsection{Statistical test of VND}
+~\\
 
+\begin{table}[!h]
+\centering
+\begin{tabular}{|*{9}{c|}}
+  \hline
+   & rndex & rndexDD & rndin & rndinDD & rzex & rzexDD & rzin & rzinDD \\
+  \hline
+  rndVND1 & 0.42 & 0.38 & 3.17 & 3.66 & 0.42 & 0.61 & 2.15 & 2.27 \\
+  rndVND1DD & 0.38 & 0.34 & 3.13 & 3.63 & 0.39 & 0.58 & 2.11 & 2.24 \\
+  rzVND1 & 0.53 & 0.48 & 3.28 & 3.77 & 0.53 & 0.72 & 2.25 & 2.38 \\
+  rzVND1DD & 0.44 & 0.39 & 3.19 & 3.68 & 0.44 & 0.63 & 2.17 & 2.29 \\
+  rndVND2 & -0.43 & -0.47 & 2.28 & 2.77 & -0.43 & -0.24 & 1.27 & 1.40 \\
+  rndVND2DD & -0.49 & -0.53 & 2.23 & 2.72 & -0.48 & -0.29 & 1.22 & 1.34 \\
+  rzVND2 & 0.09 & 0.04 & 2.82 & 3.32 & 0.09 & 0.28 & 1.80 & 1.93 \\
+  rzVND2DD & 0.007 & -0.03 & 2.74 & 3.23 & 0.01 & 0.20 & 1.72 & 1.85 \\
+  \hline
+\end{tabular}
+\caption{relative improvement average of VND to single neighbourhood, in \%}
+\label{relative improvement average of VND to single neighbourhood}
+\end{table}
+
+~\\
+
+\subsection{Statistical test of VND}
+ 
+We perform the wilcoxon test on score, in a pairwise way, and after applied the Bonferroni correction to the obtained p-value. A population isn't comparable to itself so NaN is used in these cases. First, in the table \ref{Befferoni correction of the wilcoxon pairwise test VND}, VND version are compared to each other. Secondly, in the table \ref{Befferoni correction of the wilcoxon pairwise test VND-single neighbourhood}, VND version are compared to the usage of a single neighbourhood. Finally, after the comparison in term of solution quality, we compared VND version regard of the execution time, result are in the table \ref{Befferoni correction of the wilcoxon pairwise test VND time}.
+ 
+\begin{table}[!h]
+\leftskip -1.6cm
+{
+\footnotesize
+\begin{tabular}{|*{9}{c|}}
+  \hline
+	 & rndVND1 & rndVND1DD & rzVND1 & rzVND1DD & rndVND2 & rndVND2DD & rzVND2 & rzVND2DD \\
+  \hline
+	rndVND1 & NaN & 1.00 & 1.00 & 1.00 & 2.67e-9 & 2.95e-9 & 0.98 & 0.01 \\
+	rndVND1DD & 1.00 & NaN & 1.00 & 1.00 & 2.41e-9 & 1.37e-9 & 0.78 & 0.26 \\
+	rzVND1 & 1.00 & 1.00 & NaN & 1.00 & 1.17e-4 & 3.57e-6 & 0.62 & 0.42 \\
+	rzVND1DD & 1.00 & 1.00 & 1.00 & NaN & 1.05e-5 & 1.73e-6 & 1.00 & 0.54 \\
+	rndVND2 & 2.67e-9 & 2.41e-9 & 1.17e-4 & 1.05e-5 & NaN & 1.00 & 0.20 & 0.15 \\
+	rndVND2DD & 2.95e-9 & 1.37e-9 & 3.57e-6 & 1.73e-6 & 1.00 & NaN & 0.08 & 4.78e-3 \\
+	rzVND2 & 0.98 & 0.78 & 0.62 & 1.00 & 0.20 & 0.08 & NaN & 1.00 \\
+	rzVND2DD & 0.01 & 0.26 & 0.42 & 0.54 & 0.15 & 4.78e-3 & 1.00 & NaN \\
+  \hline
+\end{tabular}
+\normalsize
+}
+\caption{Befferoni correction of the wilcoxon pairwise test, solution quality}
+\label{Befferoni correction of the wilcoxon pairwise test VND}
+\end{table} 
+
+\begin{table}[!h]
+\leftskip -2.55cm
+{
+\footnotesize
+\begin{tabular}{|*{13}{c|}}
+  \hline
+	 & rndtr & rndtrDD & rndex & rndexDD & rndin & rndinDD & rztr & rztrDD & rzex & rzexDD & rzin & rzinDD \\
+  \hline
+	rndVND1 & 9.32e-9 & 9.32e-9 & 0.03 & 1.85e-3 & 9.32e-9 & 9.32e-9 & 9.32e-9 & 9.32e-9 & 1.00 & 0.04 & 2.45e-8 & 2.14e-7 \\
+	rndVND1DD & 9.32e-9 & 9.32e-9 & 0.08 & 0.17 & 9.32e-9 & 9.32e-9 & 9.81e-9 & 9.81e-9 & 1.00 & 0.24 & 6.03e-8 & 2.04e-7 \\ 
+	rzVND1 & 9.32e-9 & 9.32e-9 & 1.00 & 1.00 & 9.32e-9 & 9.32e-9 & 9.32e-9 & 9.32e-9 & 1.00 & 0.39 & 1.76e-7 & 1.94e-7 \\
+	rzVND1DD & 9.32e-9 & 9.32e-9 & 1.00 & 1.00 & 9.81e-9 & 9.32e-9 & 9.32e-9 & 9.32e-9 & 1.00 & 0.16 & 5.51e-7 & 1.38e-7 \\ 
+	rndVND2 & 9.32e-9 & 9.32e-9 & 5.27e-4 & 7.71e-5 & 9.32e-9 & 9.32e-9 & 9.81e-9 & 9.81e-9 & 0.55 & 1.00 & 1.06e-4 & 9.43e-5 \\
+	rndVND2DD & 9.32e-9 & 9.32e-9 & 1.15e-4 & 6.06e-7 & 9.32e-9 & 9.32e-9 & 9.81e-9 & 9.81e-9 & 0.20 & 1.00 & 7.71e-5 & 9.06e-5 \\ 
+	rzVND2 & 9.32e-9 & 9.32e-9 & 1.00 & 1.00 & 9.81e-9 & 9.32e-9 & 9.32e-9 & 9.32e-9 & 1.00 & 1.00 & 3.61e-7 & 1.11e-6 \\
+	rzVND2DD & 9.32e-9 & 9.32e-9 & 1.00 & 1.00 & 1.03e-8 & 9.81e-9 & 9.32e-9 & 9.32e-9 & 1.00 & 1.00 & 7.71e-8 & 9.64e-7 \\
+  \hline
+\end{tabular}
+\normalsize
+}
+\caption{Befferoni correction of the wilcoxon pairwise test, solution quality}
+\label{Befferoni correction of the wilcoxon pairwise test VND-single neighbourhood}
+\end{table} 
+
+\begin{table}[!h]
+\leftskip -1.6cm
+{
+\footnotesize
+\begin{tabular}{|*{9}{c|}}
+  \hline
+	 & rndVND1 & rndVND1DD & rzVND1 & rzVND1DD & rndVND2 & rndVND2DD & rzVND2 & rzVND2DD \\
+  \hline
+	rndVND1 & NaN & 1.50e-1 & 1.00 & 1.00 & 9.32e-9 & 9.32e-9 & 1.14e-8 & 1.27e-8 \\
+	rndVND1DD & 1.50e-1 & NaN & 1.00 & 1.00 & 9.32e-9 & 9.32e-9 & 1.14e-8 & 1.40e-8 \\
+	rzVND1 & 1.00 & 1.00 & NaN & 1.00 & 9.32e-9 & 9.32e-9 & 9.32e-9 & 9.32e-9 \\
+	rzVND1DD & 1.00 & 1.00 & 1.00 & NaN & 9.32e-9 & 9.32e-9 & 9.32e-9 & 9.32e-9 \\
+	rndVND2 & 9.32e-9 & 9.32e-9 & 9.32e-9 & 9.32e-9 & NaN & 4.16e-2 & 1.00 & 8.10e-8 \\
+	rndVND2DD & 9.32e-9 & 9.32e-9 & 9.32e-9 & 9.32e-9 & 4.16e-2 & NaN & 1.00 & 1.02e-4 \\
+	rzVND2 & 1.14e-8 & 1.14e-8 & 9.32e-9 & 9.32e-9 & 1.00 & 1.00 & NaN & 5.27e-4 \\
+	rzVND2DD & 1.27e-8 & 1.40e-8 & 9.32e-9 & 9.32e-9 & 8.10e-8 & 1.02e-4 & 5.27e-4 & NaN \\
+  \hline
+\end{tabular}
+\normalsize
+}
+\caption{Befferoni correction of the wilcoxon pairwise test, execution time}
+\label{Befferoni correction of the wilcoxon pairwise test VND time}
+\end{table} 
+ 
 \section{Conclusion}
 
 \subsection{Best construction heuristic}
