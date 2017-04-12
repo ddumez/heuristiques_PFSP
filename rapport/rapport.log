@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2015.12.26)  1 APR 2017 17:56
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2015.12.26)  2 APR 2017 18:00
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -547,80 +547,74 @@ LaTeX Warning: `!h' float specifier changed to `!ht'.
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 143--144
-
- []
-
-[3]
-Overfull \hbox (70.24048pt too wide) in paragraph at lines 155--175
- [][]
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 155--175
- 
- []
-
-
-Overfull \hbox (70.24048pt too wide) in paragraph at lines 183--204
- [][]
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 183--204
- 
- []
+LaTeX Warning: `!h' float specifier changed to `!ht'.
 
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 208--209
+LaTeX Warning: `!h' float specifier changed to `!ht'.
 
- []
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+[3]
+
+LaTeX Warning: Text page 4 contains only floats.
 
 [4]
-Underfull \hbox (badness 10000) in paragraph at lines 232--233
+Overfull \hbox (70.24048pt too wide) in paragraph at lines 215--235
+ [][]
+ []
 
+
+Underfull \hbox (badness 10000) in paragraph at lines 215--235
+ 
+ []
+
+
+Overfull \hbox (70.24048pt too wide) in paragraph at lines 243--264
+ [][]
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 243--264
+ 
  []
 
 [5]
-
-LaTeX Warning: `!h' float specifier changed to `!ht'.
-
-
-LaTeX Warning: `!h' float specifier changed to `!ht'.
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 317--318
-
- []
-
-
-LaTeX Warning: `!h' float specifier changed to `!ht'.
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 339--340
+Underfull \hbox (badness 10000) in paragraph at lines 292--293
 
  []
 
 [6]
-Overfull \hbox (43.23059pt too wide) in paragraph at lines 349--365
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 462--463
+
+ []
+
+[7]
+Overfull \hbox (43.23059pt too wide) in paragraph at lines 472--488
  [][]
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 349--365
- 
- []
-
-
-Overfull \hbox (72.83946pt too wide) in paragraph at lines 373--389
- [][]
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 373--389
+Underfull \hbox (badness 10000) in paragraph at lines 472--488
  
  []
 
@@ -628,43 +622,65 @@ Underfull \hbox (badness 10000) in paragraph at lines 373--389
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
 
-Overfull \hbox (43.23059pt too wide) in paragraph at lines 397--413
+Overfull \hbox (72.83946pt too wide) in paragraph at lines 496--512
  [][]
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 397--413
+Underfull \hbox (badness 10000) in paragraph at lines 496--512
  
  []
 
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-[7] [8] (./rapport.aux)
 
-LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
+Overfull \hbox (43.23059pt too wide) in paragraph at lines 522--538
+ [][]
+ []
 
- ) 
+
+Underfull \hbox (badness 10000) in paragraph at lines 522--538
+ 
+ []
+
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+
+Overfull \hbox (79.62126pt too wide) in paragraph at lines 546--562
+ [][]
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 546--562
+ 
+ []
+
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+[8] [9] [10] (./rapport.aux) ) 
 Here is how much of TeX's memory you used:
- 4108 strings out of 494985
- 57201 string characters out of 6180355
- 150831 words of memory out of 5000000
- 7246 multiletter control sequences out of 15000+600000
+ 4116 strings out of 494985
+ 57749 string characters out of 6180355
+ 159912 words of memory out of 5000000
+ 7254 multiletter control sequences out of 15000+600000
  12741 words of font info for 50 fonts, out of 8000000 for 9000
  36 hyphenation exceptions out of 8191
- 51i,9n,35p,1043b,234s stack positions out of 5000i,500n,10000p,200000b,80000s
-</usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></us
-r/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.pfb></usr/shar
-e/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texli
-ve/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/share/texlive/texm
-f-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb></usr/share/texlive/texmf-dist/
-fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/share/texlive/texmf-dist/fonts/ty
-pe1/public/amsfonts/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/type1/pu
-blic/amsfonts/cm/cmsy8.pfb>
-Output written on rapport.pdf (8 pages, 113992 bytes).
+ 51i,9n,35p,1047b,234s stack positions out of 5000i,500n,10000p,200000b,80000s
+</usr/share/texlive/texmf-dist/fonts/type1/public
+/amsfonts/cm/cmbx12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfo
+nts/cm/cmmi12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm
+/cmr10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.
+pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb></u
+sr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/share
+/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texli
+ve/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb>
+Output written on rapport.pdf (10 pages, 121287 bytes).
 PDF statistics:
- 63 PDF objects out of 1000 (max. 8388607)
- 44 compressed objects within 1 object stream
+ 69 PDF objects out of 1000 (max. 8388607)
+ 48 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
  1 words of extra memory for PDF output out of 10000 (max. 10000000)
 
