@@ -32,7 +32,7 @@
 
 using namespace std;
 
-#define NBEXEC 10
+#define NBEXEC 1
 
 //#define RELATIVE_DEVIATION
 //#define SCORE
@@ -65,7 +65,6 @@ int main(int argc, char *argv[]) {
         clock_t t, tot;
     #endif
     LocalSearch neighborhoud [3];
-    
   //start
     //initialize random seed as constant
     srand (0);
@@ -82,8 +81,16 @@ int main(int argc, char *argv[]) {
 
     Solution sol (instance); // Create a Solution to represent the permutation
 
-    //random, transpose
-        tot = 0;    
+    //random, transpose    
+        #ifdef RELATIVE_DEVIATION
+            tot = 0;
+        #endif
+        #ifdef SCORE
+            tot = 0;
+        #endif
+        #ifdef EXECUTION_TIME
+            tot = 0;
+        #endif
         for(i = 0; i<NBEXEC; ++i) {
             #ifdef EXECUTION_TIME
                 t = clock();
@@ -101,7 +108,7 @@ int main(int argc, char *argv[]) {
             #endif
         }
         #ifdef RELATIVE_DEVIATION
-            cout<<(double)(tot/NBEXEC - bestval)/(double)(bestval)<<":"<<flush;
+            cout<<100*(double)(tot/NBEXEC - bestval)/(double)(bestval)<<":"<<flush;
         #endif
         #ifdef SCORE
             cout<<tot/NBEXEC<<":"<<flush;
@@ -111,7 +118,15 @@ int main(int argc, char *argv[]) {
         #endif
 
     //random, transpose PPD
-        tot = 0;
+        #ifdef RELATIVE_DEVIATION
+            tot = 0;
+        #endif
+        #ifdef SCORE
+            tot = 0;
+        #endif
+        #ifdef EXECUTION_TIME
+            tot = 0;
+        #endif
         search.changePPD(true);        
         for(i = 0; i<NBEXEC; ++i) {
             #ifdef EXECUTION_TIME
@@ -130,7 +145,7 @@ int main(int argc, char *argv[]) {
             #endif
         }
         #ifdef RELATIVE_DEVIATION
-            cout<<(double)(tot/NBEXEC - bestval)/(double)(bestval)<<":"<<flush;
+            cout<<100*(double)(tot/NBEXEC - bestval)/(double)(bestval)<<":"<<flush;
         #endif
         #ifdef SCORE
             cout<<tot/NBEXEC<<":"<<flush;
@@ -140,7 +155,15 @@ int main(int argc, char *argv[]) {
         #endif
 
     //random, exchange
-        tot = 0;
+        #ifdef RELATIVE_DEVIATION
+            tot = 0;
+        #endif
+        #ifdef SCORE
+            tot = 0;
+        #endif
+        #ifdef EXECUTION_TIME
+            tot = 0;
+        #endif
         search.changechoix(2);
         search.changePPD(false);
         for(i = 0; i<NBEXEC; ++i) {
@@ -160,7 +183,7 @@ int main(int argc, char *argv[]) {
             #endif
         }
         #ifdef RELATIVE_DEVIATION
-            cout<<(double)(tot/NBEXEC - bestval)/(double)(bestval)<<":"<<flush;
+            cout<<100*(double)(tot/NBEXEC - bestval)/(double)(bestval)<<":"<<flush;
         #endif
         #ifdef SCORE
             cout<<tot/NBEXEC<<":"<<flush;
@@ -170,7 +193,15 @@ int main(int argc, char *argv[]) {
         #endif
 
     //random, exchange PPD
-        tot = 0;
+        #ifdef RELATIVE_DEVIATION
+            tot = 0;
+        #endif
+        #ifdef SCORE
+            tot = 0;
+        #endif
+        #ifdef EXECUTION_TIME
+            tot = 0;
+        #endif
         search.changePPD(true);
         for(i = 0; i<NBEXEC; ++i) {
             #ifdef EXECUTION_TIME
@@ -189,7 +220,7 @@ int main(int argc, char *argv[]) {
             #endif
         }
         #ifdef RELATIVE_DEVIATION
-            cout<<(double)(tot/NBEXEC - bestval)/(double)(bestval)<<":"<<flush;
+            cout<<100*(double)(tot/NBEXEC - bestval)/(double)(bestval)<<":"<<flush;
         #endif
         #ifdef SCORE
             cout<<tot/NBEXEC<<":"<<flush;
@@ -199,7 +230,15 @@ int main(int argc, char *argv[]) {
         #endif
 
     //random, insert
-        tot = 0;
+        #ifdef RELATIVE_DEVIATION
+            tot = 0;
+        #endif
+        #ifdef SCORE
+            tot = 0;
+        #endif
+        #ifdef EXECUTION_TIME
+            tot = 0;
+        #endif
         search.changechoix(3);
         search.changePPD(false);
         for(i = 0; i<NBEXEC; ++i) {
@@ -219,7 +258,7 @@ int main(int argc, char *argv[]) {
             #endif
         }
         #ifdef RELATIVE_DEVIATION
-            cout<<(double)(tot/NBEXEC - bestval)/(double)(bestval)<<":"<<flush;
+            cout<<100*(double)(tot/NBEXEC - bestval)/(double)(bestval)<<":"<<flush;
         #endif
         #ifdef SCORE
             cout<<tot/NBEXEC<<":"<<flush;
@@ -229,7 +268,15 @@ int main(int argc, char *argv[]) {
         #endif
 
     //random, insert PPD
-        tot = 0;
+        #ifdef RELATIVE_DEVIATION
+            tot = 0;
+        #endif
+        #ifdef SCORE
+            tot = 0;
+        #endif
+        #ifdef EXECUTION_TIME
+            tot = 0;
+        #endif
         search.changePPD(true);
         for(i = 0; i<NBEXEC; ++i) {
             #ifdef EXECUTION_TIME
@@ -248,7 +295,7 @@ int main(int argc, char *argv[]) {
             #endif
         }
         #ifdef RELATIVE_DEVIATION
-            cout<<(double)(tot/NBEXEC - bestval)/(double)(bestval)<<":"<<flush;
+            cout<<100*(double)(tot/NBEXEC - bestval)/(double)(bestval)<<":"<<flush;
         #endif
         #ifdef SCORE
             cout<<tot/NBEXEC<<":"<<flush;
@@ -267,7 +314,7 @@ int main(int argc, char *argv[]) {
         sol.constructRZ(instance);
         search.descent(instance, sol);
         #ifdef RELATIVE_DEVIATION
-            cout<<(double)(instance.computeWCT(sol) - bestval)/(double)bestval<<":"<<flush;
+            cout<<100*(double)(instance.computeWCT(sol) - bestval)/(double)bestval<<":"<<flush;
         #endif
         #ifdef SCORE
             cout<<instance.computeWCT(sol)<<":"<<flush;
@@ -285,7 +332,7 @@ int main(int argc, char *argv[]) {
         sol.constructRZ(instance);
         search.descent(instance, sol);
         #ifdef RELATIVE_DEVIATION
-            cout<<(double)(instance.computeWCT(sol) - bestval)/(double)bestval<<":"<<flush;
+            cout<<100*(double)(instance.computeWCT(sol) - bestval)/(double)bestval<<":"<<flush;
         #endif
         #ifdef SCORE
             cout<<instance.computeWCT(sol)<<":"<<flush;
@@ -304,7 +351,7 @@ int main(int argc, char *argv[]) {
         sol.constructRZ(instance);
         search.descent(instance, sol);
         #ifdef RELATIVE_DEVIATION
-            cout<<(double)(instance.computeWCT(sol) - bestval)/(double)bestval<<":"<<flush;
+            cout<<100*(double)(instance.computeWCT(sol) - bestval)/(double)bestval<<":"<<flush;
         #endif
         #ifdef SCORE
             cout<<instance.computeWCT(sol)<<":"<<flush;
@@ -322,7 +369,7 @@ int main(int argc, char *argv[]) {
         sol.constructRZ(instance);
         search.descent(instance, sol);
         #ifdef RELATIVE_DEVIATION
-            cout<<(double)(instance.computeWCT(sol) - bestval)/(double)bestval<<":"<<flush;
+            cout<<100*(double)(instance.computeWCT(sol) - bestval)/(double)bestval<<":"<<flush;
         #endif
         #ifdef SCORE
             cout<<instance.computeWCT(sol)<<":"<<flush;
@@ -341,7 +388,7 @@ int main(int argc, char *argv[]) {
         sol.constructRZ(instance);
         search.descent(instance, sol);
         #ifdef RELATIVE_DEVIATION
-            cout<<(double)(instance.computeWCT(sol) - bestval)/(double)bestval<<":"<<flush;
+            cout<<100*(double)(instance.computeWCT(sol) - bestval)/(double)bestval<<":"<<flush;
         #endif
         #ifdef SCORE
             cout<<instance.computeWCT(sol)<<":"<<flush;
@@ -359,7 +406,7 @@ int main(int argc, char *argv[]) {
         sol.constructRZ(instance);
         search.descent(instance, sol);
         #ifdef RELATIVE_DEVIATION
-            cout<<(double)(instance.computeWCT(sol) - bestval)/(double)bestval<<":"<<flush;
+            cout<<100*(double)(instance.computeWCT(sol) - bestval)/(double)bestval<<":"<<flush;
         #endif
         #ifdef SCORE
             cout<<instance.computeWCT(sol)<<":"<<flush;
@@ -374,7 +421,15 @@ int main(int argc, char *argv[]) {
         neighborhoud[0].changechoix(1); neighborhoud[0].changePPD(false); neighborhoud[0].changedofor(true);
         neighborhoud[1].changechoix(2); neighborhoud[1].changePPD(false); neighborhoud[1].changedofor(true);
         neighborhoud[2].changechoix(3); neighborhoud[2].changePPD(false); neighborhoud[2].changedofor(true);
-        tot = 0;
+        #ifdef RELATIVE_DEVIATION
+            tot = 0;
+        #endif
+        #ifdef SCORE
+            tot = 0;
+        #endif
+        #ifdef EXECUTION_TIME
+            tot = 0;
+        #endif
         for(i = 0; i<NBEXEC; ++i) {
             #ifdef EXECUTION_TIME
                 t = clock();
@@ -392,7 +447,7 @@ int main(int argc, char *argv[]) {
             #endif
         }
         #ifdef RELATIVE_DEVIATION
-            cout<<(double)(tot/NBEXEC - bestval)/(double)(bestval)<<":"<<flush;
+            cout<<100*(double)(tot/NBEXEC - bestval)/(double)(bestval)<<":"<<flush;
         #endif
         #ifdef SCORE
             cout<<tot/NBEXEC<<":"<<flush;
@@ -403,7 +458,15 @@ int main(int argc, char *argv[]) {
 
     //transpose->exchange->insert PPD random
         neighborhoud[0].changePPD(true); neighborhoud[1].changePPD(true); neighborhoud[2].changePPD(true);
-        tot = 0;
+        #ifdef RELATIVE_DEVIATION
+            tot = 0;
+        #endif
+        #ifdef SCORE
+            tot = 0;
+        #endif
+        #ifdef EXECUTION_TIME
+            tot = 0;
+        #endif
         for(i = 0; i<NBEXEC; ++i) {
             #ifdef EXECUTION_TIME
                 t = clock();
@@ -421,7 +484,7 @@ int main(int argc, char *argv[]) {
             #endif
         }
         #ifdef RELATIVE_DEVIATION
-            cout<<(double)(tot/NBEXEC - bestval)/(double)(bestval)<<":"<<flush;
+            cout<<100*(double)(tot/NBEXEC - bestval)/(double)(bestval)<<":"<<flush;
         #endif
         #ifdef SCORE
             cout<<tot/NBEXEC<<":"<<flush;
@@ -438,7 +501,7 @@ int main(int argc, char *argv[]) {
         sol.constructRZ(instance);
         vnd(sol, instance, neighborhoud, 3);
         #ifdef RELATIVE_DEVIATION
-            cout<<(double)(instance.computeWCT(sol) - bestval)/(double)bestval<<":"<<flush;
+            cout<<100*(double)(instance.computeWCT(sol) - bestval)/(double)bestval<<":"<<flush;
         #endif
         #ifdef SCORE
             cout<<instance.computeWCT(sol)<<":"<<flush;
@@ -456,7 +519,7 @@ int main(int argc, char *argv[]) {
         sol.constructRZ(instance);
         vnd(sol, instance, neighborhoud, 3);
         #ifdef RELATIVE_DEVIATION
-            cout<<(double)(instance.computeWCT(sol) - bestval)/(double)bestval<<":"<<flush;
+            cout<<100*(double)(instance.computeWCT(sol) - bestval)/(double)bestval<<":"<<flush;
         #endif
         #ifdef SCORE
             cout<<instance.computeWCT(sol)<<":"<<flush;
@@ -470,7 +533,15 @@ int main(int argc, char *argv[]) {
         neighborhoud[0].changePPD(false);
         neighborhoud[1].changechoix(3); neighborhoud[1].changePPD(false);
         neighborhoud[2].changechoix(2); neighborhoud[2].changePPD(false);
-        tot = 0;
+        #ifdef RELATIVE_DEVIATION
+            tot = 0;
+        #endif
+        #ifdef SCORE
+            tot = 0;
+        #endif
+        #ifdef EXECUTION_TIME
+            tot = 0;
+        #endif
         for(i = 0; i<NBEXEC; ++i) {
             #ifdef EXECUTION_TIME
                 t = clock();
@@ -488,7 +559,7 @@ int main(int argc, char *argv[]) {
             #endif
         }
         #ifdef RELATIVE_DEVIATION
-            cout<<(double)(tot/NBEXEC - bestval)/(double)(bestval)<<":"<<flush;
+            cout<<100*(double)(tot/NBEXEC - bestval)/(double)(bestval)<<":"<<flush;
         #endif
         #ifdef SCORE
             cout<<tot/NBEXEC<<":"<<flush;
@@ -499,7 +570,15 @@ int main(int argc, char *argv[]) {
 
     //transpose->insert->exhange PPD random
         neighborhoud[0].changePPD(true); neighborhoud[1].changePPD(true); neighborhoud[2].changePPD(true);
-        tot = 0;
+        #ifdef RELATIVE_DEVIATION
+            tot = 0;
+        #endif
+        #ifdef SCORE
+            tot = 0;
+        #endif
+        #ifdef EXECUTION_TIME
+            tot = 0;
+        #endif
         for(i = 0; i<NBEXEC; ++i) {
             #ifdef EXECUTION_TIME
                 t = clock();
@@ -517,7 +596,7 @@ int main(int argc, char *argv[]) {
             #endif
         }
         #ifdef RELATIVE_DEVIATION
-            cout<<(double)(tot/NBEXEC - bestval)/(double)(bestval)<<":"<<flush;
+            cout<<100*(double)(tot/NBEXEC - bestval)/(double)(bestval)<<":"<<flush;
         #endif
         #ifdef SCORE
             cout<<tot/NBEXEC<<":"<<flush;
@@ -534,7 +613,7 @@ int main(int argc, char *argv[]) {
         sol.constructRZ(instance);
         vnd(sol, instance, neighborhoud, 3);
         #ifdef RELATIVE_DEVIATION
-            cout<<(double)(instance.computeWCT(sol) - bestval)/(double)bestval<<":"<<flush;
+            cout<<100*(double)(instance.computeWCT(sol) - bestval)/(double)bestval<<":"<<flush;
         #endif
         #ifdef SCORE
             cout<<instance.computeWCT(sol)<<":"<<flush;
@@ -552,7 +631,7 @@ int main(int argc, char *argv[]) {
         sol.constructRZ(instance);
         vnd(sol, instance, neighborhoud, 3);
         #ifdef RELATIVE_DEVIATION
-            cout<<(double)(instance.computeWCT(sol) - bestval)/(double)bestval<<endl;
+            cout<<100*(double)(instance.computeWCT(sol) - bestval)/(double)bestval<<endl;
         #endif
         #ifdef SCORE
             cout<<instance.computeWCT(sol)<<endl;

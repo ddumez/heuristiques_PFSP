@@ -30,21 +30,21 @@ do.wilcoxon <- function(data.matrix, type="two.sided", output=NULL){
       write.table(format(wilcoxon.results, digits = 3), file=output, sep=" & ", append=TRUE)
     }
 
-    #Correct the test (this is done due to the multiple comparisons)
-    pvals <- p.adjust(pvals,method="bonferroni")
-    s <- 1
-    for(i in 1:(length(test.names))){
-        for(j in 1:length(test.names)){
-           wilcoxon.results[test.names[i],test.names[j]] <- pvals[s]
-           s <- s+1
-        }
-    }    
-    if(!is.null(output)){
-       write("\n -> Bonferroni correction:\n", file=output, append=TRUE)
-       write.table( format(wilcoxon.results, digits = 3), file=output, append=TRUE, sep=" & ")
-    }
-    cat("Wilcoxon test + bonferroni correction:\n")
-    return(wilcoxon.results)
+    # #Correct the test (this is done due to the multiple comparisons)
+    # pvals <- p.adjust(pvals,method="bonferroni")
+    # s <- 1
+    # for(i in 1:(length(test.names))){
+    #     for(j in 1:length(test.names)){
+    #        wilcoxon.results[test.names[i],test.names[j]] <- pvals[s]
+    #        s <- s+1
+    #     }
+    # }    
+    # if(!is.null(output)){
+    #    write("\n -> Bonferroni correction:\n", file=output, append=TRUE)
+    #    write.table( format(wilcoxon.results, digits = 3), file=output, append=TRUE, sep=" & ")
+    # }
+    # cat("Wilcoxon test + bonferroni correction:\n")
+    # return(wilcoxon.results)
     
 }
 

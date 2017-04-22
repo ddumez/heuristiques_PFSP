@@ -272,7 +272,7 @@ bool LocalSearch::insert(PfspInstance & instance, Solution & sol){
 			sol.setJ((i+j)%instance.getNbJob(), sol.getJ( (i+j+1)%instance.getNbJob()));
 			sol.setJ((i+j+1)%instance.getNbJob(), tmp);
 
-			res = (instance.computeWCT(sol) < base); //compute if it's better
+			res = (instance.recomputeWCT(sol, (i+j)%(instance.getNbJob()-1) ) < base); //compute if it's better
 			
 			++j; //next place
 		}
@@ -282,6 +282,7 @@ bool LocalSearch::insert(PfspInstance & instance, Solution & sol){
 				sol.setJ((i+j)%instance.getNbJob(), sol.getJ( (i+j+1)%instance.getNbJob()));
 				sol.setJ((i+j+1)%instance.getNbJob(), tmp);				
 			}
+			instance.computeWCT(sol); //to reset the end date table
 		}
 		++i; //next job
 	}
@@ -297,15 +298,14 @@ bool LocalSearch::insertdofor(PfspInstance & instance, Solution & sol){
 	long int base = instance.computeWCT(sol);
 	long int tmpscore;
   //start
-	for(int i = 0; i < instance.getNbJob(); ++i) {
+	for(int i = 0; i < instance.getNbJob(); ++i) { //warning !!! i may be modified during the loop
 		j = 0; improving = false;
 		while ((!improving) && (j < instance.getNbJob()-1)) {
 			//bring forward the job
 			tmp = sol.getJ( (i+j)%instance.getNbJob()  );
 			sol.setJ((i+j)%instance.getNbJob(), sol.getJ( (i+j+1)%instance.getNbJob()));
 			sol.setJ((i+j+1)%instance.getNbJob(), tmp);
-
-			improving = ( (tmpscore = instance.computeWCT(sol)) < base); //compute if it's better
+			improving = ( (tmpscore = instance.recomputeWCT(sol, (i+j)%(instance.getNbJob()-1) )) < base); //compute if it's better
 			
 			++j; //next place
 		}
@@ -318,8 +318,15 @@ bool LocalSearch::insertdofor(PfspInstance & instance, Solution & sol){
 		} else { //it's an improving move
 			res = true;
 			base = tmpscore;
-			--i; //the i-th job is now the (i+1)th one
+			if ((i+j-1) % instance.getNbJob() > i) {
+				//the i-th job have been inserted before him
+				i = (i+j-1) % instance.getNbJob(); //we start again from the i-th job
+			} else {
+				//the i-th job has been inserted after him
+				--i; //to not miss a job
+			}
 		}
+		instance.computeWCT(sol); //to reset the end date table
 	}
   //end
 return res;
@@ -341,7 +348,7 @@ bool LocalSearch::insertPPD(PfspInstance & instance, Solution & sol){
 			sol.setJ((i+j+1)%instance.getNbJob(), tmp);
 			
 			//compute if it's the new best
-			if ( (tmpval = instance.computeWCT(sol)) < best ) {
+			if ( (tmpval = instance.recomputeWCT(sol, (i+j)%(instance.getNbJob()-1) )) < best ) {
 				best = tmpval;
 				besti = i;
 				bestj = j;
@@ -351,8 +358,9 @@ bool LocalSearch::insertPPD(PfspInstance & instance, Solution & sol){
 		for (j = instance.getNbJob()-2; j>=0; --j) {
 			tmp = sol.getJ( (i+j)%instance.getNbJob()  );
 			sol.setJ((i+j)%instance.getNbJob(), sol.getJ( (i+j+1)%instance.getNbJob()));
-			sol.setJ((i+j+1)%instance.getNbJob(), tmp);				
+			sol.setJ((i+j+1)%instance.getNbJob(), tmp);
 		}
+		instance.computeWCT(sol);
 	}
 
 	//apply the best modification
