@@ -32,7 +32,7 @@
 
 using namespace std;
 
-#define NBEXEC 1
+#define NBEXEC 5
 
 //#define RELATIVE_DEVIATION
 //#define SCORE

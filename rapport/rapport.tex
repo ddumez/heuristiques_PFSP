@@ -22,7 +22,7 @@
 
 In the code directory the command "make" (in the code directory) can be use to compile the whole project. Beside "make clean" (in the code directory too) delete all .o files.
 
-After compiling the project experiment can be done on a single instance with "./main path\_to\_the\_instance optimal\_value". Then all possibility are use on this instance, for stochastic setting an average is done over 10 runs. Depending of the settings of the code execution time,value of solutions or proportional difference is output. This can be chose before compiling by the pre-compilator variable, commented or not, at the beginning of the "main.cpp" file. Values for each settings are separated by ":" in the text output.
+After compiling the project experiment can be done on a single instance with "./main path\_to\_the\_instance optimal\_value". Then all possibility are use on this instance, for stochastic setting an average is done over 5 runs ("NBEXEC" preprocessor variable at the beginning of the "main.cpp" file). Depending of the settings of the code execution time,value of solutions or proportional difference is output. This can be chose before compiling by the pre-compilator variable, commented or not, at the beginning of the "main.cpp" file. Values for each settings are separated by ":" in the text output.
 
 To have these result on all instances the multiple\_run.sh script can be use. This bash script will execute the main on each instance and store all results in the res.txt file.\\
 
@@ -204,7 +204,7 @@ The implementation of VND is very classic. It have been implement in a generic w
 
 \subsection{Statistical test of neighbourhood}
 
-We perform the wilcoxon test on score, in a pairwise way, with a significance level of $0.05$. These result are compiled in the table \ref{wilcoxon pairwise test, solution quality}. Beside we do the same calculation for the execution time, these results are in the table \ref{wilcoxon pairwise test, execution time}. A population isn't comparable to itself so NaN is used in these cases.
+We perform the wilcoxon test on score, in a pairwise way, we will use a significance level of $0.05$ for interpretations. These result are compiled in the table \ref{wilcoxon pairwise test, solution quality}. Beside we do the same calculation for the execution time, these results are in the table \ref{wilcoxon pairwise test, execution time}. A population isn't comparable to itself so NaN is used in these cases.
 
 "tr", "ex" and "in" are use in the same way as previously for transpose, exchange and insert. "rnd" is used when the start solution isn't construct, and "rz" when the rz heuristic have been used. "DD" is always here when the descent have been done in deepest descent, i.e best improvement. Otherwise the pivoting rule is first improvement.
 
@@ -272,7 +272,7 @@ We compute the average of the relative deviation, for all instances and all neig
 Then the same study have been done with the pivoting rule. With the first improvement the relative deviation average is $9.59 \%$ and with the deepest descent it's $9.85 \%$. Beside the p-value of the wilconxon pairwise test (same idea as before, the only things that differ between two compared value is the pivoting rule) is $0.000162$. Surprisingly the first improvement with a for loop give slightly better result than a deepest descent.
 
 Finally we do this a third time with the neighbourhood relationship. With the transpose relation the relative deviation average (on every pivoting rules and starting point) is $20.73 \%$ (we notice the big difference between the two initialisation), with exchange it's $3.76 \%$ and with insert it's $5.02 \%$.
-As before a wilconxon pairwise test have been computed, Befferoni corrected p-value are in the table \ref{wilconxon p-value of neighbourhood, solution quality}. So with that we can said that exchange is better than insert which is better than transpose, and the relation is transitive. But these results have bias because transpose and insert neighbourhood suffer much that exchange of the random initialisation. Indeed average only on rz heuristic of transpose is $4.15 \%$, it's $3.20 \%$ for exchange and $3.14 \%$ for insert. Beside p-value of this wilcoxon test are in the table \ref{wilconxon p-value of neighbourhood, solution quality with srz}. So with the rz initialisation the insert neighbourhood is the better one.
+As before a wilconxon pairwise test have been computed, p-value are in the table \ref{wilconxon p-value of neighbourhood, solution quality}. So with that we can said that exchange is better than insert which is better than transpose, and the relation is transitive. But these results have bias because transpose and insert neighbourhood suffer much that exchange of the random initialisation. Indeed average only on rz heuristic of transpose is $4.15 \%$, it's $3.20 \%$ for exchange and $3.14 \%$ for insert. Beside p-value of this wilcoxon test are in the table \ref{wilconxon p-value of neighbourhood, solution quality with srz}. So with the rz initialisation the insert neighbourhood is the better one.
 
 \begin{table}[!h]
 \centering
@@ -308,25 +308,26 @@ With all of that the best setting might be the insert neighbourhood browse in fi
 
 Now go on the executions time point of view.
 
-The average computation time average overall in first improvement is $35.83$ seconds against $252.8$ seconds for the deepest descent. Beside we can notice that for every variant the first improvement version is always faster than the deepest version one, at least until the instance size level (so on average on same instance size first improvement is faster). So no need to a wilcoxon test to understand that the first improvement is clearly faster.
+The average computation time average overall in first improvement is $0.23$ seconds against $1.04$ seconds for the deepest descent. Beside the p-value of the wilcoxon test is $6.34e^{-58}$, so as expected first improvement is faster.
 
-The average computation (over all other settings) time with the transpose neighbourhood is $2.11$ seconds, $104.28$ seconds with exchange and $326.70$ with insert. And the p-value of the pairwise wilconxon test, table \ref{Befferoni corrected wilconxon p-value of neighbourhood time}, show that it's absolutely not an average artefact. So the descent in the transpose neighbourhood take clearly less time to reach a local optima, then exchange is slower but faster than insert.
+The average computation (over all other settings) time with the transpose neighbourhood is $0.018$ seconds, $0.699$ seconds with exchange and $1.208$ with insert. And the p-value of the pairwise wilconxon test, table \ref{wilconxon p-value of neighbourhood, execution time}. So, again as expected, transpose is the fastest one, follow by exchange and insert is the slowest one, but still quite fast.\\
+
 \begin{table}[!h]
 \centering
 \begin{tabular}{|*{4}{c|}}
   \hline
    & tr & ex & in\\
   \hline
-	tr & NaN & 1.1e-39 & 1.1e-39 \\
-	ex & 1.1e-39 & NaN & 1.1e-39 \\
-	in. & 1.1e-39 & 1.1e-39 & NaN \\
+tr & NaN & 1.83e-40 & 1.83e-40 \\
+ex & 1.83e-40 & NaN & 4.10e-31 \\
+in. & 1.83e-40 & 4.10e-31 & NaN \\
   \hline
 \end{tabular}
-\caption{Befferoni corrected wilconxon p-value of neighbourhood, execution time}
-\label{Befferoni corrected wilconxon p-value of neighbourhood time}
+\caption{wilconxon p-value of neighbourhood, execution time}
+\label{wilconxon p-value of neighbourhood, execution time}
 \end{table}
 
-To conclude about the usage of a single neighbourhood we can prefer the exchange neighbourhood in first improvement, but the initialisation doesn't matter. Indeed in the first part we said that all usage of this neighbourhood was equal regard of the solution quality (Cf table \ref{Relative deviation with random construction}, \ref{Relative deviation with rz construction}, \ref{Befferoni correction of the wilcoxon pairwise test}), and in the second on we said that first improvement is faster that deepest descent but initialisation doesn't matter (Cf table \ref{Execution time with random construction}, \ref{Execution time with rz construction}, \ref{Befferoni correction of the wilcoxon pairwise test time}).
+To conclude about the usage of a single neighbourhood for solution quality we can prefer the insert neighbourhood in first improvement or the exchange on in best improvement, both initialize in the rz heuristic (according to table \ref{Relative deviation with random construction}, \ref{Relative deviation with rz construction} and \ref{wilcoxon pairwise test, solution quality}). But if we compare these two on execution time the solution with the insert neighbourhood is faster (according to table \ref{Execution time with rz construction} and \ref{wilcoxon pairwise test, execution time}). Standard deviation of these two, on two point of view, are very low so it's doesn't really matter. And if we primary take care of execution time the transpose neighbourhood in first improvement initialize by random solution is the fastest one (according to table \ref{Execution time with random construction}, \ref{Execution time with rz construction} and {wilcoxon pairwise test, execution time}). But the solution quality is so bad, that I believe that the best choice is to use this solution but with the rz heuristic initialisation. Indeed this is the second fastest setting (so it's quite fast), but the solution quality is far way much better.
 
 \subsection{Test's average of VND}
 
@@ -460,14 +461,14 @@ VND1 indicate the VND algorithm which use transpose, then exchange and finish wi
   \hline
    & rndex & rndexDD & rndin & rndinDD & rzex & rzexDD & rzin & rzinDD \\
   \hline
-  rndVND1 & 0.42 & 0.38 & 3.17 & 3.66 & 0.42 & 0.61 & 2.15 & 2.27 \\
-  rndVND1DD & 0.38 & 0.34 & 3.13 & 3.63 & 0.39 & 0.58 & 2.11 & 2.24 \\
-  rzVND1 & 0.53 & 0.48 & 3.28 & 3.77 & 0.53 & 0.72 & 2.25 & 2.38 \\
-  rzVND1DD & 0.44 & 0.39 & 3.19 & 3.68 & 0.44 & 0.63 & 2.17 & 2.29 \\
-  rndVND2 & -0.43 & -0.47 & 2.28 & 2.77 & -0.43 & -0.24 & 1.27 & 1.40 \\
-  rndVND2DD & -0.49 & -0.53 & 2.23 & 2.72 & -0.48 & -0.29 & 1.22 & 1.34 \\
-  rzVND2 & 0.09 & 0.04 & 2.82 & 3.32 & 0.09 & 0.28 & 1.80 & 1.93 \\
-  rzVND2DD & 0.007 & -0.03 & 2.74 & 3.23 & 0.01 & 0.20 & 1.72 & 1.85 \\
+  rndVND1 & 0.09 & 0.08 & 0.41 & 0.79 & 0.05 & -0.12 & -0.15 & -0.17 \\ %OK
+  rndVND1DD & 0.04 & 0.03 & 0.35 & 0.71 & 0.005 & -0.16 & -0.19 & -0.20 \\ %OK
+  rndVND2 & -0.07 & -0.08 & 0.20 & 0.52 & -0.10 & -0.25 & -0.28 & -0.29 \\ %OK
+  rndVND2DD & -0.07 & -0.08 & 0.19 & 0.51 & -0.11 & -0.26 & -0.29 & -0.30 \\ %OK
+  rzVND1 & 0.51 & 0.50 & 0.96 & 1.48 & 0.44 & 0.20 & 0.14 & 0.14 \\ %OK
+  rzVND1DD & 0.48 & 0.47 & 0.93 & 1.44 & 0.41 & 0.17 & 0.12 & 0.11 \\ %OK
+  rzVND2 & 0.42 & 0.41 & 0.84 & 1.32 & 0.36 & 0.12 & 0.08 & 0.07 \\ %OK
+  rzVND2DD & 0.39 & 0.38 & 0.80 & 1.28 & 0.32 & 0.10 & 0.06 & 0.04 \\ %OK
   \hline
 \end{tabular}
 \caption{relative improvement average of VND to single neighbourhood, in \%}
@@ -478,7 +479,7 @@ VND1 indicate the VND algorithm which use transpose, then exchange and finish wi
 
 \subsection{Statistical test of VND}
  
-We perform the wilcoxon test on score, in a pairwise way, and after applied the Bonferroni correction to the obtained p-value. A population isn't comparable to itself so NaN is used in these cases. First, in the table \ref{Befferoni correction of the wilcoxon pairwise test VND}, VND version are compared to each other. Secondly, in the table \ref{Befferoni correction of the wilcoxon pairwise test VND-single neighbourhood}, VND version are compared to the usage of a single neighbourhood. Finally, after the comparison in term of solution quality, we compared VND version regard of the execution time, result are in the table \ref{Befferoni correction of the wilcoxon pairwise test VND time}, and \ref{Befferoni correction of the wilcoxon pairwise test VND-single neighbourhood time} for the comparison with single neighbourhood usage.
+We perform the wilcoxon test on score, in a pairwise way, to the obtained p-value of the null hypothesis (i.e . population are the same). A population isn't comparable to itself so NaN is used in these cases. First, in the table \ref{wilcoxon pairwise test VND}, VND version are compared to each other. Secondly, in the table \ref{wilcoxon pairwise test VND-single neighbourhood}, VND version are compared to the usage of a single neighbourhood. Finally, after the comparison in term of solution quality, we compared VND version regard of the execution time, result are in the table \ref{wilcoxon pairwise test VND-single neighbourhood}, and \ref{wilcoxon pairwise test VND-single neighbourhood time} for the comparison with single neighbourhood usage.
  
 \begin{table}[!h]
 \leftskip -1.6cm
@@ -486,16 +487,16 @@ We perform the wilcoxon test on score, in a pairwise way, and after applied the 
 \footnotesize
 \begin{tabular}{|*{9}{c|}}
   \hline
-& rndVND1 & rndVND1DD & rzVND1 & rzVND1DD & rndVND2 & rndVND2DD & rzVND2 & rzVND2DD \\
+& rndVND1 & rndVND1DD & rndVND2 & rndVND2DD & rzVND1 & rzVND1DD & rzVND2 & rzVND2DD \\
 \hline
-rndVND1 & NaN & 2.89e-02 & 3.51e-11 & 1.30e-10 & 4.01e-09 & 2.09e-08 & 1.07e-10 & 2.03e-10 \\
-rndVND1DD & 2.89e-02 & NaN & 2.45e-11 & 3.01e-11 & 7.86e-08 & 5.85e-08 & 3.17e-11 & 4.53e-11 \\
-rzVND1 & 3.51e-11 & 2.45e-11 & NaN & 2.49e-01 & 2.45e-11 & 2.45e-11 & 1.83e-02 & 3.91e-04 \\
-rzVND1DD & 1.30e-10 & 3.01e-11 & 2.49e-01 & NaN & 2.72e-11 & 2.45e-11 & 1.33e-01 & 1.26e-02 \\
-rndVND2 & 4.01e-09 & 7.86e-08 & 2.45e-11 & 2.72e-11 & NaN & 8.47e-01 & 2.58e-11 & 2.58e-11 \\
-rndVND2DD & 2.09e-08 & 5.85e-08 & 2.45e-11 & 2.45e-11 & 8.47e-01 & NaN & 2.45e-11 & 2.45e-11 \\
-rzVND2 & 1.07e-10 & 3.17e-11 & 1.83e-02 & 1.33e-01 & 2.58e-11 & 2.45e-11 & NaN & 3.59e-01 \\
-rzVND2DD & 2.03e-10 & 4.53e-11 & 3.91e-04 & 1.26e-02 & 2.58e-11 & 2.45e-11 & 3.59e-01 & NaN \\
+rndVND1 & NaN & 2.89e-02 & 4.01e-09 & 2.09e-08 & 3.51e-11 & 1.30e-10 & 1.07e-10 & 2.03e-10 \\
+rndVND1DD & 2.89e-02 & NaN & 7.86e-08 & 5.85e-08 & 2.45e-11 & 3.01e-11 & 3.17e-11 & 4.53e-11 \\
+rndVND2 & 4.01e-09 & 7.86e-08 & NaN & 8.47e-01 & 2.45e-11 & 2.72e-11 & 2.58e-11 & 2.58e-11 \\
+rndVND2DD & 2.09e-08 & 5.85e-08 & 8.47e-01 & NaN & 2.45e-11 & 2.45e-11 & 2.45e-11 & 2.45e-11 \\
+rzVND1 & 3.51e-11 & 2.45e-11 & 2.45e-11 & 2.45e-11 & NaN & 2.49e-01 & 1.83e-02 & 3.91e-04 \\
+rzVND1DD & 1.30e-10 & 3.01e-11 & 2.72e-11 & 2.45e-11 & 2.49e-01 & NaN & 1.33e-01 & 1.26e-02 \\
+rzVND2 & 1.07e-10 & 3.17e-11 & 2.58e-11 & 2.45e-11 & 1.83e-02 & 1.33e-01 & NaN & 3.59e-01 \\
+rzVND2DD & 2.03e-10 & 4.53e-11 & 2.58e-11 & 2.45e-11 & 3.91e-04 & 1.26e-02 & 3.59e-01 & NaN \\
   \hline
 \end{tabular}
 \normalsize
@@ -514,10 +515,10 @@ rzVND2DD & 2.03e-10 & 4.53e-11 & 3.91e-04 & 1.26e-02 & 2.58e-11 & 2.45e-11 & 3.5
 \hline
 rndVND1 & 2.45e-11 & 2.45e-11 & 6.37e-04 & 1.39e-03 & 2.45e-11 & 2.45e-11 & 2.38e-01 & 2.50e-01 & 2.52e-06 & 6.37e-08 & 9.96e-10 & 6.93e-08 \\
 rndVND1DD & 2.45e-11 & 2.45e-11 & 7.06e-02 & 8.32e-02 & 2.45e-11 & 2.45e-11 & 6.16e-01 & 4.90e-01 & 3.50e-09 & 1.75e-10 & 5.55e-11 & 7.14e-10 \\
-rzVND1 & 2.45e-11 & 2.45e-11 & 2.45e-11 & 2.45e-11 & 2.45e-11 & 2.45e-11 & 2.45e-11 & 2.45e-11 & 5.61e-08 & 7.53e-08 & 8.31e-06 & 2.00e-08 \\
-rzVND1DD & 2.45e-11 & 2.45e-11 & 2.45e-11 & 2.45e-11 & 2.45e-11 & 2.45e-11 & 2.45e-11 & 2.45e-11 & 4.17e-07 & 7.22e-07 & 1.13e-04 & 4.34e-07 \\
 rndVND2 & 2.45e-11 & 2.45e-11 & 3.27e-06 & 2.72e-06 & 2.03e-10 & 2.45e-11 & 2.26e-06 & 1.67e-06 & 9.18e-11 & 3.51e-11 & 2.45e-11 & 3.89e-11 \\
 rndVND2DD & 2.45e-11 & 2.45e-11 & 3.78e-06 & 2.26e-06 & 1.15e-09 & 2.58e-11 & 2.80e-07 & 2.03e-07 & 1.24e-10 & 2.45e-11 & 2.45e-11 & 2.45e-11 \\
+rzVND1 & 2.45e-11 & 2.45e-11 & 2.45e-11 & 2.45e-11 & 2.45e-11 & 2.45e-11 & 2.45e-11 & 2.45e-11 & 5.61e-08 & 7.53e-08 & 8.31e-06 & 2.00e-08 \\
+rzVND1DD & 2.45e-11 & 2.45e-11 & 2.45e-11 & 2.45e-11 & 2.45e-11 & 2.45e-11 & 2.45e-11 & 2.45e-11 & 4.17e-07 & 7.22e-07 & 1.13e-04 & 4.34e-07 \\
 rzVND2 & 2.45e-11 & 2.45e-11 & 2.45e-11 & 2.72e-11 & 2.45e-11 & 2.45e-11 & 2.45e-11 & 2.45e-11 & 7.47e-06 & 1.07e-03 & 1.28e-03 & 6.95e-07 \\
 rzVND2DD & 2.45e-11 & 2.45e-11 & 2.58e-11 & 2.45e-11 & 2.45e-11 & 2.45e-11 & 2.45e-11 & 2.45e-11 & 1.49e-04 & 1.06e-02 & 1.76e-02 & 5.59e-05\\
   \hline
@@ -536,16 +537,16 @@ rzVND2DD & 2.45e-11 & 2.45e-11 & 2.58e-11 & 2.45e-11 & 2.45e-11 & 2.45e-11 & 2.4
 \footnotesize
 \begin{tabular}{|*{9}{c|}}
   \hline
- & rndVND1 & rndVND1DD & rzVND1 & rzVND1DD & rndVND2 & rndVND2DD & rzVND2 & rzVND2DD \\
- \hline
+ & rndVND1 & rndVND1DD & rndVND2 & rndVND2DD & rzVND1 & rzVND1DD & rzVND2 & rzVND2DD \\
+\hline
 rndVND1 & NaN & 4.70e-06 & 2.45e-11 & 2.45e-11 & 2.45e-11 & 2.45e-11 & 2.45e-11 & 2.45e-11 \\
 rndVND1DD & 4.70e-06 & NaN & 2.45e-11 & 2.45e-11 & 2.45e-11 & 2.45e-11 & 2.45e-11 & 2.45e-11 \\
-rzVND1 & 2.45e-11 & 2.45e-11 & NaN & 7.80e-03 & 2.45e-11 & 2.45e-11 & 4.76e-02 & 3.22e-04 \\
-rzVND1DD & 2.45e-11 & 2.45e-11 & 7.80e-03 & NaN & 2.45e-11 & 2.45e-11 & 8.15e-04 & 7.03e-01 \\
-rndVND2 & 2.45e-11 & 2.45e-11 & 2.45e-11 & 2.45e-11 & NaN & 1.87e-06 & 2.45e-11 & 2.45e-11 \\
-rndVND2DD & 2.45e-11 & 2.45e-11 & 2.45e-11 & 2.45e-11 & 1.87e-06 & NaN & 2.45e-11 & 2.45e-11 \\
-rzVND2 & 2.45e-11 & 2.45e-11 & 4.76e-02 & 8.15e-04 & 2.45e-11 & 2.45e-11 & NaN & 6.04e-06 \\
-rzVND2DD & 2.45e-11 & 2.45e-11 & 3.22e-04 & 7.03e-01 & 2.45e-11 & 2.45e-11 & 6.04e-06 & NaN \\
+rndVND2 & 2.45e-11 & 2.45e-11 & NaN & 1.87e-06 & 2.45e-11 & 2.45e-11 & 2.45e-11 & 2.45e-11 \\
+rndVND2DD & 2.45e-11 & 2.45e-11 & 1.87e-06 & NaN & 2.45e-11 & 2.45e-11 & 2.45e-11 & 2.45e-11 \\
+rzVND1 & 2.45e-11 & 2.45e-11 & 2.45e-11 & 2.45e-11 & NaN & 7.80e-03 & 4.76e-02 & 3.22e-04 \\
+rzVND1DD & 2.45e-11 & 2.45e-11 & 2.45e-11 & 2.45e-11 & 7.80e-03 & NaN & 8.15e-04 & 7.03e-01 \\
+rzVND2 & 2.45e-11 & 2.45e-11 & 2.45e-11 & 2.45e-11 & 4.76e-02 & 8.15e-04 & NaN & 6.04e-06 \\
+rzVND2DD & 2.45e-11 & 2.45e-11 & 2.45e-11 & 2.45e-11 & 3.22e-04 & 7.03e-01 & 6.04e-06 & NaN \\
   \hline
 \end{tabular}
 \normalsize
@@ -564,10 +565,10 @@ rzVND2DD & 2.45e-11 & 2.45e-11 & 3.22e-04 & 7.03e-01 & 2.45e-11 & 2.45e-11 & 6.0
 \hline
 rndVND1 & 2.45e-11 & 2.45e-11 & 2.45e-11 & 1.84e-10 & 2.45e-11 & 2.45e-11 & 2.45e-11 & 2.45e-11 & 2.45e-11 & 2.45e-11 & 2.45e-11 & 2.45e-11 \\
 rndVND1DD & 2.45e-11 & 2.45e-11 & 2.45e-11 & 4.93e-03 & 2.45e-11 & 2.45e-11 & 2.45e-11 & 2.45e-11 & 2.45e-11 & 2.45e-11 & 2.45e-11 & 2.45e-11 \\
-rzVND1 & 2.45e-11 & 2.45e-11 & 1.59e-10 & 2.45e-11 & 1.45e-05 & 2.45e-11 & 2.45e-11 & 2.45e-11 & 1.07e-10 & 1.32e-03 & 1.75e-10 & 5.84e-01 \\
-rzVND1DD & 2.45e-11 & 2.45e-11 & 3.01e-11 & 2.45e-11 & 1.01e-01 & 2.45e-11 & 2.45e-11 & 2.45e-11 & 2.58e-11 & 1.79e-07 & 1.18e-10 & 5.10e-02 \\
 rndVND2 & 2.45e-11 & 2.45e-11 & 2.45e-11 & 2.45e-11 & 2.45e-11 & 8.28e-05 & 2.45e-11 & 2.45e-11 & 2.45e-11 & 2.45e-11 & 2.45e-11 & 2.45e-11 \\
 rndVND2DD & 2.45e-11 & 2.45e-11 & 2.45e-11 & 2.45e-11 & 2.45e-11 & 9.61e-01 & 2.45e-11 & 2.45e-11 & 2.45e-11 & 2.45e-11 & 2.45e-11 & 2.45e-11 \\
+rzVND1 & 2.45e-11 & 2.45e-11 & 1.59e-10 & 2.45e-11 & 1.45e-05 & 2.45e-11 & 2.45e-11 & 2.45e-11 & 1.07e-10 & 1.32e-03 & 1.75e-10 & 5.84e-01 \\
+rzVND1DD & 2.45e-11 & 2.45e-11 & 3.01e-11 & 2.45e-11 & 1.01e-01 & 2.45e-11 & 2.45e-11 & 2.45e-11 & 2.58e-11 & 1.79e-07 & 1.18e-10 & 5.10e-02 \\
 rzVND2 & 2.45e-11 & 2.45e-11 & 9.96e-10 & 2.45e-11 & 2.83e-08 & 2.45e-11 & 2.45e-11 & 2.45e-11 & 5.55e-11 & 1.44e-01 & 3.31e-10 & 3.30e-02 \\
 rzVND2DD & 2.45e-11 & 2.45e-11 & 3.70e-11 & 2.45e-11 & 9.01e-01 & 2.45e-11 & 2.45e-11 & 2.45e-11 & 2.45e-11 & 6.37e-08 & 2.58e-11 & 1.57e-01 \\
   \hline
@@ -577,19 +578,16 @@ rzVND2DD & 2.45e-11 & 2.45e-11 & 3.70e-11 & 2.45e-11 & 9.01e-01 & 2.45e-11 & 2.4
 \caption{wilcoxon pairwise test, execution time}
 \label{wilcoxon pairwise test VND-single neighbourhood time}
 \end{table} 
- 
- 
-First speak about the solution quality reach by the two order of neighbourhood used by VND. The average relative deviation overall with VND1 is $3.98 \%$ and it's $4.66 \%$ with VND2, beside the corrected p-value of the pairwise wilcoxon test is $1.29e^{-18}$. So we can conclude that VND1 perform better quality solution. But after VND1 version aren't comparable to each other relatively to the solution quality, according to the table \ref{Befferoni correction of the wilcoxon pairwise test VND} we can't say that results populations are different.
 
-Secondly we look at the computation time of these two neighbourhood order. The average overall of VND1 is $225.2$ seconds against $670.2$ seconds for VND2 with a wilcoxon p-value of $3.65e^{-40}$. So VND1 outperformed again VND2. As before, regarding to table \ref{execution time of VND with random construction}, \ref{execution time of VND with rz construction}, and \ref{Befferoni correction of the wilcoxon pairwise test VND time}, we can just say that with a random initialisation VND1 in first improvement is faster than VND1 in deepest descent.
+ 
+First speak about the solution quality reach by the two order of neighbourhood used by VND. The average relative deviation overall with VND1 is $3.97 \%$ and it's $3.86 \%$ with VND2, beside the corrected p-value of the pairwise wilcoxon test is $1.42e^{-18}$. So we can conclude that VND1 perform better quality solution. Next we do the same with the pivoting rule (only on VND), the average of relative deviation of first improvement is $3.57 \%$ and in best improvement it's $3.66 \%$ with a p-value of $0.025$ told us that, again, first improvement is better than a deepest descent. Finally the average of the relative deviation with a random construction is $4.47 \%$ against $2.77 \%$ with the usage of the rz heuristic with a p-value of $2.64e^{-40}$. So the best setting, in terms of quality solution, seems to be VND1 in first improvement initialized with the rz heuristic. If we look at table \ref{relative deviation of VND with random construction}, \ref{relative deviation of VND with rz construction} and \ref{wilcoxon pairwise test VND} it's seems true.
 
-To conclude about VND we can just say that VND2 is completely dominated by VND1, but VND1 versions are equals. In the first part conclusion we preferred exchange in first improvement, so which one is the best. According to table \ref{relative improvement average of VND to single neighbourhood} and \ref{Befferoni correction of the wilcoxon pairwise test VND-single neighbourhood} we can't said that VND1 in first improvement and exchange in first improvement give better solution. And according to table \ref{Execution time with random construction}, \ref{Relative deviation with rz construction}, \ref{execution time of VND with random construction}, \ref{execution time of VND with rz construction} and \ref{Befferoni correction of the wilcoxon pairwise test VND-single neighbourhood time} we can say that the single neighbourhood is faster than VND1 when both are used in first improvement (and now matter which construction heuristic is chosen).
+Now speak about execution time. The average overall of VND1 is $1.37$ second and it's $2.17$ seconds for VND2, with a wilcoxon test's p-value of $7.91e^{-17}$. Secondly the average with a first improvement is $1.88$ seconds and it's $1.67$ seconds in best improvement, with a p-value of $0.059$ so we can't say that executions time are different between the two pivoting rules. And finally the execution time's average starting from a random solution is $2.93$ seconds and only $0.61$ second from a construct one, with a p-value of $1.83e^{-40}$. So the fastest setting might be VND1 starting from a constructed solution (but the pivoting rule doesn't matter). According to table \ref{execution time of VND with random construction}, \ref{execution time of VND with rz construction} and \ref{wilcoxon pairwise test VND time} the situation is far way more fuzzy : rzVND1, rzVND1DD and rzVND2 may have the same execution time.
+
+Regarding of these two point of view VND1 in first improvement initialized with the rz heuristic is one of the best setting for VND, so we can say that it's might be the optimal setting (with our possibility) of VND for this problem. But compared to our preferred setting for the usage of a single neighbourhood (rzexDD and rzin) the relative improvement is very low : according to table \ref{relative improvement average of VND to single neighbourhood} it's bellow $0.2 \%$ (according to wilcoxon test, table \ref{wilcoxon pairwise test VND-single neighbourhood} results are different but we just go to an average relative deviation of $3 \%$ to $2.6$) . But a descent in these neighbour alone is faster, $0.44$ and $0.24$ second against $0.56$ second in average (with p-value bellow $0.05$, see table \ref{wilcoxon pairwise test VND-single neighbourhood time}) . I believe it's related to the usage of a for loop in a descent, with can't be use for exchange and insert in the VND algorithm. So we don't have to invest that much time, but don't get a big improvement of the solution quality.
  
 \section{Conclusion}
 
-Do a descent in first improvement (with a for loop) into an exchange neighbourhood, and no matter how the initial solution solution is construct, is the best algorithm we study here for the PFSP.
+Depending to the time budget we have some possibility. If time is the most important criterion rztr must be chose. And after order by the require time we can use rzin and rzVND1. We must notice that all of them are quite fast and give good solutions. But we doesn't have long and very efficient procedure yet. Finally we need to highlight that of these procedure are very stable (standard deviations are very low) regarding to solution quality or execution time.
 
-As a further development we can study a VND algorithm which use only exchange and insert. Indeed in the first part we saw that transpose doesn't find any good solution, so it seems it doesn't help other neighbourhood to converge faster in a VND. But quite the opposite it will slow down them because they won't be able to converge with a for loop and useless search phase into transpose neighbourhood will be performed between every search into promising neighbourhood.
-
-Finally, even if we haven't speak about that before, we can notice that all algorithm are very stable over all point of view across table \ref{standard deviation of the relative deviation with random construction}, \ref{standard deviation of the relative deviation with rz construction}, \ref{Execution time with random construction sd}, \ref{Execution time with rz construction sd}, \ref{standard deviation of the relative deviation of VND with random construction}, \ref{standard deviation of the relative deviation of VND with rz construction}, \ref{execution time of VND with random construction sd}, \ref{execution time of VND with rz construction sd}.
 \end{document}
