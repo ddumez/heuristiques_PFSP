@@ -18,6 +18,12 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
+/**
+ * \file main.cpp
+ * \author dorian dumez & Jérémie Dubois-Lacoste
+ * \brief run diferent heuristic on the PFSP to make experiments
+ */
+
 #include <iostream>
 #include <stdlib.h>
 #include <cstdlib>
@@ -29,31 +35,28 @@
 #include "solution.hpp"
 #include "pfspinstance.hpp"
 #include "localsearch.hpp"
+#include "tabu.hpp"
 
 using namespace std;
 
 #define NBEXEC 5
 
-//#define RELATIVE_DEVIATION
+#define RELATIVE_DEVIATION
 //#define SCORE
-#define EXECUTION_TIME
+//#define EXECUTION_TIME
 
 /**
 * \brief improve the solution with the vnd indea with the 3 local search
 *
 * \param[in, out] sol the solution to improve
 * \param[in] instance the context of hte solution
-* \param[in] first the first local search to use
-* \param[in] second the second neighborhoud to use
-* \param[in] third the last neighborhourd to use
+* \param[in] neighborhood table of diferent neighbohood relation to use, they should be ordered
+* \param[in] nbneighborhood number of neighborhood to use
 */
 void vnd(Solution & sol, PfspInstance & instance, LocalSearch neighborhoud [], int nbneighborhoud);
 
 int main(int argc, char *argv[]) {
   //variable
-    int i;
-    PfspInstance instance; // Create instance object
-    LocalSearch search (1 , false, true);
     #ifdef RELATIVE_DEVIATION
         long int tot;
         long bestval = strtol(argv[2], NULL, 10);
@@ -64,11 +67,9 @@ int main(int argc, char *argv[]) {
     #ifdef EXECUTION_TIME
         clock_t t, tot;
     #endif
-    LocalSearch neighborhoud [3];
-  //start
-    //initialize random seed as constant
-    srand (0);
+    PfspInstance instance; // Create instance object
 
+  //start
     if (argc == 1) {
         cout << "Usage: ./flowshopWCT <instance_file>" << endl;
         return 0;
@@ -79,7 +80,34 @@ int main(int argc, char *argv[]) {
         return 1;
     }
 
+    //experiment for the second part of the project
+    #ifdef EXECUTION_TIME
+        t = clock();
+    #endif
+    Tabu tabusearch(25, &instance);
+    Solution * solution = tabusearch.search(30);
+    solution->print();
+    #ifdef RELATIVE_DEVIATION
+        cout<<100*(double)(instance.computeWCT(*solution) - bestval)/(double)bestval<<":"<<flush;
+    #endif
+    #ifdef SCORE
+        cout<<instance.computeWCT(*solution)<<":"<<flush;
+    #endif
+    #ifdef EXECUTION_TIME
+        t = clock() - t;
+        cout<<(double)((double)t/(double)(CLOCKS_PER_SEC))<<":"<<flush;
+    #endif
+    delete(solution);
+    cout<<endl;
+/*
+  //experiments for the first part of the project
     Solution sol (instance); // Create a Solution to represent the permutation
+    LocalSearch search (1 , false, true);
+    int i;
+    LocalSearch neighborhoud [3];
+
+    //initialize random seed as constant
+    srand (0);
 
     //random, transpose    
         #ifdef RELATIVE_DEVIATION
@@ -640,7 +668,7 @@ int main(int argc, char *argv[]) {
             t = clock() - t;
             cout<<(double)((double)t/(double)(CLOCKS_PER_SEC))<<endl;
         #endif
-
+*/
   //end
   return 0;
 }

@@ -12,7 +12,7 @@ LocalSearch::LocalSearch() {
 	this->dofor = true;
 }
 
-LocalSearch::LocalSearch(int choix, bool PPD, bool dofor){
+LocalSearch::LocalSearch(const int choix, const bool PPD, const bool dofor){
 	this->choix = choix;
 	this->PPD = PPD;
 	this->dofor = dofor;
@@ -20,7 +20,7 @@ LocalSearch::LocalSearch(int choix, bool PPD, bool dofor){
 
 LocalSearch::~LocalSearch(){}
 
-bool LocalSearch::search(PfspInstance & instance, Solution & sol){
+bool LocalSearch::search(const PfspInstance & instance, Solution & sol) const {
 	switch(choix) {
 		case 1:
 			if (PPD) {
@@ -50,7 +50,7 @@ bool LocalSearch::search(PfspInstance & instance, Solution & sol){
 	}
 }
 
-void LocalSearch::descent(PfspInstance & instance, Solution & sol) {
+void LocalSearch::descent(const PfspInstance & instance, Solution & sol) const {
 	if(dofor && (!PPD) ) {
 		switch(choix) {
 			case 1:
@@ -71,7 +71,7 @@ void LocalSearch::descent(PfspInstance & instance, Solution & sol) {
 	}
 }
 
-bool LocalSearch::transpose(PfspInstance & instance, Solution & sol){
+bool LocalSearch::transpose(const PfspInstance & instance, Solution & sol) const {
   //variable
 	bool res = false;
 	int i = instance.getNbJob() -2;
@@ -95,7 +95,7 @@ bool LocalSearch::transpose(PfspInstance & instance, Solution & sol){
 return res;
 }
 
-bool LocalSearch::transposedofor(PfspInstance & instance, Solution & sol){  
+bool LocalSearch::transposedofor(const PfspInstance & instance, Solution & sol) const {  
   //variable
 	bool res = false;
 	int tmp;
@@ -120,7 +120,7 @@ bool LocalSearch::transposedofor(PfspInstance & instance, Solution & sol){
 return res;
 }
 
-bool LocalSearch::transposePPD(PfspInstance & instance, Solution & sol){
+bool LocalSearch::transposePPD(const PfspInstance & instance, Solution & sol) const {
   //variable
 	int tmp;
 	long int best = instance.computeWCT(sol);
@@ -157,7 +157,7 @@ bool LocalSearch::transposePPD(PfspInstance & instance, Solution & sol){
   //end
 }
 
-bool LocalSearch::exchange(PfspInstance & instance, Solution & sol){
+bool LocalSearch::exchange(const PfspInstance & instance, Solution & sol) const {
   //variable
 	bool res = false;
 	int i = instance.getNbJob() -1; int j;
@@ -186,7 +186,7 @@ bool LocalSearch::exchange(PfspInstance & instance, Solution & sol){
 return res;
 }
 
-bool LocalSearch::exchangedofor(PfspInstance & instance, Solution & sol){
+bool LocalSearch::exchangedofor(const PfspInstance & instance, Solution & sol) const {
   //variable
 	bool res = false;
 	int j;
@@ -215,7 +215,7 @@ bool LocalSearch::exchangedofor(PfspInstance & instance, Solution & sol){
 return res;
 }
 
-bool LocalSearch::exchangePPD(PfspInstance & instance, Solution & sol){
+bool LocalSearch::exchangePPD(const PfspInstance & instance, Solution & sol) const {
   //variable
 	int tmp;
 	long int best = instance.computeWCT(sol);
@@ -257,7 +257,7 @@ bool LocalSearch::exchangePPD(PfspInstance & instance, Solution & sol){
   //end
 }
 
-bool LocalSearch::insert(PfspInstance & instance, Solution & sol){
+bool LocalSearch::insert(const PfspInstance & instance, Solution & sol) const {
   //variable
 	int i = 0; int j;
 	bool res = false;
@@ -290,7 +290,7 @@ bool LocalSearch::insert(PfspInstance & instance, Solution & sol){
 return res;
 }
 
-bool LocalSearch::insertdofor(PfspInstance & instance, Solution & sol){
+bool LocalSearch::insertdofor(const PfspInstance & instance, Solution & sol) const {
   //variable
 	int j;
 	bool res = false; bool improving;
@@ -332,7 +332,7 @@ bool LocalSearch::insertdofor(PfspInstance & instance, Solution & sol){
 return res;
 }
 
-bool LocalSearch::insertPPD(PfspInstance & instance, Solution & sol){
+bool LocalSearch::insertPPD(const PfspInstance & instance, Solution & sol) const {
   //variable
 	int tmp;
 	long int best = instance.computeWCT(sol);
@@ -378,14 +378,14 @@ bool LocalSearch::insertPPD(PfspInstance & instance, Solution & sol){
   //end
 }
 
-void LocalSearch::changechoix(int choix) {
+void LocalSearch::changechoix(const int choix) {
 	this->choix = choix;
 }
 
-void LocalSearch::changePPD(bool PPD) {
+void LocalSearch::changePPD(const bool PPD) {
 	this->PPD = PPD;
 }
 
-void LocalSearch::changedofor(bool dofor) {
+void LocalSearch::changedofor(const bool dofor) {
 	this->dofor = dofor;
 }

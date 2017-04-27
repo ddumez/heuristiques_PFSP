@@ -33,15 +33,15 @@ PfspInstance::PfspInstance(){}
 
 PfspInstance::~PfspInstance(){}
 
-int PfspInstance::getNbJob() {
+int PfspInstance::getNbJob() const {
  	return nbJob;
 }
 
-int PfspInstance::getNbMac() {
+int PfspInstance::getNbMac() const {
 	return nbMac;
 }
 
-void PfspInstance::allowMatrixMemory(int nbJ, int nbM) {
+void PfspInstance::allowMatrixMemory(const int nbJ, const int nbM) {
 	nbJob = nbJ; nbMac = nbM;
 
 	processingTimesMatrix.resize(nbJ+1);          // 1st dimension
@@ -54,7 +54,7 @@ void PfspInstance::allowMatrixMemory(int nbJ, int nbM) {
 }
 
 
-long int PfspInstance::getTime(int job, int machine) {
+long int PfspInstance::getTime(const int job, const int machine) const {
 	if (job == 0) {
 		return 0;
 	} else {
@@ -65,7 +65,7 @@ long int PfspInstance::getTime(int job, int machine) {
 	}
 }
 
-long int PfspInstance::getPriority(int job) {
+long int PfspInstance::getPriority(const int job) const {
 	return priority[job];
 }
 
@@ -135,7 +135,7 @@ bool PfspInstance::readDataFromFile(char * fileName) {
 	return everythingOK;
 }
 
-long int PfspInstance::computeWCT (Solution & sol) {
+long int PfspInstance::computeWCT (Solution & sol) const {
   //variable
 	int j, m;
 	long int wct = 0;
@@ -162,7 +162,7 @@ long int PfspInstance::computeWCT (Solution & sol) {
 return wct;
 }
 
-long int PfspInstance::computeWCTpartial (Solution & sol, int end) {
+long int PfspInstance::computeWCTpartial (Solution & sol, int end) const {
   //variable
 	int j, m;
 	long int wct = 0;
@@ -189,7 +189,7 @@ long int PfspInstance::computeWCTpartial (Solution & sol, int end) {
 return wct;
 }
 
-long int PfspInstance::recomputeWCT (Solution & sol, int start) {
+long int PfspInstance::recomputeWCT (Solution & sol, int start) const {
 	if (0 == start) { //special case
 		return computeWCT(sol);
 	} else {

@@ -30,7 +30,26 @@ class Solution{
   	*
   	* \param[in] instance the context of this solution
   	*/
-  	Solution(PfspInstance & instance);
+  	Solution(const PfspInstance & instance);
+
+    /**
+    * \brief copy constructor
+    *
+    * \param[in] the solution to copy
+    */
+    Solution(const Solution & other);
+
+    /**
+    * \brief empty constructor, do nothing
+    */
+    Solution();
+
+    /*
+    * \brief to create a solution after a usage of the empty constructor
+    *
+    * \param[in] instance the context of this solution
+    */
+    void initialize(const PfspInstance & instance);
 
   	/**
   	* \brief free the memmory allocated to this solution
@@ -44,7 +63,7 @@ class Solution{
   	*
   	* \return the index of the jth job to do
   	*/
-  	int getJ(int j);
+  	int getJ(const int j) const;
 
     /**
     * \brief place the job j in the index i
@@ -52,7 +71,7 @@ class Solution{
     * \param[in] i the index where to place the job
     * \param[in] j the index of the job to place
     */
-    void setJ(int i, int j);
+    void setJ(const int i, const int j);
 
   	/**
   	* \brief Fill the solution with numbers between 1 and nbJobs, shuffled
@@ -62,15 +81,15 @@ class Solution{
   	/**
   	* \brief construct a solution with the RZ heuristic
   	*/
-  	void constructRZ(PfspInstance & instance);
+  	void constructRZ(const PfspInstance & instance);
 
     /**
     * \brief print this solution
     */
-    void print();
+    void print() const;
 
   private:
-  	/**
+  /**
 	* \brief generate a random number in an interval
 	*
 	* \param[in] min the lower bound
@@ -78,7 +97,7 @@ class Solution{
 	*
 	* \return a random int between max and min
 	*/
-	int generateRndPosition(int min, int max);
+	int generateRndPosition(const int min, const int max) const;
 
 };
 

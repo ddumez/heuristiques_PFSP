@@ -7,7 +7,7 @@
 
 using namespace std;
 
-Solution::Solution(PfspInstance & instance) {
+Solution::Solution(const PfspInstance & instance) {
     nbJobs = instance.getNbJob();
     solution.resize(nbJobs);
 
@@ -21,13 +21,46 @@ Solution::Solution(PfspInstance & instance) {
     }
 }
 
+Solution::Solution(const Solution & other) {
+    this->nbJobs = other.nbJobs;
+
+    solution.resize(nbJobs);
+    for(int cpt = 0; cpt<nbJobs; ++cpt) {
+        solution[cpt] = other.solution[cpt];
+    }
+
+    enddate.resize(nbJobs+1);
+    for (int cpt = 0; cpt <= nbJobs; ++cpt) {
+        enddate[cpt].resize(other.enddate.size());
+        for(int cpt2 = other.enddate.size()-1; cpt2>=0; --cpt2) {
+            enddate[cpt][cpt2] = other.enddate[cpt][cpt2];
+        }
+    }
+}
+
+Solution::Solution() {}
+
 Solution::~Solution() {}
 
-int Solution::getJ(int j) {
+void Solution::initialize(const PfspInstance & instance) {
+    nbJobs = instance.getNbJob();
+    solution.resize(nbJobs);
+
+    enddate.resize(nbJobs+1); // 1st dimension
+    for (int cpt = 0; cpt <= nbJobs; ++cpt) {
+        enddate[cpt].resize(instance.getNbMac()+1); // 2nd dimension
+        enddate[cpt][0] = 0; //all jobs are available from the start
+    }
+    for (int cpt = 0; cpt <= instance.getNbMac(); ++cpt) {
+        enddate[0][cpt] = 0; //all machines are available from the start
+    }   
+}
+
+int Solution::getJ(const int j) const {
     return solution[j];
 }
 
-void Solution::setJ(int i, int j) {
+void Solution::setJ(const int i, const int j) {
     solution[i] = j;
 }
 
@@ -55,7 +88,7 @@ void Solution::randomPermutation() {
     }
 }
 
-void Solution::constructRZ(PfspInstance & instance) {
+void Solution::constructRZ(const PfspInstance & instance) {
   //variable
     vector<double> T (nbJobs); //to calculate the weighted sum of processing time
     vector<int> jobtoplace (nbJobs); //to order jobs
@@ -112,11 +145,11 @@ void Solution::constructRZ(PfspInstance & instance) {
   //end
 }
 
-int Solution::generateRndPosition(int min, int max) {
+int Solution::generateRndPosition(const int min, const int max) const {
     return ( rand() % max + min );
 }
 
-void Solution::print() {
+void Solution::print() const {
     for(int i = 0; i<nbJobs; ++i) {
         cout<<solution.at(i)<<" ";
     }

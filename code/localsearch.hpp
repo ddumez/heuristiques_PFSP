@@ -1,7 +1,7 @@
 /**
- * \file solution.hpp
+ * \file localsearch.hpp
  * \author dorian dumez
- * \brief define object wich containt solution's information and function
+ * \brief define object to perform local search
  */
 
 #ifndef LOCALSEARCH
@@ -11,7 +11,7 @@
 #include "pfspinstance.hpp"
 
 /**
-* \class LocalSearch : caontains all neibouhoud relation
+* \class LocalSearch : contains all neibouhoud relation
 */
 class LocalSearch{
   private:
@@ -32,7 +32,7 @@ class LocalSearch{
   	* \param[in] choix the index of the neighborhoud to use
     * \param[in] PPD the way to use the local search
   	*/
-  	LocalSearch(int choix, bool PPD, bool dofor);
+  	LocalSearch(const int choix, const bool PPD, const bool dofor);
 
     /**
     * \brief free the memory of the object
@@ -47,7 +47,7 @@ class LocalSearch{
     *
     * \return true iff the solution was imrove
     */
-    bool search(PfspInstance & instance, Solution & sol);
+    bool search(const PfspInstance & instance, Solution & sol) const;
 
     /**
     * \brief use the neighborhoud relation in the defined way until no improvement are possible
@@ -57,28 +57,28 @@ class LocalSearch{
     *
     * \return true iff the solution was imrove
     */
-    void descent(PfspInstance & instance, Solution & sol);
+    void descent(const PfspInstance & instance, Solution & sol) const;
 
     /**
     * \brief to change to used neigborhoud relation
     *
     * \param[in] choix the index of the new relation to use
     */
-    void changechoix(int choix);
+    void changechoix(const int choix);
 
     /**
     * \brief to change the way of the neighborhoud relation is used
     *
     * \param[in] PPD the new value of this atribute
     */
-    void changePPD(bool PPD);
+    void changePPD(const bool PPD);
 
     /**
     * \brief to change the way to do a descent
     *
     * \param[in] dofor the new value of this atribute
     */
-    void changedofor(bool dofor);
+    void changedofor(const bool dofor);
 
   private:
     /**
@@ -89,7 +89,7 @@ class LocalSearch{
     *
     * \return true iff the solution was imrove
     */
-    bool transpose(PfspInstance & instance, Solution & sol);
+    bool transpose(const PfspInstance & instance, Solution & sol) const;
 
     /**
     * \brief improve the solution with the transpose neighborhoud (but doesn't stop at the first improvement)
@@ -99,7 +99,7 @@ class LocalSearch{
     *
     * \return true iff the solution was imrove
     */
-    bool transposedofor(PfspInstance & instance, Solution & sol);
+    bool transposedofor(const PfspInstance & instance, Solution & sol) const;
 
     /**
     * \brief improve the solution with transpose neighborhoud in deapest descent
@@ -109,7 +109,7 @@ class LocalSearch{
     *
     * \return true iff the solution was imrove
     */
-    bool transposePPD(PfspInstance & instance, Solution & sol);
+    bool transposePPD(const PfspInstance & instance, Solution & sol) const;
 
     /**
     * \brief improve the solution with exchange neighborhoud
@@ -119,7 +119,7 @@ class LocalSearch{
     *
     * \return true iff the solution was imrove
     */
-    bool exchange(PfspInstance & instance, Solution & sol);
+    bool exchange(const PfspInstance & instance, Solution & sol) const;
 
     /**
     * \brief improve the solution with exchange neighborhoud (but doesn't stop at the first improvement)
@@ -129,7 +129,7 @@ class LocalSearch{
     *
     * \return true iff the solution was imrove
     */
-    bool exchangedofor(PfspInstance & instance, Solution & sol);
+    bool exchangedofor(const PfspInstance & instance, Solution & sol) const;
 
     /**
     * \brief improve the solution with exchange neighborhoud in deapest descent
@@ -139,7 +139,7 @@ class LocalSearch{
     *
     * \return true iff the solution was imrove
     */
-    bool exchangePPD(PfspInstance & instance, Solution & sol);
+    bool exchangePPD(const PfspInstance & instance, Solution & sol) const;
 
     /**
     * \brief improve the solution with insert neighborhoud
@@ -149,7 +149,7 @@ class LocalSearch{
     *
     * \return true iff the solution was imrove
     */
-    bool insert(PfspInstance & instance, Solution & sol);
+    bool insert(const PfspInstance & instance, Solution & sol) const;
 
     /**
     * \brief improve the solution with insert neighborhoud (but doesn't stop at the first improvement)
@@ -159,7 +159,7 @@ class LocalSearch{
     *
     * \return true iff the solution was imrove
     */
-    bool insertdofor(PfspInstance & instance, Solution & sol);
+    bool insertdofor(const PfspInstance & instance, Solution & sol) const;
 
     /**
     * \brief improve the solution with insert neighborhoud in deapest descent
@@ -169,7 +169,7 @@ class LocalSearch{
     *
     * \return true iff the solution was imrove
     */
-    bool insertPPD(PfspInstance & instance, Solution & sol);
+    bool insertPPD(const PfspInstance & instance, Solution & sol) const;
 
 };
 

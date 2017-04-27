@@ -61,14 +61,14 @@ class PfspInstance{
     *
     * \return the number of job
     */
-    int getNbJob();
+    int getNbJob() const;
 
     /**
     * \brief get the number of machine
     *
     * \return the number of machine
     */
-    int getNbMac();
+    int getNbMac() const;
 
     /**
     * \brief to get the processing time of a job on a machine
@@ -78,7 +78,7 @@ class PfspInstance{
     *
     * \return the processing of the job "job" on the machine "machine"
     */
-    long int getTime(int job, int machine);
+    long int getTime(const int job, const int machine) const;
 
     /**
     * \brief to get the value of the weight of this job
@@ -87,7 +87,7 @@ class PfspInstance{
     *
     * \return the weight of this job
     */
-    long int getPriority(int job);
+    long int getPriority(const int job) const;
     
     /**
     * \brief Read Data from a file
@@ -105,7 +105,7 @@ class PfspInstance{
     *
     * \return the value of the objective function on this permutation
     */
-    long int computeWCT (Solution & sol);
+    long int computeWCT (Solution & sol) const;
 
     /**
     * \brief compute the weighted sum of completion time of a partialy constructed solution
@@ -115,7 +115,7 @@ class PfspInstance{
     *
     * \return the value of the objective function on this permutation
     */
-    long int computeWCTpartial (Solution & sol, int end);
+    long int computeWCTpartial (Solution & sol, int end) const;
 
     /**
     * \brief compute the weighted sum of completion time of a modified solution
@@ -126,7 +126,7 @@ class PfspInstance{
     *
     * \return the value of the objective function on this permutation
     */
-    long int recomputeWCT (Solution & sol, int start);
+    long int recomputeWCT (Solution & sol, int start) const;
 
   private:
     /**
@@ -135,7 +135,7 @@ class PfspInstance{
     * \param[in] nbJ number of job of the instance
     * \param[in] nbM number of machine of the instance
     */
-    void allowMatrixMemory(int nbJ, int nbM);
+    void allowMatrixMemory(const int nbJ, const int nbM);
 
     /**
     * \brief to set the processing time of a job on a machine
@@ -144,7 +144,7 @@ class PfspInstance{
     * \param[in] machine the index of the machine to consider
     * \param[in] processTime the time do do this task
     */
-    void setTime(int job, int machine, long int processTime);
+    void setTime(const int job, const int machine, const long int processTime);
 
     /**
     * \brief to set the value of the weight of this job
@@ -152,7 +152,7 @@ class PfspInstance{
     * \param[in] jab the index of the job to consider
     * \param[in] value the weight of this job
     */
-    void setPriority(int job, int value);
+    void setPriority(const int job, const int value);
 
 };
 
