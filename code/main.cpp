@@ -42,8 +42,8 @@ using namespace std;
 #define NBEXEC 5
 
 #define RELATIVE_DEVIATION
-//#define SCORE
-//#define EXECUTION_TIME
+#define SCORE
+#define EXECUTION_TIME
 
 /**
 * \brief improve the solution with the vnd indea with the 3 local search
@@ -58,11 +58,11 @@ void vnd(Solution & sol, PfspInstance & instance, LocalSearch neighborhoud [], i
 int main(int argc, char *argv[]) {
   //variable
     #ifdef RELATIVE_DEVIATION
-        long int tot;
+//        long int tot;
         long bestval = strtol(argv[2], NULL, 10);
     #endif
     #ifdef SCORE
-        long int tot;
+//        long int tot;
     #endif
     #ifdef EXECUTION_TIME
         clock_t t, tot;
@@ -84,7 +84,7 @@ int main(int argc, char *argv[]) {
     #ifdef EXECUTION_TIME
         t = clock();
     #endif
-    Tabu tabusearch(25, &instance);
+    Tabu tabusearch(7, 0.005, 0.3, &instance);
     Solution * solution = tabusearch.search(30);
     solution->print();
     #ifdef RELATIVE_DEVIATION
