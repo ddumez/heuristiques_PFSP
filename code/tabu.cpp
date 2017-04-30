@@ -34,10 +34,6 @@ Tabu::Tabu(const int tabuListLenght, const double longTimeMemoryImpact, const do
 
 Tabu::~Tabu() {}
 
-void Tabu::changetTLL(const int tll) {
-	tabuListLenght = tll;
-}
-
 Solution * Tabu::search(const clock_t tmax) {
 	//variable
 	int tmp;

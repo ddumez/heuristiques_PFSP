@@ -1,5 +1,5 @@
 /**
- * \file solution.hpp
+ * \file tabu.hpp
  * \author dorian dumez
  * \brief define object to perform a tabu search
  */
@@ -11,7 +11,7 @@
 #include "pfspinstance.hpp"
 
 /**
-* \class LocalSearch : contain all procedure for the tabu search
+* \class Tabu : contain all procedure for the tabu search
 */
 class Tabu{
   private:
@@ -41,13 +41,6 @@ class Tabu{
   	* \brief free memory
   	*/
   	~Tabu();
-
-  	/**
-  	* \brief change the tabu list lenght
-  	*
-  	* \param[in] tll the new tabu list lenght
-  	*/
-  	void changetTLL(const int tll);
 
   	/**
   	* \brief explore the seraching space during a certain amount of time
