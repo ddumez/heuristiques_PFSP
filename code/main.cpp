@@ -24,6 +24,9 @@
  * \brief run diferent heuristic on the PFSP to make experiments
  */
 
+// /home/dorian/R/x86_64-pc-linux-gnu-library/3.0/irace/bin/irace dans tunning
+//./main --instance ./../instances/50_20_01 --tabuListLenght 12 --longTimeMemoryImpact 0.005 --restartThreshold 0.1 --tmax 45 --bestval 595260 dans conde
+
 #include <iostream>
 #include <stdlib.h>
 #include <cstdlib>
@@ -31,6 +34,7 @@
 #include <cstdlib>
 #include <ctime>
 #include <time.h>
+#include <string.h>
 
 #include "solution.hpp"
 #include "pfspinstance.hpp"
@@ -41,9 +45,9 @@ using namespace std;
 
 #define NBEXEC 5
 
-#define RELATIVE_DEVIATION
+//#define RELATIVE_DEVIATION
 #define SCORE
-#define EXECUTION_TIME
+//#define EXECUTION_TIME
 
 /**
 * \brief improve the solution with the vnd indea with the 3 local search
@@ -57,26 +61,45 @@ void vnd(Solution & sol, PfspInstance & instance, LocalSearch neighborhoud [], i
 
 int main(int argc, char *argv[]) {
   //variable
+    //mesurment variable
     #ifdef RELATIVE_DEVIATION
-//        long int tot;
-        long bestval = strtol(argv[2], NULL, 10);
+        long int tot;
     #endif
     #ifdef SCORE
-//        long int tot;
+        long int tot;
     #endif
     #ifdef EXECUTION_TIME
         clock_t t, tot;
     #endif
     PfspInstance instance; // Create instance object
+    //parameter variable
+    int tabuListLenght; double longTimeMemoryImpact; double restartThreshold; char *instanceFile; clock_t tmax; long bestval;
 
   //start
-    if (argc == 1) {
-        cout << "Usage: ./flowshopWCT <instance_file>" << endl;
-        return 0;
+    for(int i=1; i< argc ; i++){
+        if(strcmp(argv[i], "--tabuListLenght") == 0){
+           tabuListLenght = atoi(argv[i+1]);
+           i++;
+        } else if(strcmp(argv[i], "--longTimeMemoryImpact") == 0){
+           longTimeMemoryImpact = atof(argv[i+1]);
+           i++;
+        } else if(strcmp(argv[i], "--restartThreshold") == 0){
+           restartThreshold = atof(argv[i+1]);
+           i++;
+        } else if(strcmp(argv[i], "--tmax") == 0) {
+           tmax = atol(argv[i+1]);
+           i++;
+        } else if(strcmp(argv[i], "--instance") == 0) {
+           instanceFile = argv[i+1];
+           i++;
+        } else if(strcmp(argv[i], "--bestval") == 0){
+           bestval = strtol(argv[i+1], NULL, 10);
+           i++;
+        }
     }
 
     // Read data from file
-    if (! instance.readDataFromFile(argv[1]) ) {
+    if (! instance.readDataFromFile(instanceFile) ) {
         return 1;
     }
 
@@ -84,14 +107,14 @@ int main(int argc, char *argv[]) {
     #ifdef EXECUTION_TIME
         t = clock();
     #endif
-    Tabu tabusearch(7, 0.005, 0.3, &instance);
-    Solution * solution = tabusearch.search(30);
-    solution->print();
+    Tabu tabusearch(tabuListLenght, longTimeMemoryImpact, restartThreshold, &instance);
+    Solution * solution = tabusearch.search(tmax);
+    //solution->print();
     #ifdef RELATIVE_DEVIATION
         cout<<100*(double)(instance.computeWCT(*solution) - bestval)/(double)bestval<<":"<<flush;
     #endif
     #ifdef SCORE
-        cout<<instance.computeWCT(*solution)<<":"<<flush;
+        cout<<instance.computeWCT(*solution)/*<<":"*/<<flush;
     #endif
     #ifdef EXECUTION_TIME
         t = clock() - t;

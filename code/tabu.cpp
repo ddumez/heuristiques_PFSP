@@ -51,9 +51,9 @@ Solution * Tabu::search(const clock_t tmax) {
 	//start
 	while (clock() - tstart < tmax*CLOCKS_PER_SEC) {
 		bestparc = LONG_MAX; flag = false;
-cout<<date<<": ";
+//cout<<date<<": ";
 
-/*		//loop for the exchange movement
+		//loop for the exchange movement
 		for(i = nbJob -1; i>0; --i) {
 			for(j = i-1; j>=0; --j) {
 				//exchange the ith job and the jth one
@@ -81,7 +81,7 @@ cout<<date<<": ";
 			}
 			instance->computeWCT(current);
 		}
-*/
+/*
 		//loop for the insert moove
 		for(int i = 0; i<nbJob; ++i) {
 			for(j = 0; j<nbJob-1; ++j) {
@@ -112,20 +112,21 @@ cout<<date<<": ";
 			}
 			instance->computeWCT(current);
 		}
-
+*/
 		//apply the best modification
-/*			//with exchange
+			//with exchange
 			tmp = current.getJ(besti);
 			current.setJ(besti, current.getJ(bestj));
 			current.setJ(bestj, tmp);
-*/			//with insert
+/*			//with insert
 			for(j = 0; j<=bestj; ++j) {
 				//bring forward the job
 				tmp = current.getJ( (besti+j)%nbJob  );
 				current.setJ((besti+j)%nbJob, current.getJ( (besti+j+1)%nbJob));
 				current.setJ((besti+j+1)%nbJob, tmp);
 			}
-cout<<besti<<" , "<<bestj; 
+*/
+//cout<<besti<<" , "<<bestj; 
 		
 		//update the end date table, before the copy
 		instance->computeWCT(current);
@@ -133,7 +134,7 @@ cout<<besti<<" , "<<bestj;
 		if(flag) {
 			delete(best);
 			best = new Solution(current);
-cout<<" !!!!!!! flag";
+//cout<<" !!!!!!! flag";
 		}
 
 		// move these two job become tabu
@@ -143,14 +144,14 @@ cout<<" !!!!!!! flag";
 
 		//test if a restart is needed
 		if (tmpval > (1+restartThreshold)*bestval) {
-cout<<" !!!!!!! restart";
+//cout<<" !!!!!!! restart";
 			current = Solution(*best);
 		}
 
 		//next iteration
 		++date;
 
-cout<<endl;
+//cout<<endl;
 	}
 
 	//end
