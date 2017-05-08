@@ -204,7 +204,7 @@ The implementation of VND is very classic. It have been implement in a generic w
 
 \subsection{Statistical test of neighbourhood}
 
-We perform the wilcoxon test on score, in a pairwise way, with a significance level of $0.05$. These result are compiled in the table \ref{wilcoxon pairwise test, solution quality}. Beside we do the same calculation for the execution time, these results are in the table \ref{wilcoxon pairwise test, execution time}. A population isn't comparable to itself so NaN is used in these cases.
+We perform the wilcoxon test on score, in a pairwise way, we will use a significance level of $0.05$ for interpretations. These result are compiled in the table \ref{wilcoxon pairwise test, solution quality}. Beside we do the same calculation for the execution time, these results are in the table \ref{wilcoxon pairwise test, execution time}. A population isn't comparable to itself so NaN is used in these cases.
 
 "tr", "ex" and "in" are use in the same way as previously for transpose, exchange and insert. "rnd" is used when the start solution isn't construct, and "rz" when the rz heuristic have been used. "DD" is always here when the descent have been done in deepest descent, i.e best improvement. Otherwise the pivoting rule is first improvement.
 

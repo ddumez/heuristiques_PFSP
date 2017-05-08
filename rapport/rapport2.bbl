@@ -1,0 +1,29 @@
+\begin{thebibliography}{1}
+
+\bibitem{irace}
+Manuel L\'{o}pez-Ib\`{a}nez \& J\'{e}r\'{e}mie Dubois-Lacoste \& Leslie
+  P\'{e}rez C\'{a}ceres \& Thomas Stutzle \&~Mauro Birattari.
+\newblock The irace package: Iterated racing for automatic algorithm
+  configuration.
+\newblock {\em Operations Research Perspectives}, 3:43--58, 2016.
+
+\bibitem{tabuprinciple}
+Fred Glover \& Manuel Laguna \&~Rafael Marti.
+\newblock {\em Principle of tabu search}.
+\newblock 2007.
+
+\bibitem{Pan201231}
+Quan-Ke Pan and Rubén Ruiz.
+\newblock Local search methods for the flowshop scheduling problem with
+  flowtime minimization.
+\newblock {\em European Journal of Operational Research}, 222(1):31 -- 43,
+  2012.
+
+\bibitem{Tseng2010121}
+Lin-Yu Tseng and Ya-Tai Lin.
+\newblock A genetic local search algorithm for minimizing total flowtime in the
+  permutation flowshop scheduling problem.
+\newblock {\em International Journal of Production Economics}, 127(1):121 --
+  128, 2010.
+
+\end{thebibliography}

@@ -25,7 +25,7 @@
  */
 
 // /home/dorian/R/x86_64-pc-linux-gnu-library/3.0/irace/bin/irace dans tunning
-//./main --instance ./../instances/50_20_01 --tabuListLenght 12 --longTimeMemoryImpact 0.005 --restartThreshold 0.1 --tmax 45 --bestval 595260 dans conde
+//./main --instance ./../instances/50_20_01 --tabuListLenght 12 --longTimeMemoryImpact 0.005 --restartThreshold 0.1 --tmax 45 --bestval 595260 dans code
 
 #include <iostream>
 #include <stdlib.h>
@@ -40,13 +40,14 @@
 #include "pfspinstance.hpp"
 #include "localsearch.hpp"
 #include "tabu.hpp"
+#include "ILS.hpp"
 
 using namespace std;
 
 #define NBEXEC 5
 
-//#define RELATIVE_DEVIATION
-#define SCORE
+#define RELATIVE_DEVIATION
+//#define SCORE
 //#define EXECUTION_TIME
 
 /**
@@ -73,18 +74,63 @@ int main(int argc, char *argv[]) {
     #endif
     PfspInstance instance; // Create instance object
     //parameter variable
-    int tabuListLenght; double longTimeMemoryImpact; double restartThreshold; char *instanceFile; clock_t tmax; long bestval;
+    char *instanceFile; clock_t tmax; long bestval;
+    int tabuListLenghtE; double longTimeMemoryImpactE; double restartThresholdE;
+    int tabuListLenghtI; double longTimeMemoryImpactI; double restartThresholdI;
+    int neighbours; int neighboursPerturb; bool DD = false; int acceptanceCrit; double longTimeMemoryImpact; double T0; double alpha; long l; double warmupThreshold; double T1;
+
+    //initialize random seed as constant
+    srand (0);
+
 
   //start
     for(int i=1; i< argc ; i++){
-        if(strcmp(argv[i], "--tabuListLenght") == 0){
-           tabuListLenght = atoi(argv[i+1]);
+        if(strcmp(argv[i], "--tabuListLenghtE") == 0){
+           tabuListLenghtE = atoi(argv[i+1]);
+           i++;
+        } else if(strcmp(argv[i], "--tabuListLenghtI") == 0){
+           tabuListLenghtI = atoi(argv[i+1]);
+           i++;
+        } else if(strcmp(argv[i], "--longTimeMemoryImpactE") == 0){
+           longTimeMemoryImpactE = atof(argv[i+1]);
+           i++;
+        } else if(strcmp(argv[i], "--longTimeMemoryImpactI") == 0){
+           longTimeMemoryImpactI = atof(argv[i+1]);
+           i++;
+        } else if(strcmp(argv[i], "--restartThresholdE") == 0){
+           restartThresholdE = atof(argv[i+1]);
+           i++;
+        } else if(strcmp(argv[i], "--restartThresholdI") == 0){
+           restartThresholdI = atof(argv[i+1]);
+           i++;
+        } else if(strcmp(argv[i], "--neighbours") == 0){
+           neighbours = atoi(argv[i+1], NULL, 10);
+           i++;
+        } else if(strcmp(argv[i], "--neighboursPerturb") == 0){
+           neighboursPerturb = atoi(argv[i+1], NULL, 10);
+           i++;
+        } else if(strcmp(argv[i], "--DD") == 0){
+           DD = true;
+        } else if(strcmp(argv[i], "--acceptanceCrit") == 0){
+           acceptanceCrit = atoi(argv[i+1], NULL, 10);
            i++;
         } else if(strcmp(argv[i], "--longTimeMemoryImpact") == 0){
            longTimeMemoryImpact = atof(argv[i+1]);
            i++;
-        } else if(strcmp(argv[i], "--restartThreshold") == 0){
-           restartThreshold = atof(argv[i+1]);
+        } else if(strcmp(argv[i], "--T0") == 0){
+           T0 = atof(argv[i+1]);
+           i++;
+        } else if(strcmp(argv[i], "--alpha") == 0){
+           alpha = atof(argv[i+1]);
+           i++;
+        } else if(strcmp(argv[i], "--l") == 0){
+           l = strtol(argv[i+1], NULL, 10);
+           i++;
+        } else if(strcmp(argv[i], "--warmupThreshold") == 0){
+           warmupThreshold = atof(argv[i+1]);
+           i++;
+        } else if(strcmp(argv[i], "--T1") == 0){
+           T1 = atof(argv[i+1]);
            i++;
         } else if(strcmp(argv[i], "--tmax") == 0) {
            tmax = atol(argv[i+1]);
@@ -107,30 +153,66 @@ int main(int argc, char *argv[]) {
     #ifdef EXECUTION_TIME
         t = clock();
     #endif
-    Tabu tabusearch(tabuListLenght, longTimeMemoryImpact, restartThreshold, &instance);
+    Tabu tabusearch(tabuListLenghtE, longTimeMemoryImpactE, restartThresholdE, &instance, 1);
     Solution * solution = tabusearch.search(tmax);
-    //solution->print();
     #ifdef RELATIVE_DEVIATION
         cout<<100*(double)(instance.computeWCT(*solution) - bestval)/(double)bestval<<":"<<flush;
     #endif
     #ifdef SCORE
-        cout<<instance.computeWCT(*solution)/*<<":"*/<<flush;
+        cout<<instance.computeWCT(*solution)<<":"<<flush;
     #endif
     #ifdef EXECUTION_TIME
         t = clock() - t;
         cout<<(double)((double)t/(double)(CLOCKS_PER_SEC))<<":"<<flush;
     #endif
     delete(solution);
+
+    #ifdef EXECUTION_TIME
+        t = clock();
+    #endif
+    Tabu tabusearch2(tabuListLenghtI, longTimeMemoryImpactI, restartThresholdI, &instance, 2);
+    solution = tabusearch2.search(tmax);
+    #ifdef RELATIVE_DEVIATION
+        cout<<100*(double)(instance.computeWCT(*solution) - bestval)/(double)bestval<<flush;
+    #endif
+    #ifdef SCORE
+        cout<<instance.computeWCT(*solution)<<flush;
+    #endif
+    #ifdef EXECUTION_TIME
+        t = clock() - t;
+        cout<<(double)((double)t/(double)(CLOCKS_PER_SEC))<<flush;
+    #endif
+    delete(solution);
     cout<<endl;
+/*
+    #ifdef EXECUTION_TIME
+        t = clock();
+    #endif
+    if (3 == acceptanceCrit) {
+        Ils iterativeLocalSearch(neighbours, neighboursPerturb, DD, 3, longTimeMemoryImpact, &instance, T0, alpha, l, warmupThreshold, T1);
+    } else {
+        Ils iterativeLocalSearch(neighbours, neighboursPerturb, DD, acceptanceCrit, longTimeMemoryImpact, &instance);
+    }
+    solution = iterativeLocalSearch.search(tmax);
+    #ifdef RELATIVE_DEVIATION
+        cout<<100*(double)(instance.computeWCT(*solution) - bestval)/(double)bestval<<flush;
+    #endif
+    #ifdef SCORE
+        cout<<instance.computeWCT(*solution)<<flush;
+    #endif
+    #ifdef EXECUTION_TIME
+        t = clock() - t;
+        cout<<(double)((double)t/(double)(CLOCKS_PER_SEC))<<flush;
+    #endif
+    delete(solution);
+    cout<<endl;
+*/
 /*
   //experiments for the first part of the project
     Solution sol (instance); // Create a Solution to represent the permutation
     LocalSearch search (1 , false, true);
     int i;
     LocalSearch neighborhoud [3];
-
-    //initialize random seed as constant
-    srand (0);
 
     //random, transpose    
         #ifdef RELATIVE_DEVIATION

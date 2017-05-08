@@ -1,0 +1,162 @@
+# Elitist race
+# Elitist new instances: 1
+# Elitist limit: 2
+# nbIterations: 3
+# minNbSurvival: 3
+# nbParameters: 3
+# seed: 705655580
+# confidence level: 0.95
+# budget: 4800
+# mu: 5
+# deterministic: TRUE
+
+# 2017-05-01 20:39:52 CEST: Iteration 1 of 3
+# experimentsUsedSoFar: 0
+# remainingBudget: 4800
+# currentBudget: 1600
+# nbConfigurations: 266
+  Markers:
+     x No test is performed.
+     - The test is performed and some configurations are discarded.
+     = The test is performed but no configuration is discarded.
+     ! The test is performed and configurations could be discarded but elite configurations are preserved.
+                                                                   
++-+-----------+-----------+-----------+---------------+-----------+--------+-----+----+------+
+| |   Instance|      Alive|       Best|      Mean best| Exp so far|  W time|  rho|KenW|  Qvar|
++-+-----------+-----------+-----------+---------------+-----------+--------+-----+----+------+
+|x|          1|        266|         42|    607227.0000|        266|01:06:43|   NA|  NA|    NA|
+|x|          2|        266|         14|    650196.0000|        532|01:06:43|-0.04|0.48|1.3668|
+|x|          3|        266|        137|    666415.3333|        798|01:06:43|-0.19|0.21|0.9896|
+|x|          4|        266|        137|    650806.0000|       1064|01:06:43|-0.03|0.23|1.0569|
+|=|          5|        266|         67|    631167.6000|       1330|01:06:43|-0.00|0.20|1.0121|
+|=|          6|        266|        234|    637085.6667|       1596|01:06:43|-0.03|0.14|1.0082|
++-+-----------+-----------+-----------+---------------+-----------+--------+-----+----+------+
+Best configuration:         234    mean value:     637085.6667
+Description of the best configuration:
+    .ID. tabuListLenght longTimeMemoryImpact restartThreshold .PARENT.
+234  234             14                0.543            0.056       NA
+
+# 2017-05-02 03:20:13 CEST: Elite configurations (first number is the configuration ID):
+    tabuListLenght longTimeMemoryImpact restartThreshold
+234             14                0.543            0.056
+139             13                0.807            0.076
+41              20                0.220            0.059
+# 2017-05-02 03:20:13 CEST: Iteration 2 of 3
+# experimentsUsedSoFar: 1596
+# remainingBudget: 3204
+# currentBudget: 1602
+# nbConfigurations: 231
+  Markers:
+     x No test is performed.
+     - The test is performed and some configurations are discarded.
+     = The test is performed but no configuration is discarded.
+     ! The test is performed and configurations could be discarded but elite configurations are preserved.
+                                                                   
++-+-----------+-----------+-----------+---------------+-----------+--------+-----+----+------+
+| |   Instance|      Alive|       Best|      Mean best| Exp so far|  W time|  rho|KenW|  Qvar|
++-+-----------+-----------+-----------+---------------+-----------+--------+-----+----+------+
+|x|          7|        231|        270|    673657.0000|        231|00:57:43|   NA|  NA|    NA|
+|x|          6|        231|        234|    665097.5000|        459|00:56:58|-0.33|0.34|1.0817|
+|x|          2|        231|        234|    674275.3333|        687|00:56:58|-0.04|0.31|1.1830|
+|x|          3|        231|        367|    677486.2500|        915|00:56:58|-0.02|0.24|1.0628|
+|=|          5|        231|        367|    660015.6000|       1143|00:57:00|-0.01|0.19|0.9805|
+|=|          1|        231|        234|    652079.8333|       1371|00:56:58|-0.05|0.13|1.0400|
+|=|          4|        231|        482|    643051.7143|       1599|00:56:59|-0.00|0.14|1.0449|
++-+-----------+-----------+-----------+---------------+-----------+--------+-----+----+------+
+Best configuration:         482    mean value:     643051.7143
+Description of the best configuration:
+    .ID. tabuListLenght longTimeMemoryImpact restartThreshold .PARENT.
+482  482             10                0.589            0.061      234
+
+# 2017-05-02 09:59:53 CEST: Elite configurations (first number is the configuration ID):
+    tabuListLenght longTimeMemoryImpact restartThreshold
+482             10                0.589            0.061
+484             15                0.535            0.061
+406             15                0.812            0.048
+# 2017-05-02 09:59:53 CEST: Iteration 3 of 3
+# experimentsUsedSoFar: 3195
+# remainingBudget: 1605
+# currentBudget: 1605
+# nbConfigurations: 203
+  Markers:
+     x No test is performed.
+     - The test is performed and some configurations are discarded.
+     = The test is performed but no configuration is discarded.
+     ! The test is performed and configurations could be discarded but elite configurations are preserved.
+                                                                   
++-+-----------+-----------+-----------+---------------+-----------+--------+-----+----+------+
+| |   Instance|      Alive|       Best|      Mean best| Exp so far|  W time|  rho|KenW|  Qvar|
++-+-----------+-----------+-----------+---------------+-----------+--------+-----+----+------+
+|x|          8|        203|        509|    612542.0000|        203|00:50:59|   NA|  NA|    NA|
+|x|          1|        203|        613|    610192.5000|        403|00:50:14|+0.39|0.69|0.8576|
+|x|          7|        203|        406|    631381.3333|        603|00:50:14|+0.21|0.48|0.8916|
+|x|          3|        203|        406|    646187.0000|        803|00:50:14|-0.08|0.19|1.0729|
+|=|          4|        203|        520|    632840.0000|       1003|00:50:14|+0.03|0.22|1.0397|
+|-|          6|        130|        590|    636985.8333|       1203|00:50:14|-0.05|0.13|1.0678|
+|=|          2|        130|        590|    644935.1429|       1330|00:32:14|-0.03|0.12|1.0101|
+|=|          5|        130|        590|    638127.6250|       1457|00:32:14|+0.02|0.15|1.0102|
+|=|          9|        130|        482|    625429.2222|       1587|00:32:59|-0.01|0.10|1.0171|
++-+-----------+-----------+-----------+---------------+-----------+--------+-----+----+------+
+Best configuration:         482    mean value:     625429.2222
+Description of the best configuration:
+    .ID. tabuListLenght longTimeMemoryImpact restartThreshold .PARENT.
+482  482             10                0.589            0.061      234
+
+# 2017-05-02 16:39:33 CEST: Elite configurations (first number is the configuration ID):
+    tabuListLenght longTimeMemoryImpact restartThreshold
+482             10                0.589            0.061
+484             15                0.535            0.061
+502             15                0.544            0.061
+# 2017-05-02 16:39:33 CEST: Iteration 4 of 4
+# experimentsUsedSoFar: 4782
+# remainingBudget: 18
+# currentBudget: 18
+# nbConfigurations: 4
+  Markers:
+     x No test is performed.
+     - The test is performed and some configurations are discarded.
+     = The test is performed but no configuration is discarded.
+     ! The test is performed and configurations could be discarded but elite configurations are preserved.
+                                                                   
++-+-----------+-----------+-----------+---------------+-----------+--------+-----+----+------+
+| |   Instance|      Alive|       Best|      Mean best| Exp so far|  W time|  rho|KenW|  Qvar|
++-+-----------+-----------+-----------+---------------+-----------+--------+-----+----+------+
+|x|         10|          4|        695|    674191.0000|          4|00:01:29|   NA|  NA|    NA|
+|x|          5|          4|        502|    638201.5000|          5|00:00:45|-0.80|0.10|1.4974|
+|x|          1|          4|        502|    628054.6667|          6|00:00:45|-0.29|0.14|0.9982|
+|x|          9|          4|        502|    599734.7500|          7|00:00:45|+0.00|0.25|0.7487|
+|=|          3|          4|        502|    617908.6000|          8|00:00:45|-0.18|0.05|0.8995|
+|=|          8|          4|        502|    617044.8333|          9|00:00:45|-0.06|0.12|0.7995|
+|=|          2|          4|        502|    627842.8571|         10|00:00:45|+0.04|0.18|0.7138|
+|=|          7|          4|        502|    634485.3750|         11|00:00:45|+0.13|0.24|0.6424|
+|-|          6|          3|        502|    634936.7778|         12|00:00:45|+0.00|0.11|0.0741|
++-+-----------+-----------+-----------+---------------+-----------+--------+-----+----+------+
+Best configuration:         502    mean value:     634936.7778
+Description of the best configuration:
+    .ID. tabuListLenght longTimeMemoryImpact restartThreshold .PARENT.
+502  502             15                0.544            0.061      484
+
+# 2017-05-02 16:47:03 CEST: Elite configurations (first number is the configuration ID):
+    tabuListLenght longTimeMemoryImpact restartThreshold
+502             15                0.544            0.061
+482             10                0.589            0.061
+484             15                0.535            0.061
+# 2017-05-02 16:47:03 CEST: Stopped because there is not enough budget left to race more than the minimum (3)
+# You may either increase the budget or set 'minNbSurvival' to a lower value
+# Iteration: 5
+# nbIterations: 5
+# experimentsUsedSoFar: 4794
+# timeUsed: 0
+# remainingBudget: 6
+# currentBudget: 6
+# number of elites: 3
+# nbConfigurations: 3
+# Best configurations (first number is the configuration ID)
+    tabuListLenght longTimeMemoryImpact restartThreshold
+502             15                0.544            0.061
+482             10                0.589            0.061
+484             15                0.535            0.061
+# Best configurations as commandlines (first number is the configuration ID)
+502  --tabuListLenght 15 --longTimeMemoryImpact 0.544 --restartThreshold 0.061
+482  --tabuListLenght 10 --longTimeMemoryImpact 0.589 --restartThreshold 0.061
+484  --tabuListLenght 15 --longTimeMemoryImpact 0.535 --restartThreshold 0.061

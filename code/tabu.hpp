@@ -25,6 +25,7 @@ class Tabu{
   	long bestval; /*< value of the best solution found so far */
     double longTimeMemoryImpact; /*< impact of the long time memory to the choice of the movement */
     double restartThreshold; /*< thresold ratio for restart */
+    int neighbours; /*<code of the neighbours relation to use : 1->exchange, 2->insert*/
 
   public:
   	/**
@@ -35,7 +36,7 @@ class Tabu{
     * \param[in] restartThreshold ratio between the curent and the best solution to initiate a restart from the best solution
   	* \param[in] instance instance on which we sould work
   	*/
-  	Tabu(const int tabuListLenght, const double longTimeMemoryImpact, const double restartThreshold, PfspInstance * instance);
+  	Tabu(const int tabuListLenght, const double longTimeMemoryImpact, const double restartThreshold, PfspInstance * instance, const int neighbours);
 
   	/**
   	* \brief free memory
