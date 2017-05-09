@@ -7,9 +7,9 @@
 #ifndef ILS
 #define ILS
 
-#include <vector>
+#include <climits>
 
-#include "ILS.hpp"
+#include "localsearch.hpp"
 #include "pfspinstance.hpp"
 #include "solution.hpp"
 
@@ -20,13 +20,13 @@ class Ils{
 	private:
 		LocalSearch * neighborhoud; /*<local search to use */
 		int neighboursPerturb; /*<code of the neighbours relation to use for perturbation : 1->exchange, 2->insert*/
-		int acceptanceCrit; /*<code of the acceptance criterion to use : 1->only improvement, 2->always, 3->metropolis(need to defined other parameter)*/
+		double perturbFrac; /*< fraction of the solution that must be perturbed */
+		double perturbRadius; /*< caracterise the maximal distance between two perturb job */
+		int acceptanceCrit; /*<code of the acceptance criterion to use : 1->only improvement, 2->always, 3->metropolis(need to defined other parameter), 4->simulated annealing type*/
 		double alpha; /*<cooling factor for the metropolis criterion*/
 		long l; /*<size of a cooling plateau for the metropolis criterion*/
 		double warmupThreshold; /*<if this temperature is reach a warm up is use for the metropolis criterion*/
 		double T1; /*<value of the temperature after a warm up for the metropolis criterion*/
-		double longTimeMemoryImpact; /*<impact on the roulette wheel of perturbation of previous perturbation*/
-		std::vector< std::vector< int > > mem; /*<memory of the previous perturbation*/
   		long date; /*< number of loop to performed before the next cooling*/
   		double T; /*< current temperature, for the metropolis criterion*/
   		Solution * best; /*< best solution found so far */
@@ -37,26 +37,50 @@ class Ils{
   	
 	public:
 		/**
-		* \brief initialize the Ils
+		* \brief empty constructor, need to call init before use this object
+		*/
+		Ils();
+
+		/**
+		* \brief create and initialize the Ils
 		*
 		* \param[in] neighbours code of the neighbours relation to use : 1->exchange, 2->insert
 		* \param[in] neighboursPerturb code of the neighbours relation to use for perturbation : 1->exchange, 2->insert
 		* \param[in] DD true iff the neighbourhood should be crossed in deapest descent
-		* \param[in] acceptanceCrit code of the acceptance criterion to use : 1->only improvement, 2->always, 3->metropolis
-		* \param[in] longTimeMemoryImpact impact on the roulette wheel of perturbation of previous perturbation
+		* \param[in] acceptanceCrit code of the acceptance criterion to use : 1->only improvement, 2->always, 3->metropolis, 4->simulated annealing type
+		* \param[in] perturbFrac fraction of the solution that must be perturbed
+		* \param[in] perturbRadius caracterise the maximal distance between two perturb job
 		* \param[in] instance instance on which we work
-		* \param[in] T0 initial temperature for the metropolis criterion
+		* \param[in] T0 initial temperature for the metropolis criterion or the simulated annealing type
 		* \param[in] alpha cooling factor for the metropolis criterion
 		* \param[in] l size of a cooling plateau for the metropolis criterion
 		* \param[in] warmupThreshold if this temperature is reach a warm up is use for the metropolis criterion
 		* \param[in] T1 value of the temperature after a warm up for the metropolis criterion
 		*/
-		Ils(const int neighbours, const int neighboursPerturb, const bool DD, const int acceptanceCrit, const double longTimeMemoryImpact, PfspInstance * instance, const double T0 = 0, const double alpha = 0, const long l = 0, const double warmupThreshold = 0, const double T1 = 0);
+		Ils(const int neighbours, const int neighboursPerturb, const bool DD, const int acceptanceCrit, const double perturbFrac, const double perturbRadius, PfspInstance * instance, const double T0 = 0.0, const double alpha = 1.0, const long l = LONG_MAX, const double warmupThreshold = -1.0, const double T1 = 0.0);
 
 		/**
 		* \brief free the memory
 		*/
-		~Ils()
+		~Ils();
+
+		/**
+		* \brief initialize the Ils
+		*
+		* \param[in] neighbours code of the neighbours relation to use : 1->exchange, 2->insert
+		* \param[in] neighboursPerturb code of the neighbours relation to use for perturbation : 1->exchange, 2->insert
+		* \param[in] DD true iff the neighbourhood should be crossed in deapest descent
+		* \param[in] acceptanceCrit code of the acceptance criterion to use : 1->only improvement, 2->always, 3->metropolis, 4->simulated annealing type
+		* \param[in] perturbFrac fraction of the solution that must be perturbed
+		* \param[in] perturbRadius caracterise the maximal distance between two perturb job
+		* \param[in] instance instance on which we work
+		* \param[in] T0 initial temperature for the metropolis criterion or the simulated annealing type
+		* \param[in] alpha cooling factor for the metropolis criterion
+		* \param[in] l size of a cooling plateau for the metropolis criterion
+		* \param[in] warmupThreshold if this temperature is reach a warm up is use for the metropolis criterion
+		* \param[in] T1 value of the temperature after a warm up for the metropolis criterion
+		*/
+		void init(const int neighbours, const int neighboursPerturb, const bool DD, const int acceptanceCrit, const double perturbFrac, const double perturbRadius, PfspInstance * instance, const double T0 = 0.0, const double alpha = 1.0, const long l = LONG_MAX, const double warmupThreshold = -1.0, const double T1 = 0.0);
 
 		/**
 	  	* \brief explore the seraching space during a certain amount of time
@@ -82,3 +106,5 @@ class Ils{
 		bool keep(const long valprev, Solution * sol) const;
 
 };
+
+#endif

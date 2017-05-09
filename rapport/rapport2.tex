@@ -24,7 +24,7 @@ The whole project can be compiled by making "make" in the code directory. Beside
 
 The main code call the tabu search and the iterative local search with given parameter on the given instance. The only two common parameter are the instance, specified with "--instance path\_to\_instance", and the time budget (always the same for the three function), specified with "--tmax time\_budget\_as\_long". Then the output will be de mean value over 5 execution (or 1 for deterministic algorithm) of the measurement. Score, relative deviation and execution time can be measured, this is chose by comment/uncomment preprocessor variable at the beginning of "main.cpp".
 
-The two tabu search have same parameter but they can be different. First, the tabu list length control the time that a move stay tabou, it's controlled with "--tabuListLenghtE integer\_value" for the exchange tabu search and "--tabuListLenghtI integer\_value" for the insert tabu search. Secondly, the long time memory impact is a floating point value that quantify the penalisation weight of the long time memory, it's controlled with "--longTimeMemoryImpactE double\_value" and "--longTimeMemoryImpactI double\_value". Finally, the restart threshold is the acceptable relative deviation between the current solution and the best one, if this exceed the current solution become again the best one, this is set with "--restartThresholdE double\_value" and "--restartThresholdI double\_value".
+We can say that we have two tabu search, one with the exchange neighbourhood and one with the insert one, It's choose with the "--neighbourTabu neighbour\_index" (1 for exchange and 2 for insert). But these two tabu search use same parameter so the neighbourhood to use is just one of them. First, the tabu list length control the time that a move stay tabou, it's controlled with "--tabuListLenght integer\_value". Secondly, the long time memory impact is a floating point value that quantify the penalisation weight of the long time memory, it's controlled with "--longTimeMemoryImpact double\_value". Finally, the restart threshold is the acceptable relative deviation between the current solution and the best one, if this exceed the current solution become again the best one, this is set with "--restartThreshold double\_value".
 
 \subsection{Initial solution}
 
@@ -99,34 +99,36 @@ During the first part we prefer VND with transpose then exchange then insert ini
 
 \subsection{Statistical comparison}
 
+Because we use two time irace to tune the tabu search with his two neighbours we have to compare them. In a first time we can notice, in table \ref{Relative deviation average of tabu} and \ref{Relative deviation standard deviation of tabu}, that setting propose by irace with only 50 size instance scale pretty good on 100 size instance, and it's became very confusing with the insert version. Anyway it's seems that tabu with exchange neighbourhood is clearly better, and it's confirmed by the wilcoxon test value of $1.67 e^{-11}$.
+
 \begin{table}[!h]
 \centering
 \begin{tabular}{|*{7}{c|}}
   \hline
-  size & tabuE & tabuI & ILSE & ILSI \\
+  size & tabuE & tabuI\\
   \hline
-  50 & 0.55 & 4.51 & ? & ? \\ 
-  100 & ? & ? & ? & ? \\
-  all & ? & ? & ? & ? \\
+  50 & 0.55 & 4.51 \\ 
+  100 & 1.01 & 3.88 \\
+  all & 0.77 & 4.17 \\
   \hline
 \end{tabular}
-\caption{Relative deviation average in \% }
-\label{Relative deviation average}
+\caption{Relative deviation average in \% of tabu}
+\label{Relative deviation average of tabu}
 \end{table}
 
 \begin{table}[!h]
 \centering
 \begin{tabular}{|*{7}{c|}}
   \hline
-  size & tabuE & tabuI & ILSE & ILSI \\
+  size & tabuE & tabuI\\
   \hline
-  50 & 0.21 & 3.90 & ? & ? \\ 
-  100 & ? & ? & ? & ? \\
-  all & ? & ? & ? & ? \\
+  50 & 0.21 & 3.90 \\ 
+  100 & 0.31 & 2.52 \\
+  all & 0.35 & 3.26 \\
   \hline
 \end{tabular}
-\caption{Relative deviation standard deviation}
-\label{Relative deviation standard deviation}
+\caption{Relative deviation standard deviation of tabu}
+\label{Relative deviation standard deviation of tabu}
 \end{table}
 
 \subsection{Behaviour analysis}
