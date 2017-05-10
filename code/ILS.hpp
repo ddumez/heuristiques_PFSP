@@ -42,30 +42,12 @@ class Ils{
 		Ils();
 
 		/**
-		* \brief create and initialize the Ils
-		*
-		* \param[in] neighbours code of the neighbours relation to use : 1->exchange, 2->insert
-		* \param[in] neighboursPerturb code of the neighbours relation to use for perturbation : 1->exchange, 2->insert
-		* \param[in] DD true iff the neighbourhood should be crossed in deapest descent
-		* \param[in] acceptanceCrit code of the acceptance criterion to use : 1->only improvement, 2->always, 3->metropolis, 4->simulated annealing type
-		* \param[in] perturbFrac fraction of the solution that must be perturbed
-		* \param[in] perturbRadius caracterise the maximal distance between two perturb job
-		* \param[in] instance instance on which we work
-		* \param[in] T0 initial temperature for the metropolis criterion or the simulated annealing type
-		* \param[in] alpha cooling factor for the metropolis criterion
-		* \param[in] l size of a cooling plateau for the metropolis criterion
-		* \param[in] warmupThreshold if this temperature is reach a warm up is use for the metropolis criterion
-		* \param[in] T1 value of the temperature after a warm up for the metropolis criterion
-		*/
-		Ils(const int neighbours, const int neighboursPerturb, const bool DD, const int acceptanceCrit, const double perturbFrac, const double perturbRadius, PfspInstance * instance, const double T0 = 0.0, const double alpha = 1.0, const long l = LONG_MAX, const double warmupThreshold = -1.0, const double T1 = 0.0);
-
-		/**
 		* \brief free the memory
 		*/
 		~Ils();
 
 		/**
-		* \brief initialize the Ils
+		* \brief initialize the Ils with all parameter
 		*
 		* \param[in] neighbours code of the neighbours relation to use : 1->exchange, 2->insert
 		* \param[in] neighboursPerturb code of the neighbours relation to use for perturbation : 1->exchange, 2->insert

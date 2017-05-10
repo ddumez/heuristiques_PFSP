@@ -25,7 +25,10 @@
  */
 
 // /home/dorian/R/x86_64-pc-linux-gnu-library/3.0/irace/bin/irace dans tunning
-//./main --instance ./../instances/50_20_01 --tabuListLenght 12 --longTimeMemoryImpact 0.005 --restartThreshold 0.1 --tmax 45 --bestval 595260 dans code
+//./main --instance ./../instances/50_20_01 --tmax 45 --bestval 595260 --neighbourTabu 1 --tabuListLenght 10 --longTimeMemoryImpact 0.001 --restartThreshold 0.3 dans code pour tabu seul
+//./main --instance ./../instances/50_20_01 --tmax 45 --bestval 595260 --neighbourILS 1 -- neighbourPerturb 2 --acceptanceCrit 2 --perturbFrac 0.05 --perturbRadius 0.05 dans code pour ILS crit 1 ou 2
+//./main --instance ./../instances/50_20_01 --tmax 45 --bestval 595260 --neighbourILS 1 -- neighbourPerturb 2 --acceptanceCrit 3 --perturbFrac 0.05 --perturbRadius 0.05 --alpha 0.95 --T0 1000 --l 100 --warmupThreshold 80 --T1 500 dans code pour ILS crit 3
+//./main --instance ./../instances/50_20_01 --tmax 45 --bestval 595260 --neighbourILS 1 -- neighbourPerturb 2 --acceptanceCrit 4 --perturbFrac 0.05 --perturbRadius 0.05 --lamda 0.5 dans code pour ILS crit 4
 
 #include <iostream>
 #include <stdlib.h>
@@ -46,8 +49,8 @@ using namespace std;
 
 #define NBEXEC 1
 
-#define RELATIVE_DEVIATION
-//#define SCORE
+//#define RELATIVE_DEVIATION
+#define SCORE
 //#define EXECUTION_TIME
 
 /**
@@ -74,13 +77,16 @@ int main(int argc, char *argv[]) {
     #endif
     PfspInstance instance; // Create instance object
     int i;
+    Solution * solution;
     //parameter variable
     char *instanceFile; clock_t tmax; long bestval;
     int neighbourTabu; int tabuListLenght; double longTimeMemoryImpact; double restartThreshold;
-    int neighbourILS; int neighboursPerturb; bool DD = false; int acceptanceCrit; double T0; double lambda; double alpha; long l; double warmupThreshold; double T1;
+    int neighbourILS; int neighboursPerturb; bool DD = false; int acceptanceCrit; double perturbFrac; double perturbRadius; double T0; double lambda; double alpha; long l; double warmupThreshold; double T1;
 
     //initialize random seed as constant
-    srand (0);
+    //srand (0);
+    //or as random
+    srand(time(NULL));
 
 
   //start
@@ -107,6 +113,12 @@ int main(int argc, char *argv[]) {
            DD = true;
         } else if(strcmp(argv[i], "--acceptanceCrit") == 0){
            acceptanceCrit = atoi(argv[i+1]);
+           i++;
+        } else if(strcmp(argv[i], "--perturbFrac") == 0){
+           perturbFrac = atof(argv[i+1]);
+           i++;
+        } else if(strcmp(argv[i], "--perturbRadius") == 0){
+           perturbRadius = atof(argv[i+1]);
            i++;
         } else if(strcmp(argv[i], "--T0") == 0){
            T0 = atof(argv[i+1]);
@@ -144,11 +156,11 @@ int main(int argc, char *argv[]) {
     }
 
     //experiment for the second part of the project
-    #ifdef EXECUTION_TIME
+/*    #ifdef EXECUTION_TIME
         t = clock();
     #endif
     Tabu tabusearch(tabuListLenght, longTimeMemoryImpact, restartThreshold, &instance, neighbourTabu);
-    Solution * solution = tabusearch.search(tmax);
+    solution = tabusearch.search(tmax);
     #ifdef RELATIVE_DEVIATION
         cout<<100*(double)(instance.computeWCT(*solution) - bestval)/(double)bestval<<":"<<flush;
     #endif
@@ -160,9 +172,15 @@ int main(int argc, char *argv[]) {
         cout<<(double)((double)t/(double)(CLOCKS_PER_SEC))<<":"<<flush;
     #endif
     delete(solution);
-
+*/
+    #ifdef RELATIVE_DEVIATION
+        tot = 0;
+    #endif
+    #ifdef SCORE
+        tot = 0;
+    #endif
     #ifdef EXECUTION_TIME
-        t = clock();
+        tot = 0;
     #endif
     Ils iterativeLocalSearch;
     for(i = 0; i<NBEXEC; ++i) {
@@ -170,7 +188,7 @@ int main(int argc, char *argv[]) {
             t = clock();
         #endif
         if (3 == acceptanceCrit) {
-            iterativeLocalSearch.init(neighbourILS, neighboursPerturb, DD, 3, &instance, T0, alpha, l, warmupThreshold, T1);
+            iterativeLocalSearch.init(neighbourILS, neighboursPerturb, DD, 3, perturbFrac, perturbRadius, &instance, T0, alpha, l, warmupThreshold, T1);
         }else if (4 == acceptanceCrit) {
             for (int ii = instance.getNbJob(); ii>0; --ii) {
                 for(int jj = instance.getNbMac(); jj>0; --jj) {
@@ -178,11 +196,12 @@ int main(int argc, char *argv[]) {
                 }
             }
             T0 = lambda * (T0 / (10.0 * (double)(instance.getNbJob()) * (double)(instance.getNbMac())) );
-            iterativeLocalSearch.init(neighbourILS, neighboursPerturb, DD, 4, &instance, T0);
+            iterativeLocalSearch.init(neighbourILS, neighboursPerturb, DD, 4, perturbFrac, perturbRadius, &instance, T0);
         } else {
-            iterativeLocalSearch.init(neighbourILS, neighboursPerturb, DD, acceptanceCrit, longTimeMemoryImpact, &instance);
+            iterativeLocalSearch.init(neighbourILS, neighboursPerturb, DD, acceptanceCrit, perturbFrac, perturbRadius, &instance);
         }
         solution = iterativeLocalSearch.search(tmax);
+        solution->print();
         #ifdef RELATIVE_DEVIATION
             tot += instance.computeWCT(*solution);
         #endif
@@ -198,7 +217,7 @@ int main(int argc, char *argv[]) {
         cout<<100*(double)(tot/NBEXEC - bestval)/(double)(bestval)<<":"<<flush;
     #endif
     #ifdef SCORE
-        cout<<tot/NBEXEC<<":"<<flush;
+        cout<<tot/NBEXEC<<flush;
     #endif
     #ifdef EXECUTION_TIME
         cout<<(double)((double)tot/(double)(CLOCKS_PER_SEC*NBEXEC))<<":"<<flush;

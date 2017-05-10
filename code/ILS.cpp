@@ -12,9 +12,7 @@
 
 using namespace std;
 
-Ils::Ils(const int neighbours, const int neighboursPerturb, const bool DD, const int acceptanceCrit, const double perturbFrac, const double perturbRadius, PfspInstance * instance, const double T0, const double alpha, const long l, const double warmupThreshold, const double T1) {
-	init(neighbours, neighboursPerturb, DD, acceptanceCrit, perturbFrac, perturbRadius, instance, T0, alpha, l, warmupThreshold, T1);
-}
+Ils::Ils() {};
 
 Ils::~Ils() {}
 
@@ -50,20 +48,20 @@ Solution * Ils::search(const clock_t tmax) {
 	//start
 	while (clock() - tstart < tmax*CLOCKS_PER_SEC) {
 		parc = perturbe();
-		neighborhoud->descent(*instance, *current);
+		neighborhoud->descent(*instance, *parc);
+
 		if (keep(valprev, parc)) {
 			delete(current);
 			valprev = instance->computeWCT(*parc);
 			current = parc;
 			if (valprev < bestval) {
 				delete(best);
-				best = new Solution(*parc);
+				best = new Solution(*parc, false);
 				bestval = valprev;
 			}
 		} else {
 			delete(parc);
 		}
-
 		if (3 == acceptanceCrit) {
 			--date;
 			if (0 == date) {
@@ -82,33 +80,54 @@ Solution * Ils::search(const clock_t tmax) {
 
 Solution * Ils::perturbe() {
 	//variable
-	Solution * res = new Solution(*current);
-	long rest = (long)(nbJob * perturbFrac); //number of perturbation to be done
 	long radius = (long)(nbJob * perturbRadius); //radius of perturbation
-	int rnd1, rnd2;
-	int tmp,j;
+	Solution * res = new Solution(*current, false);
 
 	//start
 	if (radius > 0) {
-		while (rest > 0) {
+		//variable
+		long nbMove = (long)(nbJob * perturbFrac); //number of perturbation to be done
+		int rnd1, rnd2;
+		int tmp,j;
+
+		//start
+		for(int i = 0; i<nbMove; ++i) {
+			//select an acceptable random move acording to the radius
 			rnd1 = rand() % nbJob;
-			rnd2 = rand() % nbJob;
-			if (abs(rnd1 - rnd2) <= radius) {
-				--rest;
-				if (1 == neighboursPerturb) { //exchange
-					tmp = res->getJ(rnd1);
-					res->setJ(rnd1, res->getJ(rnd2));
-					res->setJ(rnd2, tmp);	
-				} else /*if (2 == neighboursPerturb)*/ { //insert
-					for(j = 0; j<=rnd2; ++j) {
-						tmp = res->getJ( (rnd1+j)%nbJob );
-						res->setJ((rnd1+j)%nbJob, res->getJ( (rnd1+j+1)%nbJob));
-						res->setJ((rnd1+j+1)%nbJob, tmp);
+			if (rand() / RAND_MAX < 0.5) {
+				rnd2 = (rnd1 + rand() % radius +1) %nbJob;
+			} else {
+				rnd2 = (rnd1 - rand() % radius -1) %nbJob;
+			}
+
+			//apply this move
+			if (1 == neighboursPerturb) { //exchange
+				//rnd1 th and rnd2 th job are exchange
+				tmp = res->getJ(rnd1);
+				res->setJ(rnd1, res->getJ(rnd2));
+				res->setJ(rnd2, tmp);
+			} else /*if (2 == neighboursPerturb)*/ { //insert
+				//rnd1 go the rnd2 position
+				if (rnd1 < rnd2) {
+					for(j = 0; j<rnd2-rnd1; ++j) {
+						//bring forward the job
+						tmp = res->getJ( rnd1+j );
+						res->setJ( rnd1+j, res->getJ(rnd1+j+1) );
+						res->setJ( rnd1+j+1, tmp);
+					}
+				} else /*if (rnd1 > rnd2)*/ {
+					for(j = 0; j>rnd2-rnd1; --j) {
+						//bring backward the job
+						tmp = res->getJ( rnd1+j );
+						res->setJ( rnd1+j, res->getJ(rnd1+j-1) );
+						res->setJ( rnd1+j-1, tmp);
 					}
 				}
 			}
 		}
+		//end
 	}
+
 	//end
 	return res;
 }

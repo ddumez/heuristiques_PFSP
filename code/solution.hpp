@@ -35,9 +35,10 @@ class Solution{
     /**
     * \brief copy constructor
     *
-    * \param[in] the solution to copy
+    * \param[in] other the solution to copy
+    * \param[in] copyEndDateTable allow to disable the copy of the end date table
     */
-    Solution(const Solution & other);
+    Solution(const Solution & other, const bool copyEndDateTable = true);
 
     /**
     * \brief empty constructor, do nothing

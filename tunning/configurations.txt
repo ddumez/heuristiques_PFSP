@@ -1,0 +1,5 @@
+## Initial candidate configuration for irace
+neighbourILS	neighbourPerturb	acceptanceCrit	perturbFrac	perturbRadius	alpha	T0	l	warmupThreshold	T1	lamda
+1	2	2	0.05	0.05	NA	NA	NA	NA	NA	NA
+1	2	3	0.05	0.05	0.95	1000	100	80	500	NA
+1	2	4	0.05	0.05	NA	NA	NA	NA	NA	0.5

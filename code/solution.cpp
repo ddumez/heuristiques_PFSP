@@ -21,21 +21,28 @@ Solution::Solution(const PfspInstance & instance) {
     }
 }
 
-Solution::Solution(const Solution & other) {
+Solution::Solution(const Solution & other, const bool copyEndDateTable) {
     this->nbJobs = other.nbJobs;
 
     solution.resize(nbJobs);
+    enddate.resize(nbJobs+1);
     for(int cpt = 0; cpt<nbJobs; ++cpt) {
         solution[cpt] = other.solution[cpt];
-    }
-
-    enddate.resize(nbJobs+1);
-    for (int cpt = 0; cpt <= nbJobs; ++cpt) {
         enddate[cpt].resize(other.enddate.size());
-        for(int cpt2 = other.enddate.size()-1; cpt2>=0; --cpt2) {
-            enddate[cpt][cpt2] = other.enddate[cpt][cpt2];
+        if (copyEndDateTable) {
+            for(int cpt2 = other.enddate.size()-1; cpt2>=0; --cpt2) {
+                enddate[cpt][cpt2] = other.enddate[cpt][cpt2];
+            }
         }
     }
+
+    enddate[nbJobs].resize(other.enddate.size());
+    if (copyEndDateTable) {
+        for(int cpt2 = other.enddate.size()-1; cpt2>=0; --cpt2) {
+            enddate[nbJobs][cpt2] = other.enddate[nbJobs][cpt2];
+        }
+    }
+
 }
 
 Solution::Solution() {}
@@ -153,5 +160,5 @@ void Solution::print() const {
     for(int i = 0; i<nbJobs; ++i) {
         cout<<solution.at(i)<<" ";
     }
-    cout<<endl;
+    //cout<<endl;
 }

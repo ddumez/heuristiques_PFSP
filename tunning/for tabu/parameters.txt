@@ -26,14 +26,6 @@
 ##    condition is satisfied, FALSE otherwise.
 
 # 1:            2:                   3: 4:      5:
-neighbourILS	"--neighbourILS "	c	(1,2)
-neighbourPerturb	"--neighbourPerturb "	c	(1,2)
-acceptanceCrit	"--acceptanceCrit "	c	(1,2,3,4)
-perturbFrac	"--perturbFrac "	r	(0,0.3)
-perturbRadius	"--perturbRadius "	r 	(0,0.5)
-alpha	"--alpha "	r	(0.7,1)	|	acceptanceCrit == "3"
-T0	"--T0 "	i	(500,2000)	|	acceptanceCrit == "3"
-l	"--l "	i	(10,300)	|	acceptanceCrit == "3"
-warmupThreshold	"--warmupThreshold "	i	(20,500)	|	acceptanceCrit == "3"
-T1	"--T1 "	i 	(500,1200)	|	acceptanceCrit == "3"
-lamda	"--lamda "	r	(0,1)	|	acceptanceCrit == "4"
+tabuListLenght	"--tabuListLenght "	 i	(2,20)	
+longTimeMemoryImpact	"--longTimeMemoryImpact "	r	(0,1)	
+restartThreshold	"--restartThreshold "	r	(0,1)	
