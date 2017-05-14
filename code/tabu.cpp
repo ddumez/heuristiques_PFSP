@@ -2,6 +2,7 @@
 #include <climits>
 #include <ctime>
 #include <time.h>
+#include <vector>
 
 #include "tabu.hpp"
 #include "solution.hpp"
@@ -10,6 +11,7 @@
 using namespace std;
 
 Tabu::Tabu(const int tabuListLenght, const double longTimeMemoryImpact, const double restartThreshold, PfspInstance * instance, const int neighbours) {
+	//initialization and save of parameter
 	this->tabuListLenght = tabuListLenght;
 	this->longTimeMemoryImpact = longTimeMemoryImpact;
 	this->restartThreshold = restartThreshold;
@@ -39,12 +41,12 @@ Tabu::~Tabu() {}
 
 Solution * Tabu::search(const clock_t tmax) {
 	//variable
-	int tmp;
-	double bestparc;
-	long int tmpval;
-	int besti = -1; int bestj;
-  	int j,i;
-	clock_t tstart = clock();
+	int tmp; //variable for exchange value
+	double bestparc; //stock the value of the best reachable solution in the neighbourhood at each loop
+	long int tmpval; //to temporary stock the value of the tested solution
+	int besti = -1; int bestj; //index of the best move
+  	int j,i; //loop variable
+	clock_t tstart = clock(); //for the stop criterion 
 	bool flag; //true iff the best solution so far had been improved
 	
 	//start
@@ -52,8 +54,7 @@ Solution * Tabu::search(const clock_t tmax) {
 		bestparc = LONG_MAX; flag = false;
 
 
-		if (1 == neighbours) {
-			//loop for the exchange movement
+		if (1 == neighbours) {//exchange movement
 			for(i = nbJob -1; i>0; --i) {
 				for(j = i-1; j>=0; --j) {
 					//exchange the ith job and the jth one
@@ -68,8 +69,10 @@ Solution * Tabu::search(const clock_t tmax) {
 						besti = i;
 						bestj = j;
 						flag = true;
-					} else if( (tmpval * (1 + TL.at(max(i,j)).at(min(i,j))*longTimeMemoryImpact) < bestparc) && (TL.at(min(i,j)).at(max(i,j)) < date)) {
-						bestparc = tmpval * (1 + TL.at(max(i,j)).at(min(i,j))*longTimeMemoryImpact);
+					} else if( (tmpval * (1 + TL.at(current.getJ(max(i,j))-1).at(current.getJ(min(i,j))-1)*longTimeMemoryImpact) < bestparc) && (TL.at(current.getJ(min(i,j))-1).at(current.getJ(max(i,j))-1) < date)) {
+						//this movement is legit acording to the tabu list and it's the best found in the neighbourhood of the current solution
+						//so we save this movement
+						bestparc = tmpval * (1 + TL.at(current.getJ(max(i,j))-1).at(current.getJ(min(i,j))-1)*longTimeMemoryImpact);
 						besti = i;
 						bestj = j;
 					}
@@ -79,10 +82,9 @@ Solution * Tabu::search(const clock_t tmax) {
 					current.setJ(i, current.getJ(j));
 					current.setJ(j, tmp);
 				}
-				instance->computeWCT(current);
+				instance->computeWCT(current); //need to refresh the end date table for quick computation of the value
 			}
-		} else if (2 == neighbours) {
-			//loop for the insert moove
+		} else /*if (2 == neighbours)*/ {//insert moove
 			for(int i = 0; i<nbJob; ++i) {
 				for(j = 0; j<nbJob-1; ++j) {
 					//bring forward the job
@@ -98,6 +100,8 @@ Solution * Tabu::search(const clock_t tmax) {
 						bestj = j;
 						flag = true;
 					} else if( (tmpval * (1 + TL.at(max(i,j)).at(min(i,j))*longTimeMemoryImpact) < bestparc) && (TL.at(min(i,j)).at(max(i,j)) < date)) {
+						//this movement is legit acording to the tabu list and it's the best found in the neighbourhood of the current solution
+						//so we save this movement
 						bestparc = tmpval * (1 + TL.at(max(i,j)).at(min(i,j))*longTimeMemoryImpact);
 						besti = i;
 						bestj = j;
@@ -110,24 +114,30 @@ Solution * Tabu::search(const clock_t tmax) {
 					current.setJ((i+j)%nbJob, current.getJ( (i+j+1)%nbJob));
 					current.setJ((i+j+1)%nbJob, tmp);
 				}
-				instance->computeWCT(current);
+				instance->computeWCT(current); //need to refresh the end date table for quick computation of the value
 			}
 		}
 
 
 		// move become tabu
-		TL.at(min(besti,bestj)).at(max(besti,bestj)) = date + tabuListLenght;
+		if (1 == neighbours) { //exchange
+			TL.at(current.getJ(min(besti,bestj))-1).at(current.getJ(max(besti,bestj))-1) = date + tabuListLenght;
+		} else /*if (2 == neighbours)*/ { //insert
+			TL.at(min(besti,bestj)).at(max(besti,bestj)) = date + tabuListLenght;
+		}
 		//update of the long time memory
-		TL.at(max(besti,bestj)).at(min(besti,bestj)) = TL.at(max(besti,bestj)).at(min(besti,bestj))+1;
+		if (1 == neighbours) { //exchange
+			TL.at(current.getJ(max(besti,bestj))-1).at(current.getJ(min(besti,bestj))-1) = TL.at(current.getJ(max(besti,bestj))-1).at(current.getJ(min(besti,bestj))-1)+1;
+		} else /*if (2 == neighbours)*/ { //insert
+			TL.at(max(besti,bestj)).at(min(besti,bestj)) = TL.at(max(besti,bestj)).at(min(besti,bestj))+1;
+		}
 
 		//apply the best modification
-		if (1 == neighbours) {
-			//with exchange
+		if (1 == neighbours) { //with exchange
 			tmp = current.getJ(besti);
 			current.setJ(besti, current.getJ(bestj));
 			current.setJ(bestj, tmp);
-		} else if (2 == neighbours) {
-			//with insert
+		} else if (2 == neighbours) { //with insert
 			for(j = 0; j<=bestj; ++j) {
 				//bring forward the job
 				tmp = current.getJ( (besti+j)%nbJob  );
@@ -139,6 +149,7 @@ Solution * Tabu::search(const clock_t tmax) {
 		//update the end date table, before the copy
 		instance->computeWCT(current);
 
+		//update the best found so far
 		if(flag) {
 			delete(best);
 			best = new Solution(current);

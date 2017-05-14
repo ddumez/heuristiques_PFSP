@@ -19,6 +19,12 @@ Quan-Ke Pan and Rubén Ruiz.
 \newblock {\em European Journal of Operational Research}, 222(1):31 -- 43,
   2012.
 
+\bibitem{Ruiz06asimple}
+Rubén Ruiz and Thomas Stützle.
+\newblock A simple and effective iterated greedy algorithm for the permutation
+  flowshop scheduling problem.
+\newblock {\em European Journal of Operational Research}, 177:2033--2049, 2006.
+
 \bibitem{Tseng2010121}
 Lin-Yu Tseng and Ya-Tai Lin.
 \newblock A genetic local search algorithm for minimizing total flowtime in the

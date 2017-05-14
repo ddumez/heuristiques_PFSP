@@ -160,5 +160,5 @@ void Solution::print() const {
     for(int i = 0; i<nbJobs; ++i) {
         cout<<solution.at(i)<<" ";
     }
-    //cout<<endl;
+    cout<<endl;
 }

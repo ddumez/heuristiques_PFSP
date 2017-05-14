@@ -43,3 +43,12 @@ doi = "https://doi.org/10.1016/j.ijpe.2010.05.003",
 url = "http://www.sciencedirect.com/science/article/pii/S0925527310001830",
 author = "Lin-Yu Tseng and Ya-Tai Lin",
 }
+
+@article{Ruiz06asimple,
+    author = {Rubén Ruiz and Thomas Stützle},
+    title = {A simple and effective iterated greedy algorithm for the permutation flowshop scheduling problem},
+    journal = {European Journal of Operational Research},
+    year = {2006},
+    volume = {177},
+    pages = {2033--2049}
+}

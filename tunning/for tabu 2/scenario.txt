@@ -54,7 +54,7 @@ configurationsFile = "configurations.txt"
 
 ## The maximum number of runs (invocations of targetRunner) that will
 ## performed. It determines the (maximum) budget of experiments for the tuning.
-maxExperiments = 10560
+maxExperiments = 840
 
 ## The maximum time in seconds for the runs of targetRunner that will be 
 ## performed. The mean execution time is estimated to calculate the maximum number 
@@ -132,7 +132,7 @@ digits = 3
 ## will not use an instance more that once in each race. Note that
 ## if the number of instances provided is less than firstTest, no
 ## statistical test will be performed. 
-deterministic = 0
+deterministic = 1
 
 ## Seed of the random number generator (must be a positive integer, NA
 ## means use a random seed).
@@ -171,7 +171,7 @@ parallel = 3
 
 ## File containing a list of logical expressions that cannot be true
 ## for any evaluated configuration. If empty or NULL, do not use a file.
-forbiddenFile = "forbidden.txt"
+# forbiddenFile = ""
 
 ## Enable/disable elitist irace.
 # elitist = 1

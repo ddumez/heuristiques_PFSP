@@ -18,7 +18,8 @@
 */
 class Ils{
 	private:
-		LocalSearch * neighborhoud; /*<local search to use */
+		LocalSearch ** neighborhoud; /*<local search to use */
+		int nbneighborhoud; /* number of neighbourhood relation */
 		int neighboursPerturb; /*<code of the neighbours relation to use for perturbation : 1->exchange, 2->insert*/
 		double perturbFrac; /*< fraction of the solution that must be perturbed */
 		double perturbRadius; /*< caracterise the maximal distance between two perturb job */
@@ -49,7 +50,7 @@ class Ils{
 		/**
 		* \brief initialize the Ils with all parameter
 		*
-		* \param[in] neighbours code of the neighbours relation to use : 1->exchange, 2->insert
+		* \param[in] neighbours code of the neighbours relation to use : 1-> transpose, 2->exchange, 3->insert, 4->VND1, 5->VND2
 		* \param[in] neighboursPerturb code of the neighbours relation to use for perturbation : 1->exchange, 2->insert
 		* \param[in] DD true iff the neighbourhood should be crossed in deapest descent
 		* \param[in] acceptanceCrit code of the acceptance criterion to use : 1->only improvement, 2->always, 3->metropolis, 4->simulated annealing type
@@ -70,7 +71,7 @@ class Ils{
 	  	* \param[in] tmax time budget in seconds
 	  	* \return the best solution found
 	  	*/
-	  	Solution * search(const clock_t tmax);
+	  	Solution * search(const clock_t tmax, const long VARIABLEGOBALE);
 
 	private:
 		/**
@@ -86,6 +87,13 @@ class Ils{
 		* \return true iff we should keep this modification
 		*/
 		bool keep(const long valprev, Solution * sol) const;
+
+		/**
+		* \brief do the selected local search (a VND if multiple neighbourhood else a descent)
+		*
+		* \param[in,out] parc the starting solution for the local search
+		*/
+		void Localsearch(Solution * parc);
 
 };
 

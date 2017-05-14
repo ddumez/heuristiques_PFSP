@@ -4,45 +4,45 @@ The top-level auxiliary file: rapport2.aux
 The style file: plain.bst
 Database file #1: biblio.bib
 Warning--empty publisher in tabuprinciple
-You've used 4 entries,
+You've used 5 entries,
             2118 wiz_defined-function locations,
-            525 strings with 4788 characters,
-and the built_in function-call counts, 1168 in all, are:
-= -- 111
-> -- 40
+            532 strings with 4958 characters,
+and the built_in function-call counts, 1516 in all, are:
+= -- 148
+> -- 53
 < -- 0
-+ -- 18
-- -- 12
-* -- 80
-:= -- 202
-add.period$ -- 12
-call.type$ -- 4
-change.case$ -- 17
++ -- 24
+- -- 16
+* -- 105
+:= -- 259
+add.period$ -- 15
+call.type$ -- 5
+change.case$ -- 22
 chr.to.int$ -- 0
-cite$ -- 5
-duplicate$ -- 45
-empty$ -- 103
-format.name$ -- 12
-if$ -- 242
+cite$ -- 6
+duplicate$ -- 56
+empty$ -- 131
+format.name$ -- 16
+if$ -- 313
 int.to.chr$ -- 0
-int.to.str$ -- 4
-missing$ -- 5
-newline$ -- 23
-num.names$ -- 8
-pop$ -- 17
+int.to.str$ -- 5
+missing$ -- 6
+newline$ -- 28
+num.names$ -- 10
+pop$ -- 20
 preamble$ -- 1
-purify$ -- 14
+purify$ -- 18
 quote$ -- 0
-skip$ -- 29
+skip$ -- 37
 stack$ -- 0
-substring$ -- 85
-swap$ -- 4
+substring$ -- 122
+swap$ -- 5
 text.length$ -- 0
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 14
+type$ -- 18
 warning$ -- 1
-while$ -- 11
-width$ -- 5
-write$ -- 44
+while$ -- 15
+width$ -- 6
+write$ -- 55
 (There was 1 warning)

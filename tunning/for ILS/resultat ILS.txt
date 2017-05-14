@@ -1,0 +1,467 @@
+*******************************************************************************
+* irace: An implementation in R of Iterated Race
+* Version: 2.3.1807
+* Copyright (C) 2010-2016
+* Manuel Lopez-Ibanez     <manuel.lopez-ibanez@manchester.ac.uk>
+* Jeremie Dubois-Lacoste  <jeremie.dubois-lacoste@ulb.ac.be>
+* Leslie Perez Caceres    <leslie.perez.caceres@ulb.ac.be>
+*
+* This is free software, and you are welcome to redistribute it under certain
+* conditions.  See the GNU General Public License for details. There is NO
+* WARRANTY; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+*
+* irace builds upon previous code from the race package:
+*
+* race: Racing methods for the selection of the best
+* Copyright (C) 2003 Mauro Birattari
+*******************************************************************************
+# installed at: /home/dorian/R/x86_64-pc-linux-gnu-library/3.0/irace
+# called with: 
+Warning: A default scenario file './scenario.txt' has been found and will be read
+# Adding 4 initial configuration(s) from file '/home/dorian/Documents/workspacec++/heuristiques_PFSP/tunning/configurations.txt' 
+Loading required namespace: parallel
+# 2017-05-12 19:13:11 CEST: Initialization
+# Elitist race
+# Elitist new instances: 1
+# Elitist limit: 2
+# nbIterations: 5
+# minNbSurvival: 5
+# nbParameters: 12
+# seed: 198255319
+# confidence level: 0.95
+# budget: 10560
+# mu: 5
+# deterministic: FALSE
+
+# 2017-05-12 19:13:11 CEST: Iteration 1 of 5
+# experimentsUsedSoFar: 0
+# remainingBudget: 10560
+# currentBudget: 2112                                                                                                                                                                         
+# nbConfigurations: 352                                                                                                                                                                       
+  Markers:                                                                                                                                                                                    
+     x No test is performed.                                                                                                                                                                  
+     - The test is performed and some configurations are discarded.                                                                                                                           
+     = The test is performed but no configuration is discarded.                                                                                                                               
+     ! The test is performed and configurations could be discarded but elite configurations are preserved.                                                                                    
+                                                                                                                                                                                              
++-+-----------+-----------+-----------+---------------+-----------+--------+-----+----+------+
+| |   Instance|      Alive|       Best|      Mean best| Exp so far|  W time|  rho|KenW|  Qvar|
++-+-----------+-----------+-----------+---------------+-----------+--------+-----+----+------+
+|x|          1|        352|         29|    465501.0000|        352|01:28:41|   NA|  NA|    NA|
+|x|          2|        352|        103|    530691.0000|        704|01:28:39|+0.87|0.93|0.0738|
+|x|          3|        352|        103|    548982.3333|       1056|01:28:37|+0.87|0.91|0.0727|
+|x|          4|        352|         92|    573340.0000|       1408|01:28:39|+0.86|0.90|0.0710|
+^@|-|          5|         41|        233|    560925.2000|       1760|01:28:40|+0.04|0.23|0.9460|
+|=|          6|         41|        233|    556374.5000|       1801|00:10:31|+0.07|0.23|0.9244|
+|-|          7|         25|        214|    555395.7143|       1842|00:10:32|-0.04|0.11|0.9990|
+|=|          8|         25|        214|    559630.6250|       1867|00:06:45|-0.04|0.09|0.9992|
+|=|          9|         25|        214|    564487.6667|       1892|00:06:45|-0.04|0.08|0.9842|
++-+-----------+-----------+-----------+---------------+-----------+--------+-----+----+------+
+Best configuration:         214    mean value:     564487.6667
+Description of the best configuration:
+    .ID. neighbourILS neighbourPerturb acceptanceCrit perturbFrac perturbRadius DD alpha T0  l warmupThreshold T1 lamda .PARENT.
+214  214            4                2              1       0.092          0.22  1    NA NA NA              NA NA  <NA>       NA
+
+# 2017-05-13 03:11:05 CEST: Elite configurations (first number is the configuration ID):
+    neighbourILS neighbourPerturb acceptanceCrit perturbFrac perturbRadius DD alpha   T0  l warmupThreshold   T1 lamda
+214            4                2              1       0.092         0.220  1    NA   NA NA              NA   NA  <NA>
+233            4                2              1       0.111         0.236  0    NA   NA NA              NA   NA  <NA>
+163            4                2              4       0.094         0.145  0    NA   NA NA              NA   NA   1.2
+157            4                2              3       0.296         0.092  0 0.874 1199 10              89 1200  <NA>
+29             4                2              1       0.271         0.022  1    NA   NA NA              NA   NA  <NA>
+# 2017-05-13 03:11:05 CEST: Iteration 2 of 5
+# experimentsUsedSoFar: 1892
+# remainingBudget: 8668
+# currentBudget: 2167
+# nbConfigurations: 221
+  Markers:
+     x No test is performed.
+     - The test is performed and some configurations are discarded.
+     = The test is performed but no configuration is discarded.
+     ! The test is performed and configurations could be discarded but elite configurations are preserved.
+                                                                   
++-+-----------+-----------+-----------+---------------+-----------+--------+-----+----+------+
+| |   Instance|      Alive|       Best|      Mean best| Exp so far|  W time|  rho|KenW|  Qvar|
++-+-----------+-----------+-----------+---------------+-----------+--------+-----+----+------+
+|x|         10|        221|        458|    571911.0000|        221|00:55:36|   NA|  NA|    NA|
+|x|          9|        221|        458|    586753.0000|        437|00:54:08|+0.82|0.91|0.0903|
+|x|          5|        221|        458|    561265.3333|        653|00:54:09|+0.81|0.87|0.0879|
+|x|          1|        221|        458|    537478.5000|        869|00:54:08|+0.82|0.86|0.0854|
+|!|          7|         35|        458|    540624.6000|       1085|00:54:09|-0.00|0.20|0.9889|
+|=|          4|         35|        458|    557997.3333|       1115|00:07:31|+0.04|0.20|0.9401|
+|=|          2|         35|        458|    563463.7143|       1145|00:07:31|+0.07|0.20|0.9001|
+|=|          3|         35|        549|    566401.7500|       1175|00:07:31|+0.05|0.17|0.9197|
+|=|          8|         35|        549|    569041.3333|       1205|00:07:31|+0.04|0.15|0.9333|
+|-|          6|         17|        549|    565493.4000|       1235|00:07:31|-0.04|0.07|0.9862|
+|=|         11|         17|        549|    571679.0000|       1252|00:04:30|-0.03|0.06|0.9805|
+|=|         12|         17|        549|    571586.0000|       1269|00:04:30|-0.03|0.05|0.9778|
++-+-----------+-----------+-----------+---------------+-----------+--------+-----+----+------+
+Best configuration:         549    mean value:     571586.0000
+Description of the best configuration:
+    .ID. neighbourILS neighbourPerturb acceptanceCrit perturbFrac perturbRadius DD alpha T0  l warmupThreshold T1 lamda .PARENT.
+549  549            4                2              4       0.084          0.43  0    NA NA NA              NA NA   1.2      163
+
+# 2017-05-13 08:29:57 CEST: Elite configurations (first number is the configuration ID):
+    neighbourILS neighbourPerturb acceptanceCrit perturbFrac perturbRadius DD alpha T0  l warmupThreshold T1 lamda
+549            4                2              4       0.084         0.430  0    NA NA NA              NA NA   1.2
+214            4                2              1       0.092         0.220  1    NA NA NA              NA NA  <NA>
+489            4                2              4       0.117         0.240  1    NA NA NA              NA NA   0.3
+387            4                1              1       0.064         0.338  1    NA NA NA              NA NA  <NA>
+458            4                2              4       0.134         0.153  1    NA NA NA              NA NA   0.9
+# 2017-05-13 08:29:57 CEST: Iteration 3 of 5
+# experimentsUsedSoFar: 3161
+# remainingBudget: 7399
+# currentBudget: 2466
+# nbConfigurations: 194
+  Markers:
+     x No test is performed.
+     - The test is performed and some configurations are discarded.
+     = The test is performed but no configuration is discarded.
+     ! The test is performed and configurations could be discarded but elite configurations are preserved.
+                                                                   
++-+-----------+-----------+-----------+---------------+-----------+--------+-----+----+------+
+| |   Instance|      Alive|       Best|      Mean best| Exp so far|  W time|  rho|KenW|  Qvar|
++-+-----------+-----------+-----------+---------------+-----------+--------+-----+----+------+
+|x|         13|        194|        659|    591684.0000|        194|00:48:50|   NA|  NA|    NA|
+|x|         11|        194|        659|    611162.5000|        383|00:47:23|+0.74|0.87|0.1011|
+|x|         12|        194|        739|    596954.0000|        572|00:47:23|+0.70|0.80|0.1140|
+|x|         10|        194|        630|    591330.5000|        761|00:47:23|+0.71|0.79|0.1046|
+|-|          2|         52|        750|    592362.4000|        950|00:47:24|-0.10|0.12|1.0912|
+|=|          1|         52|        630|    571268.1667|        997|00:12:02|-0.03|0.14|1.0337|
+|=|          5|         52|        630|    562595.4286|       1044|00:12:02|-0.02|0.12|1.0157|
+|=|          3|         52|        630|    565497.1250|       1091|00:12:02|-0.01|0.11|1.0053|
+|=|          9|         52|        630|    569564.7778|       1138|00:12:02|-0.00|0.11|0.9910|
+|=|          6|         52|        630|    566011.9000|       1185|00:12:02|+0.01|0.11|0.9755|
+|=|          4|         52|        630|    573129.5455|       1232|00:12:01|+0.03|0.12|0.9545|
+|-|          8|         29|        630|    574489.3333|       1279|00:12:01|-0.05|0.04|1.0044|
+|=|          7|         29|        630|    572810.3846|       1303|00:06:01|-0.03|0.05|0.9865|
+|=|         14|         29|        630|    577880.0714|       1332|00:07:31|-0.02|0.06|0.9766|
++-+-----------+-----------+-----------+---------------+-----------+--------+-----+----+------+
+Best configuration:         630    mean value:     577880.0714
+Description of the best configuration:
+    .ID. neighbourILS neighbourPerturb acceptanceCrit perturbFrac perturbRadius DD alpha T0  l warmupThreshold T1 lamda .PARENT.
+630  630            4                2              1       0.103         0.328  0    NA NA NA              NA NA  <NA>      549
+
+# 2017-05-13 14:06:10 CEST: Elite configurations (first number is the configuration ID):
+    neighbourILS neighbourPerturb acceptanceCrit perturbFrac perturbRadius DD alpha   T0   l warmupThreshold  T1 lamda
+630            4                2              1       0.103         0.328  0    NA   NA  NA              NA  NA  <NA>
+750            4                2              3       0.050         0.270  0 0.810 1039 105             500 520  <NA>
+626            4                2              3       0.032         0.137  0 0.943  964 136              78 885  <NA>
+649            4                2              4       0.054         0.303  0    NA   NA  NA              NA  NA   0.6
+660            4                2              1       0.072         0.286  1    NA   NA  NA              NA  NA  <NA>
+# 2017-05-13 14:06:10 CEST: Iteration 4 of 5
+# experimentsUsedSoFar: 4493
+# remainingBudget: 6067
+# currentBudget: 3033
+# nbConfigurations: 206
+  Markers:
+     x No test is performed.
+     - The test is performed and some configurations are discarded.
+     = The test is performed but no configuration is discarded.
+     ! The test is performed and configurations could be discarded but elite configurations are preserved.
+                                                                   
++-+-----------+-----------+-----------+---------------+-----------+--------+-----+----+------+
+| |   Instance|      Alive|       Best|      Mean best| Exp so far|  W time|  rho|KenW|  Qvar|
++-+-----------+-----------+-----------+---------------+-----------+--------+-----+----+------+
+|x|         15|        206|        768|    550305.0000|        206|00:51:56|   NA|  NA|    NA|
+|x|          8|        206|        776|    569931.0000|        407|00:50:23|+0.63|0.81|0.2137|
+|x|          2|        206|        809|    578856.6667|        608|00:50:25|+0.62|0.74|0.1626|
+|x|          6|        206|        649|    567357.5000|        809|00:50:21|+0.59|0.69|0.1638|
+|!|          1|         76|        772|    547301.8000|       1010|00:50:25|-0.11|0.11|1.1124|
+|=|         14|         76|        772|    563394.8333|       1081|00:18:03|-0.08|0.10|1.0837|
+|=|         13|         76|        772|    567574.1429|       1152|00:18:02|-0.04|0.11|1.0343|
+|=|          3|         76|        772|    569788.3750|       1223|00:18:03|-0.03|0.10|1.0151|
+|=|          4|         76|        772|    578184.2222|       1294|00:18:01|-0.01|0.10|1.0026|
+|=|         10|         76|        772|    577554.8000|       1365|00:18:02|-0.00|0.10|0.9919|
+|=|          7|         76|        787|    575317.5455|       1436|00:18:04|+0.00|0.09|0.9842|
+|=|          9|         76|        630|    577748.0833|       1507|00:18:03|+0.01|0.09|0.9736|
+|=|          5|         76|        630|    572579.6923|       1578|00:18:05|+0.00|0.08|0.9783|
+|=|         12|         76|        776|    572225.2143|       1649|00:18:03|+0.01|0.08|0.9642|
+|-|         11|         48|        772|    576072.6667|       1720|00:18:02|-0.03|0.04|1.0088|
+|=|         16|         48|        772|    577835.7500|       1768|00:12:02|-0.03|0.04|1.0025|
+|=|         17|         48|        772|    575931.0000|       1816|00:12:03|-0.02|0.04|0.9949|
++-+-----------+-----------+-----------+---------------+-----------+--------+-----+----+------+
+Best configuration:         772    mean value:     575931.0000
+Description of the best configuration:
+    .ID. neighbourILS neighbourPerturb acceptanceCrit perturbFrac perturbRadius DD alpha  T0   l warmupThreshold   T1 lamda .PARENT.
+772  772            4                2              3       0.083         0.095  1 0.942 695 146              95 1034  <NA>      626
+
+# 2017-05-13 21:44:24 CEST: Elite configurations (first number is the configuration ID):
+    neighbourILS neighbourPerturb acceptanceCrit perturbFrac perturbRadius DD alpha   T0   l warmupThreshold   T1 lamda
+772            4                2              3       0.083         0.095  1 0.942  695 146              95 1034  <NA>
+897            4                2              3       0.070         0.071  0 0.926  786 145              86  929  <NA>
+630            4                2              1       0.103         0.328  0    NA   NA  NA              NA   NA  <NA>
+879            4                2              3       0.031         0.196  0 0.943  864 132             201  848  <NA>
+845            4                2              3       0.089         0.318  0 0.803 1130 108             456  570  <NA>
+# 2017-05-13 21:44:24 CEST: Iteration 5 of 5
+# experimentsUsedSoFar: 6309
+# remainingBudget: 4251
+# currentBudget: 4251
+# nbConfigurations: 240
+  Markers:
+     x No test is performed.
+     - The test is performed and some configurations are discarded.
+     = The test is performed but no configuration is discarded.
+     ! The test is performed and configurations could be discarded but elite configurations are preserved.
+                                                                   
++-+-----------+-----------+-----------+---------------+-----------+--------+-----+----+------+
+| |   Instance|      Alive|       Best|      Mean best| Exp so far|  W time|  rho|KenW|  Qvar|
++-+-----------+-----------+-----------+---------------+-----------+--------+-----+----+------+
+^@|x|         18|        240|       1087|    617993.0000|        240|01:00:11|   NA|  NA|    NA|
+|x|          4|        240|       1095|    630469.0000|        475|00:59:20|+0.12|0.56|0.1959|
+|x|          1|        240|       1095|    575565.3333|        710|00:59:24|+0.20|0.46|0.1616|
+|x|          8|        240|        630|    579529.2500|        945|00:59:21|+0.18|0.39|0.1502|
+|!|          9|        101|        630|    584044.6000|       1180|00:59:22|-0.15|0.08|1.1477|
+|=|         11|        101|        630|    592014.3333|       1276|00:24:02|-0.11|0.08|1.0917|
+|=|          2|        101|        630|    592664.7143|       1372|00:24:04|-0.08|0.08|1.0659|
+|=|         15|        101|        630|    587830.8750|       1468|00:24:05|-0.06|0.07|1.0566|
+|=|         10|        101|        630|    586152.1111|       1564|00:24:03|-0.05|0.07|1.0387|
+|=|         17|        101|        630|    582171.0000|       1660|00:24:06|-0.04|0.07|1.0224|
+|=|          3|        101|        970|    582375.2727|       1756|00:24:03|-0.03|0.07|1.0160|
+|=|         14|        101|        630|    587608.7500|       1852|00:24:03|-0.02|0.06|1.0108|
+|=|         13|        101|        630|    587932.7692|       1948|00:24:02|-0.02|0.06|1.0081|
+|=|          7|        101|        630|    585413.5000|       2044|00:24:05|-0.03|0.05|1.0112|
+|=|         12|        101|        630|    584313.6667|       2140|00:24:04|-0.02|0.05|1.0033|
+|=|         16|        101|        630|    585796.3750|       2236|00:24:03|-0.01|0.05|0.9950|
+|=|          5|        101|        897|    581171.5294|       2332|00:24:05|-0.02|0.04|1.0007|
+|=|          6|        101|       1093|    578403.8889|       2428|00:24:03|-0.01|0.05|0.9952|
+|=|         19|        101|        772|    579605.1579|       2529|00:25:34|-0.01|0.05|0.9918|
++-+-----------+-----------+-----------+---------------+-----------+--------+-----+----+------+
+Best configuration:         772    mean value:     579605.1579
+Description of the best configuration:
+    .ID. neighbourILS neighbourPerturb acceptanceCrit perturbFrac perturbRadius DD alpha  T0   l warmupThreshold   T1 lamda .PARENT.
+772  772            4                2              3       0.083         0.095  1 0.942 695 146              95 1034  <NA>      626
+
+# 2017-05-14 08:20:35 CEST: Elite configurations (first number is the configuration ID):
+     neighbourILS neighbourPerturb acceptanceCrit perturbFrac perturbRadius DD alpha  T0   l warmupThreshold   T1 lamda
+772             4                2              3       0.083         0.095  1 0.942 695 146              95 1034  <NA>
+1065            4                2              3       0.106         0.049  1 0.934 907 127              62 1135  <NA>
+1093            4                2              3       0.063         0.091  1 0.928 713 159             126  967  <NA>
+1130            4                2              3       0.061         0.173  0 0.927 770 125              50  909  <NA>
+897             4                2              3       0.070         0.071  0 0.926 786 145              86  929  <NA>
+# 2017-05-14 08:20:35 CEST: Iteration 6 of 6
+# experimentsUsedSoFar: 8838
+# remainingBudget: 1722
+# currentBudget: 1722
+# nbConfigurations: 90
+  Markers:
+     x No test is performed.
+     - The test is performed and some configurations are discarded.
+     = The test is performed but no configuration is discarded.
+     ! The test is performed and configurations could be discarded but elite configurations are preserved.
+                                                                   
++-+-----------+-----------+-----------+---------------+-----------+--------+-----+----+------+
+| |   Instance|      Alive|       Best|      Mean best| Exp so far|  W time|  rho|KenW|  Qvar|
++-+-----------+-----------+-----------+---------------+-----------+--------+-----+----+------+
+^@|x|         20|         90|       1272|    666756.0000|         90|00:22:34|   NA|  NA|    NA|
+|x|         14|         90|       1093|    655577.0000|        175|00:21:48|+0.09|0.55|0.2132|
+|x|         19|         90|       1238|    637458.3333|        260|00:21:48|+0.15|0.43|0.1870|
+|x|          4|         90|       1238|    639117.7500|        345|00:21:47|+0.18|0.38|0.1690|
+|-|         16|         46|       1238|    632181.2000|        430|00:21:48|-0.13|0.10|1.1123|
+|=|          8|         46|       1238|    625159.3333|        471|00:10:30|-0.08|0.10|1.0597|
+|=|          7|         46|       1238|    614868.1429|        512|00:10:31|-0.03|0.12|1.0028|
+|=|         12|         46|       1232|    609273.2500|        553|00:10:31|-0.02|0.10|1.0005|
+|=|         13|         46|       1232|    607337.5556|        594|00:10:31|+0.01|0.12|0.9631|
+|=|          3|         46|       1232|    605248.7000|        635|00:10:31|+0.01|0.11|0.9530|
+|=|          6|         46|       1232|    598591.8182|        676|00:10:31|+0.00|0.09|0.9587|
+|=|          1|         46|       1232|    587583.1667|        717|00:10:32|+0.01|0.09|0.9598|
+|=|          9|         46|       1232|    588756.2308|        758|00:10:32|+0.01|0.09|0.9506|
+|=|          5|         46|       1217|    583234.5714|        799|00:10:31|+0.01|0.08|0.9491|
+|=|         17|         46|        897|    580580.6000|        840|00:10:33|+0.01|0.08|0.9366|
+|-|         10|         42|       1265|    580342.3750|        881|00:10:31|-0.02|0.05|0.9862|
+|=|         11|         42|        897|    583165.4706|        918|00:09:45|-0.02|0.04|0.9833|
+|=|         15|         42|        897|    581377.7222|        955|00:09:47|-0.01|0.05|0.9805|
+|=|          2|         42|        897|    582211.0526|        992|00:09:46|-0.02|0.04|0.9857|
+|=|         18|         42|       1093|    584041.0000|       1029|00:09:47|-0.01|0.04|0.9866|
+|=|         21|         42|       1093|    585903.2381|       1071|00:10:33|-0.01|0.04|0.9839|
++-+-----------+-----------+-----------+---------------+-----------+--------+-----+----+------+
+Best configuration:        1093    mean value:     585903.2381
+Description of the best configuration:
+     .ID. neighbourILS neighbourPerturb acceptanceCrit perturbFrac perturbRadius DD alpha  T0   l warmupThreshold  T1 lamda .PARENT.
+1093 1093            4                2              3       0.063         0.091  1 0.928 713 159             126 967  <NA>      772
+
+# 2017-05-14 12:55:53 CEST: Elite configurations (first number is the configuration ID):
+     neighbourILS neighbourPerturb acceptanceCrit perturbFrac perturbRadius DD alpha  T0   l warmupThreshold   T1 lamda
+1093            4                2              3       0.063         0.091  1 0.928 713 159             126  967  <NA>
+1065            4                2              3       0.106         0.049  1 0.934 907 127              62 1135  <NA>
+1217            4                2              3       0.074         0.066  0 0.938 619 129              37 1046  <NA>
+897             4                2              3       0.070         0.071  0 0.926 786 145              86  929  <NA>
+1196            4                2              3       0.048         0.109  1 0.913 751 158              71  943  <NA>
+# 2017-05-14 12:55:53 CEST: Iteration 7 of 7
+# experimentsUsedSoFar: 9909
+# remainingBudget: 651
+# currentBudget: 651
+# nbConfigurations: 34
+  Markers:
+     x No test is performed.
+     - The test is performed and some configurations are discarded.
+     = The test is performed but no configuration is discarded.
+     ! The test is performed and configurations could be discarded but elite configurations are preserved.
+                                                                   
++-+-----------+-----------+-----------+---------------+-----------+--------+-----+----+------+
+| |   Instance|      Alive|       Best|      Mean best| Exp so far|  W time|  rho|KenW|  Qvar|
++-+-----------+-----------+-----------+---------------+-----------+--------+-----+----+------+
+^@|x|         22|         34|       1287|    595449.0000|         34|00:09:00|   NA|  NA|    NA|
+|x|         10|         34|       1295|    584508.0000|         63|00:07:31|+0.25|0.62|0.1490|
+|x|         15|         34|       1093|    573977.3333|         92|00:07:31|+0.16|0.44|0.3242|
+|x|          9|         34|       1065|    580817.5000|        121|00:07:31|+0.08|0.31|0.2936|
+|=|          1|         34|       1065|    557863.4000|        150|00:07:31|+0.09|0.28|0.2451|
+|-|         11|         26|       1065|    570276.8333|        179|00:07:30|-0.08|0.10|0.9950|
+|=|          5|         26|       1196|    561850.1429|        200|00:05:17|-0.06|0.09|0.9851|
+|=|          4|         26|       1196|    572065.6250|        221|00:05:15|-0.03|0.10|0.9729|
+|=|          2|         26|       1217|    574836.7778|        242|00:05:16|-0.03|0.09|0.9785|
+|=|         19|         26|       1196|    577384.9000|        263|00:05:16|-0.01|0.10|0.9536|
+|=|          8|         26|       1217|    578561.5455|        284|00:05:15|+0.01|0.10|0.9428|
+|=|         17|         26|       1217|    575920.1667|        305|00:05:17|+0.02|0.10|0.9292|
+|=|         20|         26|       1217|    582958.1538|        326|00:05:16|+0.02|0.09|0.9325|
+|=|         21|         26|       1217|    585858.7857|        347|00:05:16|+0.03|0.10|0.9229|
+|-|         18|         13|       1217|    588038.9333|        368|00:05:16|-0.02|0.05|0.9500|
+|=|         16|         13|       1217|    589250.5000|        376|00:02:15|-0.02|0.05|0.9468|
+|=|          7|         13|       1217|    587058.7059|        384|00:02:15|-0.01|0.05|0.9407|
+|=|          6|         13|       1217|    584069.0000|        392|00:02:15|-0.00|0.05|0.9347|
+|=|         14|         13|       1217|    587325.4737|        400|00:02:15|-0.01|0.04|0.9387|
+|=|          3|         13|       1217|    587233.5500|        408|00:02:15|-0.02|0.03|0.9455|
+|=|         12|         13|       1217|    586336.1905|        416|00:02:15|-0.02|0.03|0.9455|
+|=|         13|         13|       1093|    586429.7727|        424|00:02:15|-0.02|0.02|0.9464|
+|=|         23|         13|       1217|    586146.1304|        437|00:03:45|-0.02|0.02|0.9441|
++-+-----------+-----------+-----------+---------------+-----------+--------+-----+----+------+
+Best configuration:        1217    mean value:     586146.1304
+Description of the best configuration:
+     .ID. neighbourILS neighbourPerturb acceptanceCrit perturbFrac perturbRadius DD alpha  T0   l warmupThreshold   T1 lamda .PARENT.
+1217 1217            4                2              3       0.074         0.066  0 0.938 619 129              37 1046  <NA>      772
+
+# 2017-05-14 14:49:31 CEST: Elite configurations (first number is the configuration ID):
+     neighbourILS neighbourPerturb acceptanceCrit perturbFrac perturbRadius DD alpha  T0   l warmupThreshold   T1 lamda
+1217            4                2              3       0.074         0.066  0 0.938 619 129              37 1046  <NA>
+1093            4                2              3       0.063         0.091  1 0.928 713 159             126  967  <NA>
+1065            4                2              3       0.106         0.049  1 0.934 907 127              62 1135  <NA>
+897             4                2              3       0.070         0.071  0 0.926 786 145              86  929  <NA>
+1301            4                2              3       0.046         0.095  1 0.945 667 154             105  956  <NA>
+# 2017-05-14 14:49:31 CEST: Iteration 8 of 8
+# experimentsUsedSoFar: 10346
+# remainingBudget: 214
+# currentBudget: 214
+# nbConfigurations: 13
+  Markers:
+     x No test is performed.
+     - The test is performed and some configurations are discarded.
+     = The test is performed but no configuration is discarded.
+     ! The test is performed and configurations could be discarded but elite configurations are preserved.
+                                                                   
++-+-----------+-----------+-----------+---------------+-----------+--------+-----+----+------+
+| |   Instance|      Alive|       Best|      Mean best| Exp so far|  W time|  rho|KenW|  Qvar|
++-+-----------+-----------+-----------+---------------+-----------+--------+-----+----+------+
+|x|         24|         13|       1065|    550181.0000|         13|00:03:45|   NA|  NA|    NA|
+|x|         17|         13|       1065|    548313.5000|         21|00:02:15|-0.23|0.39|0.9827|
+|x|         13|         13|       1301|    562699.0000|         29|00:02:15|+0.12|0.41|0.7347|
+|x|         19|         13|       1311|    572483.2500|         37|00:02:15|+0.13|0.35|0.7724|
+|-|         21|          9|       1311|    582602.6000|         45|00:02:15|-0.07|0.15|0.9327|
+|=|         23|          9|       1311|    581057.6667|         49|00:01:30|+0.03|0.19|0.8427|
+|=|         16|          9|       1311|    584758.0000|         53|00:01:30|+0.05|0.19|0.8185|
+|=|         18|          9|       1065|    588871.7500|         57|00:01:30|+0.01|0.13|0.8618|
+|=|          2|          9|       1311|    590093.2222|         61|00:01:30|-0.05|0.07|0.9145|
+|=|          4|          9|       1315|    595044.0000|         65|00:01:30|-0.03|0.07|0.8844|
+|=|          5|          9|       1217|    587641.7273|         69|00:01:30|-0.02|0.07|0.8827|
+|=|         22|          9|       1217|    588407.8333|         73|00:01:30|+0.00|0.09|0.8706|
+|=|         10|          9|       1217|    587336.3077|         77|00:01:30|-0.02|0.06|0.8982|
+|=|          3|          9|       1217|    587204.2143|         81|00:01:30|-0.04|0.04|0.9178|
+|=|         12|          9|       1311|    585974.7333|         85|00:01:30|-0.03|0.03|0.9157|
+|=|          7|          9|       1311|    583860.5625|         89|00:01:30|-0.04|0.03|0.9164|
+|=|         20|          9|       1311|    588830.9412|         93|00:01:30|-0.02|0.04|0.9055|
+|=|          1|          9|       1217|    581920.3333|         97|00:01:30|-0.03|0.02|0.9149|
+|=|         15|          9|       1217|    580459.6316|        101|00:01:30|-0.03|0.02|0.9169|
+|=|          9|          9|       1217|    581561.1000|        105|00:01:30|-0.03|0.02|0.9104|
+|=|          6|          9|       1217|    579260.2857|        109|00:01:30|-0.02|0.02|0.9016|
+|=|         11|          9|       1217|    581661.7727|        113|00:01:30|-0.03|0.02|0.9027|
+|=|         14|          9|       1065|    584374.4348|        117|00:01:30|-0.03|0.02|0.9051|
+|=|          8|          9|       1217|    584675.6667|        121|00:01:30|-0.02|0.02|0.9011|
+|=|         25|          9|       1217|    587197.8400|        130|00:02:15|-0.02|0.02|0.8967|
++-+-----------+-----------+-----------+---------------+-----------+--------+-----+----+------+
+Best configuration:        1217    mean value:     587197.8400
+Description of the best configuration:
+     .ID. neighbourILS neighbourPerturb acceptanceCrit perturbFrac perturbRadius DD alpha  T0   l warmupThreshold   T1 lamda .PARENT.
+1217 1217            4                2              3       0.074         0.066  0 0.938 619 129              37 1046  <NA>      772
+
+# 2017-05-14 15:33:09 CEST: Elite configurations (first number is the configuration ID):
+     neighbourILS neighbourPerturb acceptanceCrit perturbFrac perturbRadius DD alpha  T0   l warmupThreshold   T1 lamda
+1217            4                2              3       0.074         0.066  0 0.938 619 129              37 1046  <NA>
+1311            4                2              3       0.068         0.083  0 0.938 572 128              24 1012  <NA>
+1065            4                2              3       0.106         0.049  1 0.934 907 127              62 1135  <NA>
+897             4                2              3       0.070         0.071  0 0.926 786 145              86  929  <NA>
+1301            4                2              3       0.046         0.095  1 0.945 667 154             105  956  <NA>
+# 2017-05-14 15:33:09 CEST: Iteration 9 of 9
+# experimentsUsedSoFar: 10476
+# remainingBudget: 84
+# currentBudget: 84
+# nbConfigurations: 8
+  Markers:
+     x No test is performed.
+     - The test is performed and some configurations are discarded.
+     = The test is performed but no configuration is discarded.
+     ! The test is performed and configurations could be discarded but elite configurations are preserved.
+                                                                   
++-+-----------+-----------+-----------+---------------+-----------+--------+-----+----+------+
+| |   Instance|      Alive|       Best|      Mean best| Exp so far|  W time|  rho|KenW|  Qvar|
++-+-----------+-----------+-----------+---------------+-----------+--------+-----+----+------+
+|x|         26|          8|       1316|    653995.0000|          8|00:02:15|   NA|  NA|    NA|
+|x|          9|          8|       1317|    628170.5000|         11|00:00:45|-0.31|0.35|0.9918|
+|x|          5|          8|       1316|    588853.0000|         14|00:00:45|-0.25|0.17|0.9309|
+|x|         21|          8|       1311|    597579.7500|         17|00:00:45|-0.11|0.17|0.8473|
+|=|          7|          8|       1217|    588697.0000|         20|00:00:45|+0.00|0.20|0.7892|
+|=|         14|          8|       1311|    597541.0000|         23|00:00:45|-0.05|0.13|0.8234|
+|=|         10|          8|       1311|    594227.7143|         26|00:00:45|-0.05|0.10|0.8913|
+|=|          2|          8|       1311|    594677.6250|         29|00:00:45|-0.06|0.07|0.8927|
+|=|         17|          8|       1311|    589298.1111|         32|00:00:45|-0.09|0.03|0.9381|
+|=|         11|          8|       1311|    593784.5000|         35|00:00:45|-0.10|0.01|0.9488|
+|=|         12|          8|       1311|    591292.4545|         38|00:00:45|-0.08|0.02|0.9432|
+|=|         18|          8|       1311|    593660.2500|         41|00:00:45|-0.07|0.02|0.9247|
+|=|          1|          8|       1311|    583929.3846|         44|00:00:45|-0.08|0.01|0.9345|
+|=|         20|          8|       1217|    589873.0000|         47|00:00:45|-0.07|0.01|0.9219|
+|=|         13|          8|       1311|    590068.2667|         50|00:00:45|-0.06|0.01|0.9227|
+|=|         19|          8|       1311|    590725.0625|         53|00:00:45|-0.05|0.01|0.9130|
+|=|         16|          8|       1311|    591680.0588|         56|00:00:45|-0.04|0.02|0.9121|
+|=|          4|          8|       1311|    594652.1667|         59|00:00:45|-0.03|0.02|0.9086|
+|=|         24|          8|       1311|    592381.4737|         62|00:00:45|-0.02|0.03|0.9006|
+|=|          3|          8|       1311|    592012.2500|         65|00:00:45|-0.02|0.04|0.8994|
+|=|          8|          8|       1311|    591925.4762|         68|00:00:45|-0.01|0.04|0.8963|
+|=|         22|          8|       1311|    592181.6818|         71|00:00:45|+0.00|0.05|0.8864|
+|=|         25|          8|       1311|    594539.1739|         74|00:00:45|-0.00|0.04|0.8876|
+|=|         15|          8|       1311|    592746.4167|         77|00:00:45|+0.00|0.04|0.8843|
+|=|         23|          8|       1311|    591969.8800|         80|00:00:45|+0.01|0.05|0.8755|
+|=|          6|          8|       1311|    589798.6923|         83|00:00:45|+0.01|0.05|0.8761|
++-+-----------+-----------+-----------+---------------+-----------+--------+-----+----+------+
+Best configuration:        1311    mean value:     589798.6923
+Description of the best configuration:
+     .ID. neighbourILS neighbourPerturb acceptanceCrit perturbFrac perturbRadius DD alpha  T0   l warmupThreshold   T1 lamda .PARENT.
+1311 1311            4                2              3       0.068         0.083  0 0.938 572 128              24 1012  <NA>     1217
+
+# 2017-05-14 15:54:14 CEST: Elite configurations (first number is the configuration ID):
+     neighbourILS neighbourPerturb acceptanceCrit perturbFrac perturbRadius DD alpha  T0   l warmupThreshold   T1 lamda
+1311            4                2              3       0.068         0.083  0 0.938 572 128              24 1012  <NA>
+1301            4                2              3       0.046         0.095  1 0.945 667 154             105  956  <NA>
+1217            4                2              3       0.074         0.066  0 0.938 619 129              37 1046  <NA>
+1065            4                2              3       0.106         0.049  1 0.934 907 127              62 1135  <NA>
+897             4                2              3       0.070         0.071  0 0.926 786 145              86  929  <NA>
+# 2017-05-14 15:54:14 CEST: Stopped because there is not enough budget left to race more than the minimum (5)
+# You may either increase the budget or set 'minNbSurvival' to a lower value
+# Iteration: 10
+# nbIterations: 10
+# experimentsUsedSoFar: 10559
+# timeUsed: 0
+# remainingBudget: 1
+# currentBudget: 1
+# number of elites: 5
+# nbConfigurations: 4
+# Best configurations (first number is the configuration ID)
+     neighbourILS neighbourPerturb acceptanceCrit perturbFrac perturbRadius DD alpha  T0   l warmupThreshold   T1 lamda
+1311            4                2              3       0.068         0.083  0 0.938 572 128              24 1012  <NA>
+1301            4                2              3       0.046         0.095  1 0.945 667 154             105  956  <NA>
+1217            4                2              3       0.074         0.066  0 0.938 619 129              37 1046  <NA>
+1065            4                2              3       0.106         0.049  1 0.934 907 127              62 1135  <NA>
+897             4                2              3       0.070         0.071  0 0.926 786 145              86  929  <NA>
+# Best configurations as commandlines (first number is the configuration ID)
+1311  --neighbourILS 4 --neighbourPerturb 2 --acceptanceCrit 3 --perturbFrac 0.068 --perturbRadius 0.083 --alpha 0.938 --T0 572 --l 128 --warmupThreshold 24 --T1 1012 --DD 0
+1301  --neighbourILS 4 --neighbourPerturb 2 --acceptanceCrit 3 --perturbFrac 0.046 --perturbRadius 0.095 --alpha 0.945 --T0 667 --l 154 --warmupThreshold 105 --T1 956 --DD 1
+1217  --neighbourILS 4 --neighbourPerturb 2 --acceptanceCrit 3 --perturbFrac 0.074 --perturbRadius 0.066 --alpha 0.938 --T0 619 --l 129 --warmupThreshold 37 --T1 1046 --DD 0
+1065  --neighbourILS 4 --neighbourPerturb 2 --acceptanceCrit 3 --perturbFrac 0.106 --perturbRadius 0.049 --alpha 0.934 --T0 907 --l 127 --warmupThreshold 62 --T1 1135 --DD 1
+897   --neighbourILS 4 --neighbourPerturb 2 --acceptanceCrit 3 --perturbFrac 0.07 --perturbRadius 0.071 --alpha 0.926 --T0 786 --l 145 --warmupThreshold 86 --T1 929 --DD 0

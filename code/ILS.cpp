@@ -12,12 +12,12 @@
 
 using namespace std;
 
-Ils::Ils() {};
+Ils::Ils() {}
 
 Ils::~Ils() {}
 
 void Ils::init(const int neighbours, const int neighboursPerturb, const bool DD, const int acceptanceCrit, const double perturbFrac, const double perturbRadius, PfspInstance * instance, const double T0, const double alpha, const long l, const double warmupThreshold, const double T1) {
-	this->neighborhoud = new LocalSearch(neighbours+1, DD, true);
+	//initialize and save all parameter
 	this->neighboursPerturb = neighboursPerturb;
 	this->perturbFrac = perturbFrac;
 	this->perturbRadius = perturbRadius;
@@ -31,26 +31,56 @@ void Ils::init(const int neighbours, const int neighboursPerturb, const bool DD,
 	this->nbJob = instance->getNbJob();
 	this->date = l;
 
+	//initialization of the local search
+	if (1 == neighbours) { //transpose
+		nbneighborhoud = 1;
+		neighborhoud = new LocalSearch*[1];
+		neighborhoud[0] = new LocalSearch(1, DD, true);
+	} else if (2 == neighbours) { //exchange
+		nbneighborhoud = 1;
+		neighborhoud = new LocalSearch*[1];
+		neighborhoud[0] = new LocalSearch(2, DD, true);
+	} else if (3 == neighbours) { //insert
+		nbneighborhoud = 1;
+		neighborhoud = new LocalSearch*[1];
+		neighborhoud[0] = new LocalSearch(3, DD, true);
+	} else if (4 == neighbours) { //VND1
+		nbneighborhoud = 3;
+		neighborhoud = new LocalSearch*[3];
+		neighborhoud[0] = new LocalSearch(1, DD, true);
+		neighborhoud[1] = new LocalSearch(2, DD, true);
+		neighborhoud[2] = new LocalSearch(3, DD, true);
+	} else /*if (5 == neighbours)*/ { //VND2
+		nbneighborhoud  = 3;
+		neighborhoud = new LocalSearch*[3];
+		neighborhoud[0] = new LocalSearch(1, DD, true);
+		neighborhoud[1] = new LocalSearch(3, DD, true);
+		neighborhoud[2] = new LocalSearch(2, DD, true);
+	}
+
 	//initialization of the solution
 	current = new Solution(*instance);
 	current->constructRZ(*instance);
-	neighborhoud->descent(*instance, *current);
+	Localsearch(current);
 	bestval = instance->computeWCT(*current);
 	best = new Solution(*current);
 }
 
-Solution * Ils::search(const clock_t tmax) {
+Solution * Ils::search(const clock_t tmax, const long VARIABLEGOBALE) {
+int stade = 0;
 	//variable
-	clock_t tstart = clock();
-	Solution * parc;
-	long valprev = bestval;
+	clock_t tstart = clock(); //for the stop criterion
+	Solution * parc; //this will stock the pertubation of the current solution and his local search
+	long valprev = bestval; //value of the curent solution (usefull for metropolis criterion)
 
 	//start
 	while (clock() - tstart < tmax*CLOCKS_PER_SEC) {
+		//generation of a new solution by perturbation and local search
 		parc = perturbe();
-		neighborhoud->descent(*instance, *parc);
+		Localsearch(parc);
 
-		if (keep(valprev, parc)) {
+		if (keep(valprev, parc)) { //test if this solution should be keep (become the new current) according to the acceptance criterion
+			//update of the current solution and the best one if needed
 			delete(current);
 			valprev = instance->computeWCT(*parc);
 			current = parc;
@@ -60,9 +90,11 @@ Solution * Ils::search(const clock_t tmax) {
 				bestval = valprev;
 			}
 		} else {
+			//we don't keep this solution so it's deleted
 			delete(parc);
 		}
-		if (3 == acceptanceCrit) {
+
+		if (3 == acceptanceCrit) { //update (of the temperature) needed by the metropolis criterion
 			--date;
 			if (0 == date) {
 				T = alpha * T;
@@ -70,6 +102,29 @@ Solution * Ils::search(const clock_t tmax) {
 				if (T < warmupThreshold) {
 					T = T1;
 				}
+			}
+		}
+
+		//for the test of qualified run-time distribution
+		if (100*(double)(bestval - VARIABLEGOBALE)/(double)(VARIABLEGOBALE) < 0.1) {
+			if (stade < 4) {
+				cout<<(double)((double)(clock() - tstart)/(double)(CLOCKS_PER_SEC))<<":"<<flush;
+				stade = 4;
+			}
+		} else if (100*(double)(bestval - VARIABLEGOBALE)/(double)(VARIABLEGOBALE) < 0.5) {
+			if (stade < 3) {
+				cout<<(double)((double)(clock() - tstart)/(double)(CLOCKS_PER_SEC))<<":"<<flush;
+				stade = 3;
+			}
+		} else if (100*(double)(bestval - VARIABLEGOBALE)/(double)(VARIABLEGOBALE) < 1.0) {
+			if (stade < 2) {
+				cout<<(double)((double)(clock() - tstart)/(double)(CLOCKS_PER_SEC))<<":"<<flush;
+				stade = 2;
+			}
+		} else if (100*(double)(bestval - VARIABLEGOBALE)/(double)(VARIABLEGOBALE) < 2.0) {
+			if (stade < 1) {
+				cout<<(double)((double)(clock() - tstart)/(double)(CLOCKS_PER_SEC))<<":"<<flush;
+				stade = 1;
 			}
 		}
 	}
@@ -81,13 +136,13 @@ Solution * Ils::search(const clock_t tmax) {
 Solution * Ils::perturbe() {
 	//variable
 	long radius = (long)(nbJob * perturbRadius); //radius of perturbation
-	Solution * res = new Solution(*current, false);
+	Solution * res = new Solution(*current, false); //copy the current solution (because we won't be able to go back to it)
 
 	//start
 	if (radius > 0) {
 		//variable
 		long nbMove = (long)(nbJob * perturbFrac); //number of perturbation to be done
-		int rnd1, rnd2;
+		int rnd1, rnd2; //to select a random move
 		int tmp,j;
 
 		//start
@@ -147,4 +202,18 @@ bool Ils::keep(const long valprev, Solution * sol) const {
 			return (double)((double)(rand()) / (double)(RAND_MAX)) < exp(-delta / T );
 		}
 	}
+}
+
+void Ils::Localsearch(Solution * parc) {
+	int i = 0;
+    while (i < nbneighborhoud) {
+        if (0 == i) {
+            neighborhoud[0]->descent(*instance,*parc); //enable the dofor
+            i = 1; //now we are in a local minima of the first neighborhoud
+        }else if (neighborhoud[i]->search(*instance,*parc)) {
+            i = 0;
+        } else {
+            ++i;
+        }
+    }
 }

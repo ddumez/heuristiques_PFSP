@@ -25,10 +25,10 @@
  */
 
 // /home/dorian/R/x86_64-pc-linux-gnu-library/3.0/irace/bin/irace dans tunning
-//./main --instance ./../instances/50_20_01 --tmax 45 --bestval 595260 --neighbourTabu 1 --tabuListLenght 10 --longTimeMemoryImpact 0.001 --restartThreshold 0.3 dans code pour tabu seul
-//./main --instance ./../instances/50_20_01 --tmax 45 --bestval 595260 --neighbourILS 1 -- neighbourPerturb 2 --acceptanceCrit 2 --perturbFrac 0.05 --perturbRadius 0.05 dans code pour ILS crit 1 ou 2
-//./main --instance ./../instances/50_20_01 --tmax 45 --bestval 595260 --neighbourILS 1 -- neighbourPerturb 2 --acceptanceCrit 3 --perturbFrac 0.05 --perturbRadius 0.05 --alpha 0.95 --T0 1000 --l 100 --warmupThreshold 80 --T1 500 dans code pour ILS crit 3
-//./main --instance ./../instances/50_20_01 --tmax 45 --bestval 595260 --neighbourILS 1 -- neighbourPerturb 2 --acceptanceCrit 4 --perturbFrac 0.05 --perturbRadius 0.05 --lamda 0.5 dans code pour ILS crit 4
+//./main --instance ./../instances/50_20_01 --tmax 45 --bestval 595260 --runTabu --neighbourTabu 1 --tabuListLenght 10 --longTimeMemoryImpact 0.001 --restartThreshold 0.3 dans code pour tabu seul
+//./main --instance ./../instances/50_20_01 --tmax 45 --bestval 595260 --runILS --neighbourILS 1 -- neighbourPerturb 2 --acceptanceCrit 2 --perturbFrac 0.05 --perturbRadius 0.05 --DD 0 dans code pour ILS crit 1 ou 2
+//./main --instance ./../instances/50_20_01 --tmax 45 --bestval 595260 --runILS --neighbourILS 4 -- neighbourPerturb 2 --acceptanceCrit 3 --perturbFrac 0.068 --perturbRadius 0.083 --DD 0 --alpha 0.938 --T0 572 --l 128 --warmupThreshold 24 --T1 1012 dans code pour ILS crit 3
+//./main --instance ./../instances/50_20_01 --tmax 45 --bestval 595260 --runILS --neighbourILS 1 -- neighbourPerturb 2 --acceptanceCrit 4 --perturbFrac 0.05 --perturbRadius 0.05 --DD 0 --lamda 0.5 dans code pour ILS crit 4
 
 #include <iostream>
 #include <stdlib.h>
@@ -50,7 +50,7 @@ using namespace std;
 #define NBEXEC 1
 
 //#define RELATIVE_DEVIATION
-#define SCORE
+//#define SCORE
 //#define EXECUTION_TIME
 
 /**
@@ -80,8 +80,9 @@ int main(int argc, char *argv[]) {
     Solution * solution;
     //parameter variable
     char *instanceFile; clock_t tmax; long bestval;
+    bool runTabu = false; bool runILS = false;
     int neighbourTabu; int tabuListLenght; double longTimeMemoryImpact; double restartThreshold;
-    int neighbourILS; int neighboursPerturb; bool DD = false; int acceptanceCrit; double perturbFrac; double perturbRadius; double T0; double lambda; double alpha; long l; double warmupThreshold; double T1;
+    int neighbourILS; int neighbourPerturb; bool DD; int acceptanceCrit; double perturbFrac; double perturbRadius; double T0; double lambda; double alpha; long l; double warmupThreshold; double T1;
 
     //initialize random seed as constant
     //srand (0);
@@ -90,63 +91,73 @@ int main(int argc, char *argv[]) {
 
 
   //start
+    //reading all parameter
     for(int i=1; i< argc ; i++){
-        if(strcmp(argv[i], "--tabuListLenght") == 0){
-           tabuListLenght = atoi(argv[i+1]);
-           i++;
+        if(strcmp(argv[i], "--runTabu") == 0){
+            runTabu = true;
+        } else if(strcmp(argv[i], "--tabuListLenght") == 0){
+            tabuListLenght = atoi(argv[i+1]);
+            i++;
         } else if(strcmp(argv[i], "--neighbourTabu") == 0){
-           neighbourTabu = atoi(argv[i+1]);
-           i++;
+            neighbourTabu = atoi(argv[i+1]);
+            i++;
         } else if(strcmp(argv[i], "--longTimeMemoryImpact") == 0){
-           longTimeMemoryImpact = atof(argv[i+1]);
-           i++;
+            longTimeMemoryImpact = atof(argv[i+1]);
+            i++;
         } else if(strcmp(argv[i], "--restartThreshold") == 0){
-           restartThreshold = atof(argv[i+1]);
-           i++;
+            restartThreshold = atof(argv[i+1]);
+            i++;
+        } else if(strcmp(argv[i], "--runILS") == 0){
+            runILS = true;
         } else if(strcmp(argv[i], "--neighbourILS") == 0){
-           neighbourILS = atoi(argv[i+1]);
-           i++;
-        } else if(strcmp(argv[i], "--neighboursPerturb") == 0){
-           neighboursPerturb = atoi(argv[i+1]);
-           i++;
+            neighbourILS = atoi(argv[i+1]);
+            i++;
         } else if(strcmp(argv[i], "--DD") == 0){
-           DD = true;
-        } else if(strcmp(argv[i], "--acceptanceCrit") == 0){
-           acceptanceCrit = atoi(argv[i+1]);
-           i++;
+            if (1 == atoi(argv[i+1])) {
+                DD = true;
+            } else {
+                DD = false;
+            }
+            i++;
+        } else if(strcmp(argv[i], "--neighbourPerturb") == 0){
+            neighbourPerturb = atoi(argv[i+1]);
+            i++;
         } else if(strcmp(argv[i], "--perturbFrac") == 0){
-           perturbFrac = atof(argv[i+1]);
-           i++;
+            perturbFrac = atof(argv[i+1]);
+            i++;
         } else if(strcmp(argv[i], "--perturbRadius") == 0){
-           perturbRadius = atof(argv[i+1]);
-           i++;
+            perturbRadius = atof(argv[i+1]);
+            i++;
+        } else if(strcmp(argv[i], "--acceptanceCrit") == 0){
+            acceptanceCrit = atoi(argv[i+1]);
+            i++;
         } else if(strcmp(argv[i], "--T0") == 0){
-           T0 = atof(argv[i+1]);
-           i++;
+            T0 = atof(argv[i+1]);
+            i++;
         } else if(strcmp(argv[i], "--alpha") == 0){
-           alpha = atof(argv[i+1]);
-           i++;
-        } else if(strcmp(argv[i], "--lambda") == 0){
-           lambda = atof(argv[i+1]);
-           i++;
+            alpha = atof(argv[i+1]);
+            i++;
         } else if(strcmp(argv[i], "--l") == 0){
-           l = strtol(argv[i+1], NULL, 10);
-           i++;
+            l = strtol(argv[i+1], NULL, 10);
+            i++;
         } else if(strcmp(argv[i], "--warmupThreshold") == 0){
-           warmupThreshold = atof(argv[i+1]);
-           i++;
+            warmupThreshold = atof(argv[i+1]);
+            i++;
         } else if(strcmp(argv[i], "--T1") == 0){
-           T1 = atof(argv[i+1]);
-           i++;
+            T1 = atof(argv[i+1]);
+            i++;
+        } else if(strcmp(argv[i], "--lambda") == 0){
+            lambda = atof(argv[i+1]);
+            i++;
         } else if(strcmp(argv[i], "--tmax") == 0) {
-           tmax = atol(argv[i+1]);
-           i++;
+            tmax = atol(argv[i+1]);
+            i++;
         } else if(strcmp(argv[i], "--instance") == 0) {
-           instanceFile = argv[i+1];
-           i++;
+            instanceFile = argv[i+1];
+            i++;
         } else if(strcmp(argv[i], "--bestval") == 0){
-           bestval = strtol(argv[i+1], NULL, 10);
-           i++;
+            bestval = strtol(argv[i+1], NULL, 10);
+            i++;
         }
     }
 
@@ -156,72 +167,79 @@ int main(int argc, char *argv[]) {
     }
 
     //experiment for the second part of the project
-/*    #ifdef EXECUTION_TIME
-        t = clock();
-    #endif
-    Tabu tabusearch(tabuListLenght, longTimeMemoryImpact, restartThreshold, &instance, neighbourTabu);
-    solution = tabusearch.search(tmax);
-    #ifdef RELATIVE_DEVIATION
-        cout<<100*(double)(instance.computeWCT(*solution) - bestval)/(double)bestval<<":"<<flush;
-    #endif
-    #ifdef SCORE
-        cout<<instance.computeWCT(*solution)<<":"<<flush;
-    #endif
-    #ifdef EXECUTION_TIME
-        t = clock() - t;
-        cout<<(double)((double)t/(double)(CLOCKS_PER_SEC))<<":"<<flush;
-    #endif
-    delete(solution);
-*/
-    #ifdef RELATIVE_DEVIATION
-        tot = 0;
-    #endif
-    #ifdef SCORE
-        tot = 0;
-    #endif
-    #ifdef EXECUTION_TIME
-        tot = 0;
-    #endif
-    Ils iterativeLocalSearch;
-    for(i = 0; i<NBEXEC; ++i) {
+    if (runTabu) {
         #ifdef EXECUTION_TIME
             t = clock();
         #endif
-        if (3 == acceptanceCrit) {
-            iterativeLocalSearch.init(neighbourILS, neighboursPerturb, DD, 3, perturbFrac, perturbRadius, &instance, T0, alpha, l, warmupThreshold, T1);
-        }else if (4 == acceptanceCrit) {
-            for (int ii = instance.getNbJob(); ii>0; --ii) {
-                for(int jj = instance.getNbMac(); jj>0; --jj) {
-                    T0 += (double)(instance.getTime(ii, jj));
-                }
-            }
-            T0 = lambda * (T0 / (10.0 * (double)(instance.getNbJob()) * (double)(instance.getNbMac())) );
-            iterativeLocalSearch.init(neighbourILS, neighboursPerturb, DD, 4, perturbFrac, perturbRadius, &instance, T0);
-        } else {
-            iterativeLocalSearch.init(neighbourILS, neighboursPerturb, DD, acceptanceCrit, perturbFrac, perturbRadius, &instance);
-        }
-        solution = iterativeLocalSearch.search(tmax);
-        solution->print();
+        Tabu tabusearch(tabuListLenght, longTimeMemoryImpact, restartThreshold, &instance, neighbourTabu);
+        solution = tabusearch.search(tmax);
         #ifdef RELATIVE_DEVIATION
-            tot += instance.computeWCT(*solution);
+            cout<<100*(double)(instance.computeWCT(*solution) - bestval)/(double)(bestval)<<flush;
+            if (runILS) {cout<<":"<<flush;}
         #endif
         #ifdef SCORE
-            tot += instance.computeWCT(*solution);
+            cout<<instance.computeWCT(*solution)<<flush;
+            if (runILS) {cout<<":"<<flush;}
         #endif
         #ifdef EXECUTION_TIME
-            tot += clock() - t;
+            t = clock() - t;
+            cout<<(double)((double)t/(double)(CLOCKS_PER_SEC))<<flush;
+            if (runILS) {cout<<":"<<flush;}
         #endif
         delete(solution);
     }
-    #ifdef RELATIVE_DEVIATION
-        cout<<100*(double)(tot/NBEXEC - bestval)/(double)(bestval)<<":"<<flush;
-    #endif
-    #ifdef SCORE
-        cout<<tot/NBEXEC<<flush;
-    #endif
-    #ifdef EXECUTION_TIME
-        cout<<(double)((double)tot/(double)(CLOCKS_PER_SEC*NBEXEC))<<":"<<flush;
-    #endif
+
+    if (runILS) {
+        #ifdef RELATIVE_DEVIATION
+            tot = 0;
+        #endif
+        #ifdef SCORE
+            tot = 0;
+        #endif
+        #ifdef EXECUTION_TIME
+            tot = 0;
+        #endif
+        Ils iterativeLocalSearch;
+        for(i = 0; i<NBEXEC; ++i) {
+            #ifdef EXECUTION_TIME
+                t = clock();
+            #endif
+            if (3 == acceptanceCrit) {
+                iterativeLocalSearch.init(neighbourILS, neighbourPerturb, DD, 3, perturbFrac, perturbRadius, &instance, T0, alpha, l, warmupThreshold, T1);
+            }else if (4 == acceptanceCrit) {
+                for (int ii = instance.getNbJob(); ii>0; --ii) {
+                    for(int jj = instance.getNbMac(); jj>0; --jj) {
+                        T0 += (double)(instance.getTime(ii, jj));
+                    }
+                }
+                T0 = lambda * (T0 / (10.0 * (double)(instance.getNbJob()) * (double)(instance.getNbMac())) );
+                iterativeLocalSearch.init(neighbourILS, neighbourPerturb, DD, 4, perturbFrac, perturbRadius, &instance, T0);
+            } else {
+                iterativeLocalSearch.init(neighbourILS, neighbourPerturb, DD, acceptanceCrit, perturbFrac, perturbRadius, &instance);
+            }
+            solution = iterativeLocalSearch.search(tmax, bestval);
+            #ifdef RELATIVE_DEVIATION
+                tot += instance.computeWCT(*solution);
+            #endif
+            #ifdef SCORE
+                tot += instance.computeWCT(*solution);
+            #endif
+            #ifdef EXECUTION_TIME
+                tot += clock() - t;
+            #endif
+            delete(solution);
+        }
+        #ifdef RELATIVE_DEVIATION
+            cout<<100*(double)(tot/NBEXEC - bestval)/(double)(bestval)<<flush;
+        #endif
+        #ifdef SCORE
+            cout<<tot/NBEXEC<<flush;
+        #endif
+        #ifdef EXECUTION_TIME
+            cout<<(double)((double)tot/(double)(CLOCKS_PER_SEC*NBEXEC))<<flush;
+        #endif    
+    }
+    
     cout<<endl;
 
 /*

@@ -6,6 +6,7 @@
 
 #ifndef TABU
 #define TABU
+#include <vector>
 
 #include "solution.hpp"
 #include "pfspinstance.hpp"

@@ -1,0 +1,4 @@
+## Examples of valid logical operators are:
+## == != >= <= > < & | ! %in%
+T1 < T0
+warmupThreshold < T1 
