@@ -10,6 +10,7 @@
 \usepackage{fullpage}
 \usepackage{algorithm}
 \usepackage{algpseudocode}
+\usepackage{graphicx}
 
 \title{PFSP heuristics project}
 
@@ -182,7 +183,7 @@ A warm up threshold of $24$ (reach after $6243$ iterations)
 A temperature after warm up of $1012$
 \end{itemize}
 \end{itemize}
-First of all we notice an unexpected value of the temperature, for an unknown reason constraint on these two hadn't been taken in account by irace, and value it found are very curious. It will start by exploring the neighbourhood of the construct solution, and only after try something else. 
+First of all we notice an unexpected value of the temperature, for an unknown reason constraint on these two hadn't been taken in account by irace, and value it found are very curious. It will start by exploring the neighbourhood of the construct solution, and only after try something else. But finally by other experiment it appear that the algorithm do only around $900$ iterations, so irace disable the warm up by using a too low warm up threshold, so the warm up temperature doesn't matter anymore. Considering all of that this setting are relay based on intensification because we don't perturb that much and then use a powerful local search (so it may fall again in the same local minima) beside the acceptance criterion setting aren't that permissive.
 
 \section{Analysis}
 
@@ -208,11 +209,11 @@ Because we use two time irace to tune the tabu search with his two neighbours we
 \centering
 \begin{tabular}{|*{5}{c|}}
   \hline
-  size & tabuE & tabuE2 & tabuI & ILS\\
+  size & tabuE & tabuI & tabuE2 & ILS\\
   \hline
-  50 & 0.55 &  & 4.51 &  \\ 
-  100 & 1.01 &  & 3.88 &  \\
-  all & 0.77 &  & 4.17 &  \\
+  50 & 0.55 & 4.51 & 1.40 &  \\ 
+  100 & 1.01 & 3.88 & 2.06 &  \\
+  all & 0.77 & 4.17 & 1,73 &  \\
   \hline
 \end{tabular}
 \caption{Relative deviation average in \%}
@@ -223,11 +224,11 @@ Because we use two time irace to tune the tabu search with his two neighbours we
 \centering
 \begin{tabular}{|*{5}{c|}}
   \hline
-  size & tabuE & tabuE2 & tabuI & ILS\\
+  size & tabuE & tabuI & tabuE2 & ILS\\
   \hline
-  50 & 0.21 &  & 3.90 &  \\ 
-  100 & 0.31 &  & 2.52 &  \\
-  all & 0.35 &  & 3.26  &  \\
+  50 & 0.21 & 3.90 & 0.52 &  \\ 
+  100 & 0.31 & 2.52 & 0.55 &  \\
+  all & 0.35 & 3.26 & 0.62 &  \\
   \hline
 \end{tabular}
 \caption{Relative deviation standard deviation}
@@ -253,6 +254,41 @@ Because we use two time irace to tune the tabu search with his two neighbours we
 
 \subsection{Behaviour analysis}
 
+The previous test was statistical one, which evaluated global quality of algorithm. Now we will study with in detail the behaviour of the two algorithm we prefer in the previous section : tabuE and ILS.
+
+\begin{table}[!h]
+\centering
+\begin{tabular}{|*{5}{c|}}
+  \hline
+  ~ & $2\%$ & $1\%$ & $0.5\%$ & $0.1\%$ \\
+  \hline
+   tabuE & $1.57^1$ & $20.32^1$ & $118.45^1$ & $\text{~}^2$ \\ 
+   ILS & $0.364^3$ & $5.72^3$ & $52.76^3$ & $136^3$ \\
+  \hline
+\end{tabular}
+\caption{Qualified run time distribution}
+\label{Average qualified run time distribution}
+\end{table}
+
+$\text{~}^1$ : average over the first 5 instances when the algorithm reach the require quality solution before 450 seconds ($10 \times 45$)
+
+$\text{~}^2$ : the algorithm never reach a such precision in 450 seconds
+
+$\text{~}^3$ : average over the first 5 instances repeated 25 times (with different random seed, time(NULL) had been used) when the algorithm reach the require quality solution before 450 seconds
+
+\begin{figure}[!h]
+\centering
+\includegraphics[scale=0.5]{Qualified_run_time_distribution.jpg}
+\caption{Qualified run time distribution of ILS}
+\label{Qualified run time distribution of ILS}
+\end{figure}
+
+\begin{figure}[!h]
+\centering
+\includegraphics[scale=0.5]{Qualified_run_time_distribution2.jpg}
+\caption{Qualified run time distribution of tabu}
+\label{Qualified run time distribution of tabu}
+\end{figure}
 
 \section*{Conclusion}
 

@@ -66,8 +66,7 @@ void Ils::init(const int neighbours, const int neighboursPerturb, const bool DD,
 	best = new Solution(*current);
 }
 
-Solution * Ils::search(const clock_t tmax, const long VARIABLEGOBALE) {
-int stade = 0;
+Solution * Ils::search(const clock_t tmax, const long valOpt) {
 	//variable
 	clock_t tstart = clock(); //for the stop criterion
 	Solution * parc; //this will stock the pertubation of the current solution and his local search
@@ -105,28 +104,8 @@ int stade = 0;
 			}
 		}
 
-		//for the test of qualified run-time distribution
-		if (100*(double)(bestval - VARIABLEGOBALE)/(double)(VARIABLEGOBALE) < 0.1) {
-			if (stade < 4) {
-				cout<<(double)((double)(clock() - tstart)/(double)(CLOCKS_PER_SEC))<<":"<<flush;
-				stade = 4;
-			}
-		} else if (100*(double)(bestval - VARIABLEGOBALE)/(double)(VARIABLEGOBALE) < 0.5) {
-			if (stade < 3) {
-				cout<<(double)((double)(clock() - tstart)/(double)(CLOCKS_PER_SEC))<<":"<<flush;
-				stade = 3;
-			}
-		} else if (100*(double)(bestval - VARIABLEGOBALE)/(double)(VARIABLEGOBALE) < 1.0) {
-			if (stade < 2) {
-				cout<<(double)((double)(clock() - tstart)/(double)(CLOCKS_PER_SEC))<<":"<<flush;
-				stade = 2;
-			}
-		} else if (100*(double)(bestval - VARIABLEGOBALE)/(double)(VARIABLEGOBALE) < 2.0) {
-			if (stade < 1) {
-				cout<<(double)((double)(clock() - tstart)/(double)(CLOCKS_PER_SEC))<<":"<<flush;
-				stade = 1;
-			}
-		}
+		//for the corelation plot
+		cout<<(double)((double)(clock() - tstart)/(double)(CLOCKS_PER_SEC))<<":"<<100*(double)(bestval - valOpt)/(double)(valOpt)<<endl;
 	}
 
 	//end

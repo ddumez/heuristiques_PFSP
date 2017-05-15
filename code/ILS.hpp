@@ -71,7 +71,7 @@ class Ils{
 	  	* \param[in] tmax time budget in seconds
 	  	* \return the best solution found
 	  	*/
-	  	Solution * search(const clock_t tmax, const long VARIABLEGOBALE);
+	  	Solution * search(const clock_t tmax, const long valOpt);
 
 	private:
 		/**

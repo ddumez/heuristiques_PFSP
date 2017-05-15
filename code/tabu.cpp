@@ -53,7 +53,6 @@ Solution * Tabu::search(const clock_t tmax) {
 	while (clock() - tstart < tmax*CLOCKS_PER_SEC) {
 		bestparc = LONG_MAX; flag = false;
 
-
 		if (1 == neighbours) {//exchange movement
 			for(i = nbJob -1; i>0; --i) {
 				for(j = i-1; j>=0; --j) {
@@ -69,10 +68,12 @@ Solution * Tabu::search(const clock_t tmax) {
 						besti = i;
 						bestj = j;
 						flag = true;
-					} else if( (tmpval * (1 + TL.at(current.getJ(max(i,j))-1).at(current.getJ(min(i,j))-1)*longTimeMemoryImpact) < bestparc) && (TL.at(current.getJ(min(i,j))-1).at(current.getJ(max(i,j))-1) < date)) {
+					} else if( (tmpval * (1 + TL.at(max(i,j)).at(min(i,j))*longTimeMemoryImpact) < bestparc) && (TL.at(min(i,j)).at(max(i,j)) < date)) {
+					//} else if( (tmpval * (1 + TL.at(current.getJ(max(i,j))-1).at(current.getJ(min(i,j))-1)*longTimeMemoryImpact) < bestparc) && (TL.at(current.getJ(min(i,j))-1).at(current.getJ(max(i,j))-1) < date)) {
 						//this movement is legit acording to the tabu list and it's the best found in the neighbourhood of the current solution
 						//so we save this movement
-						bestparc = tmpval * (1 + TL.at(current.getJ(max(i,j))-1).at(current.getJ(min(i,j))-1)*longTimeMemoryImpact);
+						//bestparc = tmpval * (1 + TL.at(current.getJ(max(i,j))-1).at(current.getJ(min(i,j))-1)*longTimeMemoryImpact);
+						bestparc = tmpval * (1 + TL.at(max(i,j)).at(min(i,j))*longTimeMemoryImpact);
 						besti = i;
 						bestj = j;
 					}
@@ -121,13 +122,15 @@ Solution * Tabu::search(const clock_t tmax) {
 
 		// move become tabu
 		if (1 == neighbours) { //exchange
-			TL.at(current.getJ(min(besti,bestj))-1).at(current.getJ(max(besti,bestj))-1) = date + tabuListLenght;
+			//TL.at(current.getJ(min(besti,bestj))-1).at(current.getJ(max(besti,bestj))-1) = date + tabuListLenght;
+			TL.at(min(besti,bestj)).at(max(besti,bestj)) = date + tabuListLenght;
 		} else /*if (2 == neighbours)*/ { //insert
 			TL.at(min(besti,bestj)).at(max(besti,bestj)) = date + tabuListLenght;
 		}
 		//update of the long time memory
 		if (1 == neighbours) { //exchange
-			TL.at(current.getJ(max(besti,bestj))-1).at(current.getJ(min(besti,bestj))-1) = TL.at(current.getJ(max(besti,bestj))-1).at(current.getJ(min(besti,bestj))-1)+1;
+			//TL.at(current.getJ(max(besti,bestj))-1).at(current.getJ(min(besti,bestj))-1) = TL.at(current.getJ(max(besti,bestj))-1).at(current.getJ(min(besti,bestj))-1)+1;
+			TL.at(max(besti,bestj)).at(min(besti,bestj)) = TL.at(max(besti,bestj)).at(min(besti,bestj))+1;
 		} else /*if (2 == neighbours)*/ { //insert
 			TL.at(max(besti,bestj)).at(min(besti,bestj)) = TL.at(max(besti,bestj)).at(min(besti,bestj))+1;
 		}
