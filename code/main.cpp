@@ -172,7 +172,7 @@ int main(int argc, char *argv[]) {
             t = clock();
         #endif
         Tabu tabusearch(tabuListLenght, longTimeMemoryImpact, restartThreshold, &instance, neighbourTabu);
-        solution = tabusearch.search(tmax);
+        solution = tabusearch.search(tmax, bestval);
         #ifdef RELATIVE_DEVIATION
             cout<<100*(double)(instance.computeWCT(*solution) - bestval)/(double)(bestval)<<flush;
             if (runILS) {cout<<":"<<flush;}

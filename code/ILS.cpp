@@ -87,6 +87,9 @@ Solution * Ils::search(const clock_t tmax, const long valOpt) {
 				delete(best);
 				best = new Solution(*parc, false);
 				bestval = valprev;
+
+				//for the corelation plot
+				cout<<(double)((double)(clock() - tstart)/(double)(CLOCKS_PER_SEC))<<":"<<100*(double)(bestval - valOpt)/(double)(valOpt)<<endl;
 			}
 		} else {
 			//we don't keep this solution so it's deleted
@@ -104,8 +107,6 @@ Solution * Ils::search(const clock_t tmax, const long valOpt) {
 			}
 		}
 
-		//for the corelation plot
-		cout<<(double)((double)(clock() - tstart)/(double)(CLOCKS_PER_SEC))<<":"<<100*(double)(bestval - valOpt)/(double)(valOpt)<<endl;
 	}
 
 	//end
