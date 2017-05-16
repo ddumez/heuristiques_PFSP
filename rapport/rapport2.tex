@@ -211,9 +211,9 @@ Because we use two time irace to tune the tabu search with his two neighbours we
   \hline
   size & tabuE & tabuI & tabuE2 & ILS\\
   \hline
-  50 & 0.55 & 4.51 & 1.40 &  \\ 
-  100 & 1.01 & 3.88 & 2.06 &  \\
-  all & 0.77 & 4.17 & 1,73 &  \\
+  50 & 0.55 & 4.51 & 1.40 & 0.30 \\ 
+  100 & 1.01 & 3.88 & 2.06 & 0.50 \\
+  all & 0.77 & 4.17 & 1,73 & 0.40 \\
   \hline
 \end{tabular}
 \caption{Relative deviation average in \%}
@@ -226,9 +226,9 @@ Because we use two time irace to tune the tabu search with his two neighbours we
   \hline
   size & tabuE & tabuI & tabuE2 & ILS\\
   \hline
-  50 & 0.21 & 3.90 & 0.52 &  \\ 
-  100 & 0.31 & 2.52 & 0.55 &  \\
-  all & 0.35 & 3.26 & 0.62 &  \\
+  50 & 0.21 & 3.90 & 0.52 & 0.15 \\ 
+  100 & 0.31 & 2.52 & 0.55 & 0.26 \\
+  all & 0.35 & 3.26 & 0.62 & 0.23 \\
   \hline
 \end{tabular}
 \caption{Relative deviation standard deviation}
@@ -241,10 +241,10 @@ Because we use two time irace to tune the tabu search with his two neighbours we
   \hline
   ~ & tabuE & tabuE2 & tabuI & ILS\\
   \hline
-   tabuE &  &  &  &  \\ 
-   tabuE2 &  &  &  &  \\
-   tabuI &  &  &  &  \\
-   ILS &  &  &  &  \\
+tabuE & NaN & 1.67e-11 & 3.06e-11 & 4.84e-10 \\
+tabuI & 1.67e-11 & NaN & 1.56e-07 & 1.67e-11 \\
+tabuE2 & 3.06e-11 & 1.56e-07 & NaN & 1.85e-11 \\
+ILS & 4.84e-10 & 1.67e-11 & 1.85e-11 & NaN \\
   \hline
 \end{tabular}
 \caption{p-value of the wilcoxon test}
@@ -278,17 +278,33 @@ $\text{~}^3$ : average over the first 5 instances repeated 25 times (with differ
 
 \begin{figure}[!h]
 \centering
-\includegraphics[scale=0.5]{Qualified_run_time_distribution.jpg}
+\includegraphics[scale=0.35]{Qualified_run_time_distribution.jpg}
 \caption{Qualified run time distribution of ILS}
 \label{Qualified run time distribution of ILS}
 \end{figure}
 
 \begin{figure}[!h]
 \centering
-\includegraphics[scale=0.5]{Qualified_run_time_distribution2.jpg}
+\includegraphics[scale=0.35]{Qualified_run_time_distribution2.jpg}
 \caption{Qualified run time distribution of tabu}
 \label{Qualified run time distribution of tabu}
 \end{figure}
+
+\begin{figure}[!h]
+\centering
+\includegraphics[scale=0.7]{corelation_plot_50.jpg}
+\caption{Correlation plot on size 50 instances}
+\label{Correlation plot on size 50 instances}
+\end{figure}
+
+\begin{figure}[!h]
+\centering
+\includegraphics[scale=0.7]{corelation_plot_100.jpg}
+\caption{Correlation plot on size 100 instances}
+\label{Correlation plot on size 100 instances}
+\end{figure}
+
+Both correlation plot show the evolution of the average relative (in $\%$) deviation over the time (in second). They use the execution trace of one on each instances for both algorithm. The red line is for ILS and the blue one for tabuE. To have a smooth plot a polynomial regression of third degree had been used.
 
 \section*{Conclusion}
 

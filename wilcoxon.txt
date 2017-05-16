@@ -1,0 +1,8 @@
+
+Wilcoxon signed rank (paired):
+
+tabuE & tabuI & tabuE2 & ILS
+tabuE & NaN & 1.67e-11 & 3.06e-11 & 4.84e-10 \\
+tabuI & 1.67e-11 & NaN & 1.56e-07 & 1.67e-11 \\
+tabuE2 & 3.06e-11 & 1.56e-07 & NaN & 1.85e-11 \\
+ILS & 4.84e-10 & 1.67e-11 & 1.85e-11 & NaN \\
