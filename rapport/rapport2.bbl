@@ -1,5 +1,11 @@
 \begin{thebibliography}{1}
 
+\bibitem{Battiti1996}
+Roberto Battiti and Giampietro Tecchiolli.
+\newblock The continuous reactive tabu search: Blending combinatorial
+  optimization and stochastic search for global optimization.
+\newblock {\em Annals of Operations Research}, 63(2):151--188, 1996.
+
 \bibitem{irace}
 Manuel L\'{o}pez-Ib\`{a}nez \& J\'{e}r\'{e}mie Dubois-Lacoste \& Leslie
   P\'{e}rez C\'{a}ceres \& Thomas Stutzle \&~Mauro Birattari.

@@ -47,9 +47,9 @@
 
 using namespace std;
 
-#define NBEXEC 1
+#define NBEXEC 5
 
-//#define RELATIVE_DEVIATION
+#define RELATIVE_DEVIATION
 //#define SCORE
 //#define EXECUTION_TIME
 
@@ -85,9 +85,9 @@ int main(int argc, char *argv[]) {
     int neighbourILS; int neighbourPerturb; bool DD; int acceptanceCrit; double perturbFrac; double perturbRadius; double T0; double lambda; double alpha; long l; double warmupThreshold; double T1;
 
     //initialize random seed as constant
-    //srand (0);
+    srand (0);
     //or as random
-    srand(time(NULL));
+    //srand(time(NULL));
 
 
   //start
@@ -172,7 +172,7 @@ int main(int argc, char *argv[]) {
             t = clock();
         #endif
         Tabu tabusearch(tabuListLenght, longTimeMemoryImpact, restartThreshold, &instance, neighbourTabu);
-        solution = tabusearch.search(tmax, bestval);
+        solution = tabusearch.search(tmax);
         #ifdef RELATIVE_DEVIATION
             cout<<100*(double)(instance.computeWCT(*solution) - bestval)/(double)(bestval)<<flush;
             if (runILS) {cout<<":"<<flush;}
@@ -217,7 +217,7 @@ int main(int argc, char *argv[]) {
             } else {
                 iterativeLocalSearch.init(neighbourILS, neighbourPerturb, DD, acceptanceCrit, perturbFrac, perturbRadius, &instance);
             }
-            solution = iterativeLocalSearch.search(tmax, bestval);
+            solution = iterativeLocalSearch.search(tmax);
             #ifdef RELATIVE_DEVIATION
                 tot += instance.computeWCT(*solution);
             #endif

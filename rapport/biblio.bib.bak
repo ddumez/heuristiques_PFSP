@@ -52,3 +52,18 @@ author = "Lin-Yu Tseng and Ya-Tai Lin",
     volume = {177},
     pages = {2033--2049}
 }
+
+@Article{Battiti1996,
+author="Battiti, Roberto
+and Tecchiolli, Giampietro",
+title="The continuous reactive tabu search: Blending combinatorial optimization and stochastic search for global optimization",
+journal="Annals of Operations Research",
+year="1996",
+volume="63",
+number="2",
+pages="151--188",
+abstract="A novel algorithm for the global optimization of functions (C-RTS) is presented, in which a combinatorial optimization method cooperates with a stochastic local minimizer. The combinatorial optimization component, based on the Reactive Tabu Search recently proposed by the authors, locates the most promising ``boxes'', in which starting points for the local minimizer are generated. In order to cover a wide spectrum of possible applications without user intervention, the method is designed with adaptive mechanisms: the box size is adapted to the local structure of the function to be optimized, the search parameters are adapted to obtain a proper balance of diversification and intensification. The algorithm is compared with some existing algorithms, and the experimental results are presented for a variety of benchmark tasks.",
+issn="1572-9338",
+doi="10.1007/BF02125453",
+url="http://dx.doi.org/10.1007/BF02125453"
+}

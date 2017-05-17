@@ -66,7 +66,7 @@ void Ils::init(const int neighbours, const int neighboursPerturb, const bool DD,
 	best = new Solution(*current);
 }
 
-Solution * Ils::search(const clock_t tmax, const long valOpt) {
+Solution * Ils::search(const clock_t tmax) {
 	//variable
 	clock_t tstart = clock(); //for the stop criterion
 	Solution * parc; //this will stock the pertubation of the current solution and his local search
@@ -87,9 +87,6 @@ Solution * Ils::search(const clock_t tmax, const long valOpt) {
 				delete(best);
 				best = new Solution(*parc, false);
 				bestval = valprev;
-
-				//for the corelation plot
-				cout<<(double)((double)(clock() - tstart)/(double)(CLOCKS_PER_SEC))<<":"<<100*(double)(bestval - valOpt)/(double)(valOpt)<<endl;
 			}
 		} else {
 			//we don't keep this solution so it's deleted

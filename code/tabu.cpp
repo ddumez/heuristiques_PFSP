@@ -39,7 +39,7 @@ Tabu::Tabu(const int tabuListLenght, const double longTimeMemoryImpact, const do
 
 Tabu::~Tabu() {}
 
-Solution * Tabu::search(const clock_t tmax, const long valOpt) {
+Solution * Tabu::search(const clock_t tmax) {
 	//variable
 	int tmp; //variable for exchange value
 	double bestparc; //stock the value of the best reachable solution in the neighbourhood at each loop
@@ -156,8 +156,6 @@ Solution * Tabu::search(const clock_t tmax, const long valOpt) {
 		if(flag) {
 			delete(best);
 			best = new Solution(current);
-			//for the corelation plot
-			cout<<(double)((double)(clock() - tstart)/(double)(CLOCKS_PER_SEC))<<":"<<100*(double)(bestval - valOpt)/(double)(valOpt)<<endl;
 		}
 
 		//test if a restart is needed
